@@ -89,13 +89,26 @@ bool checkWin(int row, int col) {
     if (count >= 5) return true;
     return false;
 }
-
-int TestBoard(int row, int col) {
-    if (checkWin(row, col)) {
-        return (_TURN ? -1 : 1);
+bool isFull(_POINT board[][BOARD_SIZE]) {
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        for (int j = 0; j < BOARD_SIZE; j++) {
+            if (board[i][j].c == 0) {
+                return false; 
+            }
+        }
     }
-    return 2;
+    return true;  
 }
+int TestBoard(int row, int col) {
+    if (isFull(_A)) return 0;
+    else {
+        if (checkWin(row, col)) {
+            return (_TURN ? -1 : 1);
+        }
+        else return 2;
+    }
+    }
+
 
 void AskContinue() {
     GotoXY(0, BOARD_SIZE * 2 + 4);
@@ -162,7 +175,9 @@ int main() {
                 int gameResult = TestBoard(row, col);
                 if (gameResult != 2) {
                     GotoXY(0, BOARD_SIZE * 2 + 2);
-                    cout << (gameResult == -1 ? "X Thang!" : "O Thang!") << endl;
+                    if (gameResult == 0) cout << "Hoa nhau";
+                    else
+                    cout << (gameResult == -1 ? "X Thang!" : "O Thang!" ) << endl;
                     AskContinue();
                 }
                 _TURN = !_TURN;

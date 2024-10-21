@@ -51,10 +51,26 @@ void DrawBoard(int pSize) {
     system("color 74");
 }
 
+void DrawKhung() {
+    for (int i = LEFT - 3; i <= 4 * BOARD_SIZE + LEFT + 2; i++) {
+        GotoXY(i, TOP - 1);
+        cout << char(219);
+        GotoXY(i, BOARD_SIZE * 2 + TOP + 2);
+        cout << char(219);
+    }
+    for (int i = TOP; i <= BOARD_SIZE * 2 + TOP + 1; i++) {
+        GotoXY(LEFT - 3, i);
+        cout << char(219);
+        GotoXY(4 * BOARD_SIZE + LEFT + 2, i);
+        cout << char(219);
+    }
+}
+
 void StartGame() {
     system("cls");
     ResetData();
     DrawBoard(BOARD_SIZE);
+    DrawKhung();
 }
 
 int CheckBoard(int pX, int pY) {

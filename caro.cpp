@@ -51,26 +51,74 @@ void DrawBoard(int pSize) {
     system("color 74");
 }
 
-void DrawKhung() {
-    for (int i = LEFT - 3; i <= 4 * BOARD_SIZE + LEFT + 2; i++) {
-        GotoXY(i, TOP - 1);
-        cout << char(219);
-        GotoXY(i, BOARD_SIZE * 2 + TOP + 2);
-        cout << char(219);
+void Box(int x, int y, int w, int h) {
+    if (w <= 1 || h <= 1) return;
+    for (int ix = x; ix <= x + w; ix++) {
+        GotoXY(ix, y);
+        cout << char(196);
+        GotoXY(ix, y + h);
+        cout << char(196);
     }
-    for (int i = TOP; i <= BOARD_SIZE * 2 + TOP + 1; i++) {
-        GotoXY(LEFT - 3, i);
-        cout << char(219);
-        GotoXY(4 * BOARD_SIZE + LEFT + 2, i);
-        cout << char(219);
+    for (int iy = y; iy <= y + h; iy++) {
+        GotoXY(x, iy);
+        cout << char(179);
+        GotoXY(x + w, iy);
+        cout << char(179);
     }
+    GotoXY(x, y); cout << char(218);
+    GotoXY(x + w, y); cout << char(191);
+    GotoXY(x, y + h); cout << char(192);
+    GotoXY(x + w, y + h); cout << char(217);
+}
+
+void DrawBoard(int pSize) {
+    for (int i = 0; i < pSize; i++) {
+        for (int j = 0; j < pSize; j++) {
+            Box(LEFT + 4 * i, TOP + 2 * j, 4, 2);
+        }
+    }
+    int i, j;
+    j = TOP;
+    i = LEFT + 4;
+    while (i <= (pSize) * 4) {
+        GotoXY(i, j);
+        cout << char(194);
+        i = i + 4;
+    }
+    i = LEFT + 4;
+    j = TOP + pSize * 2;
+    while (i <= (pSize) * 4) {
+        GotoXY(i, j);
+        cout << char(193);
+        i = i + 4;
+    }
+    j = TOP + 2;
+    i = LEFT;
+    while (j <= (pSize ) * 2) {
+        GotoXY(i, j);
+        cout << char(195);
+        j = j + 2;
+    }
+    j = TOP + 2;
+    i = LEFT+pSize*4;
+    while (j <= (pSize) * 2) {
+        GotoXY(i, j);
+        cout << char(180);
+        j = j + 2;
+    }
+    for (int i = 1; i <= pSize - 1; i++) {
+        for (int j = 1; j <= pSize - 1; j++) {
+            GotoXY(LEFT + 4 * i, TOP + 2 * j);
+            cout << char(197);
+        }
+    }
+    system("color 74");
 }
 
 void StartGame() {
     system("cls");
     ResetData();
     DrawBoard(BOARD_SIZE);
-    DrawKhung();
 }
 
 int CheckBoard(int pX, int pY) {

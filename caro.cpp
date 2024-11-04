@@ -249,7 +249,7 @@ void Exit() {
     GotoXY(x + 40, y + 5);
     cout << "No";
     GotoXY(x + 7, y + 10);
-    cout << "Press y to exit, enter to back to menu.";
+    cout << "Press y to exit, n to back to menu.";
     char c;
     while (1) {
         c = _getch();
@@ -257,7 +257,7 @@ void Exit() {
             system("cls");
             exit(0);
         }
-        else if (c == 13) {
+        else if (c == 110) {
             printMenu();
 
         }

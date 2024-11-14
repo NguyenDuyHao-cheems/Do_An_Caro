@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <Windows.h>
 #include <conio.h>
@@ -214,6 +215,130 @@ void StartGame() {
     PlayGame();
 }
 
+void loadGameState(char filename[])
+{
+    system("cls");
+    ResetData();
+    DrawBoard(BOARD_SIZE);
+    FILE* input = fopen(filename, "rt");
+    if (!input) 
+    {
+        cerr << "Error loading save file.";
+        return;
+    }
+    char ch;
+    for (int i = 0; i < BOARD_SIZE; i++) 
+    {
+        for (int j = 0; j < BOARD_SIZE; j++) 
+        {
+            if (fscanf(input, " %c-", &ch) == 1) 
+            {
+                if (ch == 'X') 
+                {
+                    _A[i][j].c = -1;
+                    GotoXY(_A[i][j].x, _A[i][j].y);
+                    std::cout << 'X';
+                }
+                else if (ch == 'O') 
+                {
+                    _A[i][j].c = 1;
+                    GotoXY(_A[i][j].x, _A[i][j].y);
+                    std::cout << 'O';
+                }
+                else 
+                {
+                    _A[i][j].c = 0;
+                }
+            }
+        }
+    }
+    fclose(input);
+    int xCount = 0, oCount = 0;
+    for (int i = 0; i < BOARD_SIZE; i++) 
+    {
+        for (int j = 0; j < BOARD_SIZE; j++) 
+        {
+            if (_A[i][j].c == -1) xCount++;
+            else if (_A[i][j].c == 1) oCount++;
+        }
+    }
+    _TURN = (xCount > oCount) ? false : true;
+    PlayGame();
+}
+
+void LoadGameSelection() {
+    char savefiles[10][20] = { "savefile1.txt", "whatevername.txt" };
+    int x = menu1_x - 15, y = menu1_y - 8;
+    int move;
+    int kt = 1;
+    int option = 1;
+    GotoXY(x + 20, y + 5);
+    while (kt == 1) {
+        move = _getch();
+        move = toupper(move);
+        if (move == 80 || move == 'S') 
+        {
+            GotoXY(x + 12, y + 5);
+            std::cout << "    ";
+            GotoXY(x + 33, y + 5);
+            std::cout << "    ";
+            if (y == menu1_y - 7) y = menu1_y - 8;
+            else y += 1;
+            GotoXY(x + 12, y + 5);
+            std::cout << "--->";
+            GotoXY(x + 33, y + 5);
+            std::cout << "<---";
+            if (option < 2) option++;
+        }
+        if (move == 72 || move == 'W') 
+        {
+            GotoXY(x + 12, y + 5);
+            std::cout << "    ";
+            GotoXY(x + 33, y + 5);
+            std::cout << "    ";
+            if (y == menu1_y - 8 ) y = menu1_y - 7;
+            else y -= 1;
+            GotoXY(x + 12, y + 5);
+            std::cout << "--->";
+            GotoXY(x + 33, y + 5);
+            std::cout << "<---";
+            if (option > 1) option--;
+        }
+        if (move == 13)
+        {
+            loadGameState(savefiles[option - 1]);
+            kt = 0;
+        }
+        if (move == 27) 
+        {
+           printMenu();
+           kt = 0;
+        }
+    }
+}
+
+void LoadGame()
+{
+    int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 13;
+    DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+    DrawFull(x, y, w, h, 195, 197);
+    DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+
+    char savefiles[10][20] = { "savefile1", "whatevername" };
+
+    GotoXY(x + 17, y + 2);
+    std::cout << "Choose a Save File:";
+    for (int i = 1; i < 3; i++)
+    {
+        GotoXY(x + 20, y + 2 + i + 2);
+        std::cout << savefiles[i - 1];
+    }
+    GotoXY(x + 5, y + 8 + 2);
+    std::cout << "Press Esc to turn back the main Menu...";
+    
+    LoadGameSelection();
+}
+
 void Help() {
     int x = menu1_x - 15, y = menu1_y-8, w = 50, h = 13;
     DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
@@ -338,6 +463,9 @@ void SelectMenu(int k) {
     switch (k) {
     case menu1_y:
         StartGame();
+        break;
+    case menu1_y + 2:
+        LoadGame();
         break;
     case menu1_y + 4:
         Help();

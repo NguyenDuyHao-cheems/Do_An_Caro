@@ -13,6 +13,7 @@ using namespace std;
 
 void printMenu();
 void PlayGame();
+void PlaywithBot();
 
 struct _POINT {
     int x, y, c;

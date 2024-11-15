@@ -570,6 +570,134 @@ void AskContinue() {
     }
 }
 
+int evaluatePosition( int row, int col, int player) {
+    int score = 0;
+    int dx[] = { 0, 1, 1, 1 };
+    int dy[] = { 1, 0, 1, -1 };
+
+    for (int dir = 0; dir < 4; ++dir) {
+        int count = 1;
+        int block = 0;
+        for (int step = 1; step <= 4; ++step) {
+            int nx = row + step * dx[dir];
+            int ny = col + step * dy[dir];
+            if (nx < 0 || ny < 0 || nx >= BOARD_SIZE || ny >= BOARD_SIZE || _A[nx][ny].c != player) {
+                if (nx < 0 || ny < 0 || nx >= BOARD_SIZE || ny >= BOARD_SIZE || _A[nx][ny].c != 0)
+                    block++;
+                break;
+            }
+            count++;
+        }
+
+        for (int step = 1; step <= 4; ++step) {
+            int nx = row - step * dx[dir];
+            int ny = col - step * dy[dir];
+            if (nx < 0 || ny < 0 || nx >= BOARD_SIZE || ny >= BOARD_SIZE || _A[nx][ny].c != player) {
+                if (nx < 0 || ny < 0 || nx >= BOARD_SIZE || ny >= BOARD_SIZE || _A[nx][ny].c != 0)
+                    block++;
+                break;
+            }
+            count++;
+        }
+        if (count >= 5) {
+            score += 10000; 
+        }
+        else if (block == 0) {
+            score += count * count; 
+        }
+        else if (block == 1) {
+            score += count; 
+        }
+    }
+    return score;
+}
+
+int evaluateBoard() {
+    int score = 0;
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        for (int j = 0; j < BOARD_SIZE; j++) {
+            if (_A[i][j].c == 1) score += 10;
+            if (_A[i][j].c == -1) score -= 10;
+        }
+    }
+    return score;
+}
+
+void BotMove(int& pX, int& pY) {
+    int bestScore = -1;
+    pX = pY = -1;
+    for (int i = 0; i < BOARD_SIZE; ++i) {
+        for (int j = 0; j < BOARD_SIZE; ++j) {
+            if (_A[i][j].c == 0) {
+                int score = evaluatePosition(i, j, 1);
+                score += evaluatePosition( i, j, -1);
+                if (score > bestScore) {
+                    bestScore = score;
+                    pX = i; pY = j;
+                }
+            }
+        }
+    }
+    int temp = pX;
+    pX = 4 * pY + LEFT + 2;
+    pY = 2 * temp + TOP + 1;
+}
+
+void PlaywithBot() {
+    bool validEnter = true;
+    while (true) {
+        if (_TURN == true) {
+            _COMMAND = toupper(_getch());
+            if (_COMMAND == 27) {
+                system("cls");
+                return;
+            }
+            else if (_COMMAND == 'A') MoveLeft();
+            else if (_COMMAND == 'D') MoveRight();
+            else if (_COMMAND == 'W') MoveUp();
+            else if (_COMMAND == 'S') MoveDown();
+            else if (_COMMAND == 13) {
+                int result = CheckBoard(_X, _Y);
+                if (result != 0) {
+                    GotoXY(_X, _Y);
+                    cout << 'X';
+                    int row = (_Y - TOP - 1) / 2;
+                    int col = (_X - LEFT - 2) / 4;
+                    int gameResult = TestBoard(row, col);
+                    if (gameResult != 2) {
+                        GotoXY(0, BOARD_SIZE * 2 + 2);
+                        if (gameResult == 0) cout << "Hoa nhau";
+                        else
+                            cout << (gameResult == -1 ? "Nguoi choi Thang!" : "May Thang!") << endl;
+                        AskContinue();
+                    }
+                    _TURN = !_TURN;
+                }
+            }
+        }
+        else {
+            int pX, pY;
+            BotMove(pX, pY);
+            int result = CheckBoard(pX, pY);
+            if (result != 0) {
+                GotoXY(pX, pY);
+                cout << 'O';
+                int row = (pY - TOP - 1) / 2;
+                int col = (pX - LEFT - 2) / 4;
+                int gameResult = TestBoard(row, col);
+                if (gameResult != 2) {
+                    GotoXY(0, BOARD_SIZE * 2 + 2);
+                    if (gameResult == 0) cout << "Hoa nhau";
+                    else
+                        cout << (gameResult == -1 ? "Nguoi choi Thang!" : "May Thang!") << endl;
+                    AskContinue();
+                }
+                _TURN =! _TURN;
+            }
+        }
+    }
+}
+
 void PlayGame() {
     int result = 0;
     int xUndo, yUndo;

@@ -611,18 +611,6 @@ int evaluatePosition( int row, int col, int player) {
     }
     return score;
 }
-
-int evaluateBoard() {
-    int score = 0;
-    for (int i = 0; i < BOARD_SIZE; i++) {
-        for (int j = 0; j < BOARD_SIZE; j++) {
-            if (_A[i][j].c == 1) score += 10;
-            if (_A[i][j].c == -1) score -= 10;
-        }
-    }
-    return score;
-}
-
 void BotMove(int& pX, int& pY) {
     int bestScore = -1;
     pX = pY = -1;

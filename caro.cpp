@@ -749,6 +749,80 @@ void PlayGame() {
     }
 }
 
+void NewGameSelection() {
+    int x = menu1_x - 15, y = menu1_y - 8;
+    int move;
+    int kt = 1;
+    int option = 1;
+    while (kt == 1) {
+        GotoXY(x + 10, y + 6);
+        cout << "--->";
+        GotoXY(x + 36, y + 6);
+        cout << "<---";
+        move = _getch();
+        move = toupper(move);
+        if (move == 80 || move == 'S') {
+            GotoXY(x + 10, y + 6);
+            cout << "    ";
+            GotoXY(x + 36, y + 6);
+            cout << "    ";
+            if (y == menu1_y-6) y = menu1_y - 8;
+            else y += 2;
+            GotoXY(x + 10, y + 6);
+            cout << "--->";
+            GotoXY(x + 36, y + 6);
+            cout << "<---";
+            if (option == 2) option == 1;
+            else option++;
+        }
+        if (move == 72 || move == 'W') {
+            GotoXY(x + 10, y + 6);
+            cout << "    ";
+            GotoXY(x + 36, y + 6);
+            cout << "    ";
+            if (y == menu1_y - 8) y = menu1_y-6;
+            else y -= 2;
+            GotoXY(x + 10, y + 6);
+            cout << "--->";
+            GotoXY(x + 36, y + 6);
+            cout << "<---";
+            if (option == 1) option = 2;
+            else option--;
+        }
+        if (move == 13) {
+            switch (y) {
+            case menu1_y-8:
+                StartGame();
+                break;
+            case menu1_y-6:
+                StarGamewithBot();
+                break;
+            }
+            kt = 0;
+        }
+        if (move == 27) {
+            printMenu();
+            kt = 0;
+        }
+    }
+}
+
+void NewGame() {
+    int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 15;
+    DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+    DrawFull(x, y, w, h, 195, 197);
+    DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+    GotoXY(x + 15, y + 2);
+    cout << "Choose one mode to play";
+    GotoXY(x + 17, y + 6);
+    cout << "Player with Player";
+    GotoXY(x + 18, y + 8);
+    cout << "Player with Bot";
+    GotoXY(x + 7, y+12);
+    cout << "Press Esc to turn back the main menu...";
+    NewGameSelection();
+}
+
 void SelectMenu(int k) {
     switch (k) {
     case menu1_y:

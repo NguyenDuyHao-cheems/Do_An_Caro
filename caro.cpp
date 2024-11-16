@@ -826,7 +826,7 @@ void NewGame() {
 void SelectMenu(int k) {
     switch (k) {
     case menu1_y:
-        StartGame();
+        NewGame();
         break;
     case menu1_y + 2:
         LoadGame();

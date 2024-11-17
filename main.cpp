@@ -3,10 +3,12 @@
 #include "Game.h"
 
 int main() {
-    PlayMusic(true);
     SetConsoleOutputCP(437);
-    SetConsoleSize(1920, 1080);
+    SetFontSize(10, 20);
+    SetConsoleSize(192, 108);
+    FixConsoleWindow();
     printMenu();
+    PlayMusic(true);
     system("pause");
     return 0;
 }

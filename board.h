@@ -5,7 +5,7 @@
 #define BOARD_SIZE 12
 #define LEFT 3
 #define TOP 1
-#define menu1_x LEFT+41+43
+#define menu1_x LEFT+41+17
 #define menu1_y TOP+12+8
 struct _POINT {
     int x, y, c;

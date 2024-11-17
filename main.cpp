@@ -5,7 +5,7 @@
 int main() {
     SetConsoleOutputCP(437);
     SetFontSize(10, 20);
-    SetConsoleSize(192, 108);
+    SetConsoleSize(192, 54);
     FixConsoleWindow();
     printMenu();
     PlayMusic(true);

@@ -325,8 +325,8 @@ void Setting() {
 // ve chu caro
 void drawCaro()
 {
-    int xc = 73;
-    int yc = 7;
+    int xc = 45;
+    int yc = 5;
     int cyan = 3;
     int pink = 13;
     //c

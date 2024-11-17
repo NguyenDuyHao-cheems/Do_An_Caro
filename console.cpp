@@ -30,3 +30,16 @@ void SetConsoleSize(int width, int height) {
     windowSize.Bottom = height - 1;
     SetConsoleWindowInfo(hConsole, TRUE, &windowSize);
 }
+
+void SetFontSize(int width, int height) {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_FONT_INFOEX cfi;
+    cfi.cbSize = sizeof(cfi);
+    cfi.nFont = 0;
+    cfi.dwFontSize.X = width;   
+    cfi.dwFontSize.Y = height; 
+    cfi.FontFamily = FF_DONTCARE;
+    cfi.FontWeight = FW_NORMAL;
+    wcscpy_s(cfi.FaceName, L"Consolas");  
+    SetCurrentConsoleFontEx(hConsole, FALSE, &cfi);
+}

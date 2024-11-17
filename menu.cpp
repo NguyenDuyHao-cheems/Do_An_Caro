@@ -28,29 +28,7 @@ void SelectMenu(int k) {
         break;
     }
 }
-//ver 2
-//void SelectMenu(int k) {
-//    switch (k) {
-//    case menu1_y:
-//        NewGame();
-//        break;
-//    case menu1_y + 2:
-//        LoadGame();
-//        break;
-//    case menu1_y + 4:
-//        Help();
-//        break;
-//    case menu1_y + 6:
-//        About();
-//        break;
-//    case menu1_y + 8:
-//        Exit();
-//        break;
-//    case menu1_y + 10:
-//        Setting();
-//        break;
-//    }
-//}
+
 void MenuSelection() {
     int x = menu1_x, y = menu1_y;
     int move;
@@ -79,44 +57,7 @@ void MenuSelection() {
         }
     }
 }
-//ver 2
-//void MenuSelection() {
-//    int x = menu1_x, y = menu1_y;
-//    int move;
-//    int kt = 1;
-//    while (kt == 1) {
-//        move = _getch();
-//        move = toupper(move);
-//        if (move == 80 || move == 'S') {
-//            GotoXY(x - 4, y);
-//            std::cout << "    ";
-//            GotoXY(x + 25, y);
-//            std::cout << "    ";
-//            if (y == menu1_y + 10) y = menu1_y;
-//            else y += 2;
-//            GotoXY(x - 4, y);
-//            std::cout << "--->";
-//            GotoXY(x + 25, y);
-//            std::cout << "<---";
-//        }
-//        if (move == 72 || move == 'W') {
-//            GotoXY(x - 4, y);
-//            std::cout << "    ";
-//            GotoXY(x + 25, y);
-//            std::cout << "    ";
-//            if (y == menu1_y) y = menu1_y + 10;
-//            else y -= 2;
-//            GotoXY(x - 4, y);
-//            std::cout << "--->";
-//            GotoXY(x + 25, y);
-//            std::cout << "<---";
-//        }
-//        if (move == 13) {
-//            SelectMenu(y);
-//            kt = 0;
-//        }
-//    }
-//}
+
 void printMenu() {
     system("cls");
     system("color B0");

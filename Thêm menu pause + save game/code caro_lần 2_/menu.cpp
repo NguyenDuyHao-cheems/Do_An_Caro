@@ -13,7 +13,7 @@ void SelectMenu(int k) {
     case menu1_y:
         NewGame();
         break;
-    case menu1_y+2:
+    case menu1_y + 2:
         LoadGame();
         break;
     case menu1_y + 4:
@@ -64,7 +64,10 @@ void printMenu() {
     hideCursor();
     drawCaro();
 
+    drawcloud(20, 6);
+    drawcloud(150, 7);
     txtColor((11 << 4) | 4);
+
     Box(menu1_x + 3, menu1_y - 1, 19, 2);
     GotoXY(menu1_x + 5, menu1_y);
     cout << "    NEW GAME     " << endl;
@@ -271,7 +274,7 @@ void Setting() {
 // ve chu caro
 void drawCaro()
 {
-    int xc = 45;
+    int xc = 45 + 30;
     int yc = 5;
     int cyan = 3;
     int pink = 13;
@@ -489,7 +492,7 @@ void DrawIsO(int x, int y)
         DrawLine(IsO[i], 13, x, y);
         y++;
     }
-    
+
 }
 // ve x win hoac o win
 void ve() {
@@ -922,7 +925,7 @@ void maxNumSFMenu()
     cout << "Press Esc to go back.";
     txtColor(116);
 }
-void SettingPause() 
+void SettingPause()
 {
     int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 13;
     int centerXOn = x + 27;
@@ -975,4 +978,29 @@ void SettingPause()
             }
         }
     }
+}
+
+void drawcloud(int x, int y)
+{
+    char cloud[30][30] = { "        0000",
+                          "       087780",
+                          "    0008777770",
+                          "   07770778880",
+                          "  0777770787700",
+                          "  07777788780770",
+                          " 0777777777777880",
+                          " 0777777777777880",
+                          "  00000000000000",
+                          "FFFFFFFFFFFFFFF",
+                          "  3    3     3 ",
+                          " 9    9     9 ",
+                          "3    3     3 ",
+
+
+    };
+    for (int i = 0; i < 13; i++) {
+        DrawLine(cloud[i], 17, x, y);
+        y++;
+    }
+
 }

@@ -9,3 +9,4 @@ void txtColor(int k); // doi mau ki tu, mau nen khi in ra console
 void SetConsoleSize(int width, int height); // dieu chinh kich thuoc console 
 
 void SetFontSize(int width, int height); // dieu chinh kich thuoc font chu
+void setConsoleWindow(int w, int h); //set console theo pixel

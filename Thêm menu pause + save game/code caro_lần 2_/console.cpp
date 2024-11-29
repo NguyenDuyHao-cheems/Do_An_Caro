@@ -43,3 +43,12 @@ void SetFontSize(int width, int height) {
     wcscpy_s(cfi.FaceName, L"Consolas");  
     SetCurrentConsoleFontEx(hConsole, FALSE, &cfi);
 }
+
+void setConsoleWindow(int w, int h)
+{
+    HWND console = GetConsoleWindow();
+    RECT r;
+    GetWindowRect(console, &r);
+
+    MoveWindow(console, r.left, r.top, w, h, TRUE);
+}

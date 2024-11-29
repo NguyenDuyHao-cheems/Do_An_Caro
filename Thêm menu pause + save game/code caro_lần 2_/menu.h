@@ -17,6 +17,7 @@ void DrawNotX(int x, int y);
 void DrawIsX(int x, int y);
 void DrawNotO(int x, int y);
 void DrawIsO(int x, int y);
+void drawcloud(int x, int y);
 
 void PauseMenu();
 void PauseSelection(int option);

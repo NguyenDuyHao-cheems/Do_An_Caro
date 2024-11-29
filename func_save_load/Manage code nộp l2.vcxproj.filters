@@ -50,4 +50,15 @@
       <Filter>Resource Files</Filter>
     </Media>
   </ItemGroup>
+<<<<<<< Updated upstream
+=======
+  <ItemGroup>
+    <Text Include="Temporary.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="allSaveFiles.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+  </ItemGroup>
+>>>>>>> Stashed changes
 </Project>

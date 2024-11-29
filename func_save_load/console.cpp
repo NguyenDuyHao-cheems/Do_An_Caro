@@ -26,8 +26,13 @@ void SetConsoleSize(int width, int height) {
     SMALL_RECT windowSize;
     windowSize.Left = 0;
     windowSize.Top = 0;
+<<<<<<< Updated upstream
     windowSize.Right = width - 1;
     windowSize.Bottom = height - 1;
+=======
+    windowSize.Right = width - 2;
+    windowSize.Bottom = height - 2;
+>>>>>>> Stashed changes
     SetConsoleWindowInfo(hConsole, TRUE, &windowSize);
 }
 

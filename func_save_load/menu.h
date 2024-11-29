@@ -1,7 +1,10 @@
 #pragma once 
 
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
 void SelectMenu(int k); // ham dieu huong lua chon khi an enter
 void MenuSelection(); // ham ve mui ten lua chon
 void printMenu(); //ham in cac chu newgame,exit,help...
@@ -20,12 +23,29 @@ void DrawIsX(int x, int y);
 void DrawNotO(int x, int y);
 void DrawIsO(int x, int y);
 
+<<<<<<< Updated upstream
 // ham ve hieu ung thang thua hoa
 void ve();
 void ve2();
 
 //new game
  void NewGameSelection();
+=======
+void PauseMenu();
+void PauseSelection(int option);
+void SaveGameMenu();
+void duplicateNameMenu();
+void SaveSuccessMenu();
+void maxNumSFMenu();
+void SettingPause();
+
+// ham ve hieu ung thang thua hoa
+void ve();
+void ve2();
+void ve3();
+//new game
+void NewGameSelection();
+>>>>>>> Stashed changes
 void NewGame();
 
 void DrawRoundedBox(int x, int y, int width, int height, int color);

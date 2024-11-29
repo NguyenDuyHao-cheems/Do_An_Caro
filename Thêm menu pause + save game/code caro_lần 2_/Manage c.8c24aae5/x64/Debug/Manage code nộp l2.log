@@ -1,0 +1,23 @@
+﻿  Board.cpp
+  console.cpp
+  game.cpp
+  main.cpp
+  menu.cpp
+E:\code caro_lần 2_\menu.cpp(500,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+E:\code caro_lần 2_\menu.cpp(504,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+E:\code caro_lần 2_\menu.cpp(509,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+E:\code caro_lần 2_\menu.cpp(513,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+E:\code caro_lần 2_\menu.cpp(516,12): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+E:\code caro_lần 2_\menu.cpp(523,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+E:\code caro_lần 2_\menu.cpp(535,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+E:\code caro_lần 2_\menu.cpp(561,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+E:\code caro_lần 2_\menu.cpp(566,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+E:\code caro_lần 2_\menu.cpp(571,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+E:\code caro_lần 2_\menu.cpp(575,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+E:\code caro_lần 2_\menu.cpp(578,12): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+E:\code caro_lần 2_\menu.cpp(585,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+E:\code caro_lần 2_\menu.cpp(597,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+E:\code caro_lần 2_\menu.cpp(656,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+E:\code caro_lần 2_\menu.cpp(672,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+  Manage code nộp l2.vcxproj -> E:\code caro_lần 2_\x64\Debug\Manage code nộp l2.exe

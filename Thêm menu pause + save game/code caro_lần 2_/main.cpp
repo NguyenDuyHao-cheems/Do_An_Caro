@@ -1,7 +1,7 @@
 #include "Console.h"
 #include "Menu.h"
 #include "Game.h"
-
+//viet code vao day 
 int main() {
     SetConsoleOutputCP(437);
     SetFontSize(7, 14);

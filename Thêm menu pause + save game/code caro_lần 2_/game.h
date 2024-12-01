@@ -6,6 +6,7 @@
 
 #include "Board.h"
 #include "Console.h"
+extern bool isMusicOn;
 extern int _COMMAND;
 void AskContinue();
 void PlayGame(int k);

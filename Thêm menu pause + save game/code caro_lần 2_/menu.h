@@ -1,4 +1,13 @@
 #pragma once 
+#include "game.h"
+void DrawRoundedBox(int x, int y, int width, int height, int color);
+void CharToWChar(const char* charArray, wchar_t* wcharArray, int size);
+void PlayMusic(const char* filePath, const wchar_t* alias);
+void PlayTick(const char* filePath, const wchar_t* alias);
+void PlayWin(const char* filePath, const wchar_t* alias);
+void PlayMove(const char* filePath, const wchar_t* alias);
+void PlayMo(const char* filePath, const wchar_t* alias);
+void StopAllSounds();
 
 void SelectMenu(int k); // ham dieu huong lua chon khi an enter
 void MenuSelection(); // ham ve mui ten lua chon
@@ -35,5 +44,3 @@ void ve3();
 void NewGameSelection();
 void NewGame();
 
-void DrawRoundedBox(int x, int y, int width, int height, int color);
-void PlayMusic(bool isPlaying);

@@ -5,6 +5,7 @@
 #include <conio.h>
 
 using namespace std;
+bool isMusicOn = true;
 int _COMMAND = 0;
 int xUndo, yUndo;
 int result;
@@ -60,10 +61,30 @@ void PlayGame(int k)
         }
         GotoXY(_X, _Y);
         _COMMAND = toupper(_getch());
-        if (_COMMAND == 'A') MoveLeft();
-        else if (_COMMAND == 'D') MoveRight();
-        else if (_COMMAND == 'W') MoveUp();
-        else if (_COMMAND == 'S') MoveDown();
+        if (_COMMAND == 'A') {
+            MoveLeft();
+            if (isMusicOn) {
+                PlayMove("move.wav", L"move_sound");
+            }
+        }
+        else if (_COMMAND == 'D') {
+            MoveRight();
+            if (isMusicOn) {
+                PlayMove("move.wav", L"move_sound");
+            }
+        }
+        else if (_COMMAND == 'W') {
+            MoveUp();
+            if (isMusicOn) {
+                PlayMove("move.wav", L"move_sound");
+            }
+        }
+        else if (_COMMAND == 'S') {
+            MoveDown();
+            if (isMusicOn) {
+                PlayMove("move.wav", L"move_sound");
+            }
+        }
         else if (_COMMAND == 13) {
             result = CheckBoard(_X, _Y);
             if (result != 0) {
@@ -89,15 +110,24 @@ void PlayGame(int k)
                     txtColor(BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE);
                     GotoXY(0, BOARD_SIZE * 2 + 2);
                     if (gameResult == 0) {
+                        if (isMusicOn) {
+                            PlayWin("win.wav", L"win_sound");
+                        }
                         cout << "Hoa nhau";
                         ve3();
                     }
                     else if (gameResult == -1) {
+                        if (isMusicOn) {
+                            PlayWin("win.wav", L"win_sound");
+                        }
                         nhapnhay(winPositions, 'X');
                         ve();
 
                     }
                     else {
+                        if (isMusicOn) {
+                            PlayWin("win.wav", L"win_sound");
+                        }
                         nhapnhay(winPositions, 'O');
                         ve2();
                     }
@@ -579,6 +609,9 @@ void LoadGameSelection()
 }
 void LoadGame()
 {
+    if (isMusicOn) {
+        PlayMo("mo.wav", L"mo_sound");
+    }
     int x = menu1_x - 15, y = menu1_y - 15, w = 50, h = 18;
 
     DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
@@ -703,10 +736,30 @@ void PlaywithBot(int k) {
                 PauseMenu();
                 kt = 0;
             }
-            else if (_COMMAND == 'A') MoveLeft();
-            else if (_COMMAND == 'D') MoveRight();
-            else if (_COMMAND == 'W') MoveUp();
-            else if (_COMMAND == 'S') MoveDown();
+            else if (_COMMAND == 'A') {
+                MoveLeft();
+                if (isMusicOn) {
+                    PlayMove("move.wav", L"move_sound");
+                }
+            }
+            else if (_COMMAND == 'D') {
+                MoveRight();
+                if (isMusicOn) {
+                    PlayMove("move.wav", L"move_sound");
+                }
+            }
+            else if (_COMMAND == 'W') {
+                MoveUp();
+                if (isMusicOn) {
+                    PlayMove("move.wav", L"move_sound");
+                }
+            }
+            else if (_COMMAND == 'S') {
+                MoveDown();
+                if (isMusicOn) {
+                    PlayMove("move.wav", L"move_sound");
+                }
+            }
             else if (_COMMAND == 13) {
                 result = CheckBoard(_X, _Y);
                 if (result != 0) {
@@ -797,12 +850,17 @@ void PlaywithBot(int k) {
                             cout << "Hoa nhau"; }
                         else {
                             if (gameResult == -1) {
-                                cout << "Nguoi choi thang";
+                                if (isMusicOn) {
+                                    PlayWin("win.wav", L"win_sound");
+                                }
+                                
                                 nhapnhay(winPositions, 'X');
                                 ve();
                             }
                             else {
-                                cout << "May thang";
+                                if (isMusicOn) {
+                                    PlayWin("win.wav", L"win_sound");
+                                }
                                 nhapnhay(winPositions, 'O');
                                 ve2();
                             }

@@ -1,19 +1,21 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "Menu.h"
 #include "Console.h"
 #include <iostream>
 #include <conio.h>
 #include "board.h"
 #include "game.h"
+#include "menu.h"
 using namespace std;
 
 int optionGame;
-
+//bool isMusicOn = true;
 void SelectMenu(int k) {
     switch (k) {
     case menu1_y:
         NewGame();
         break;
-    case menu1_y + 2:
+    case menu1_y+2:
         LoadGame();
         break;
     case menu1_y + 4:
@@ -41,6 +43,9 @@ void MenuSelection() {
             GotoXY(x + 25, y); cout << "    ";
             if (y == menu1_y + 10) y = menu1_y;
             else y += 2;
+            if (isMusicOn) {
+                PlayTick("tick.wav", L"tick_sound");
+            }
             GotoXY(x - 4, y); cout << "--->";
             GotoXY(x + 25, y); cout << "<---";
         }
@@ -49,6 +54,9 @@ void MenuSelection() {
             GotoXY(x + 25, y); cout << "    ";
             if (y == menu1_y) y = menu1_y + 10;
             else y -= 2;
+            if (isMusicOn) {
+                PlayTick("tick.wav", L"tick_sound");
+            }
             GotoXY(x - 4, y); cout << "--->";
             GotoXY(x + 25, y); cout << "<---";
         }
@@ -64,10 +72,7 @@ void printMenu() {
     hideCursor();
     drawCaro();
 
-    drawcloud(20, 6);
-    drawcloud(150, 7);
     txtColor((11 << 4) | 4);
-
     Box(menu1_x + 3, menu1_y - 1, 19, 2);
     GotoXY(menu1_x + 5, menu1_y);
     cout << "    NEW GAME     " << endl;
@@ -138,6 +143,9 @@ void Box(int x, int y, int w, int h) {
     GotoXY(x + w, y + h); cout << char(217);
 }
 void Help() {
+    if (isMusicOn) {
+        PlayMo("mo.wav", L"mo_sound");
+    }
     int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 13;
     DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
     DrawFull(x, y, w, h, 195, 197);
@@ -160,6 +168,9 @@ void Help() {
     }
 }
 void Exit() {
+    if (isMusicOn) {
+        PlayMo("mo.wav", L"mo_sound");
+    }
     int x = menu1_x - 3, y = menu1_y - 5, w = 30, h = 8;
     DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
     DrawFull(x, y, w, h, 195, 197);
@@ -179,6 +190,9 @@ void Exit() {
             GotoXY(x + 12, y + 5); cout << "  ";
             if (x == menu1_x - 3) x = menu1_x + 10;
             else if (x == menu1_x + 10) x = menu1_x - 3;
+            if (isMusicOn) {
+                PlayTick("tick.wav", L"tick_sound");
+            }
             GotoXY(x + 5, y + 5); cout << "->";
             GotoXY(x + 12, y + 5); cout << "<-";
         }
@@ -197,6 +211,9 @@ void Exit() {
     }
 }
 void About() {
+    if (isMusicOn) {
+        PlayMo("mo.wav", L"mo_sound");
+    }
     int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 15;
     DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
     DrawFull(x, y, w, h, 195, 197);
@@ -220,20 +237,27 @@ void About() {
     }
 }
 void Setting() {
-
+    if (isMusicOn) {
+        PlayMo("mo.wav", L"mo_sound");
+    }
     int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 13;
     int centerXOn = x + 27;
     int centerXOff = x + 16;
     int centerY = y + 4;
-    bool isMusicOn = true;
     DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
     DrawFull(x, y, w, h, 195, 197);
     DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
     GotoXY(x + 5, y + 4);
     cout << "Music ";
     DrawRoundedBox(x + 15, y + 3, 15, 3, 10);
-    DrawFull(x + 16, y + 4, 12, 0, 10, 32);
-    DrawFull(x + 27, y + 4, 1, 0, 136, 32);
+    if (isMusicOn) {
+        DrawFull(x + 16, y + 4, 12, 0.95, 10, 32);
+        DrawFull(x + 27, y + 4, 1, 0.95, 136, 32);
+    }
+    else {
+        DrawRoundedBox(x + 15, y + 3, 15, 3, 10);
+        DrawFull(x + 16, y + 4, 1, 0.95, 136, 32);
+    }
 
     GotoXY(x + 5, y + 7);
     cout << "F to OFF music";
@@ -247,7 +271,7 @@ void Setting() {
             char key = _getch();
             if (key == 'F' || key == 'f') {
                 if (isMusicOn) {
-                    PlayMusic(false);
+                    StopAllSounds();
                     isMusicOn = false;
                     DrawFull(x + 16, y + 4, 12, 0, 119, 32);
                     DrawRoundedBox(x + 15, y + 3, 15, 3, 10);
@@ -257,7 +281,7 @@ void Setting() {
             }
             else if (key == 'O' || key == 'o') {
                 if (!isMusicOn) {
-                    PlayMusic(true);
+                    PlayMusic("musicc.wav", L"music_bg");
                     isMusicOn = true;
                     DrawRoundedBox(x + 15, y + 3, 15, 3, 12);
                     DrawFull(x + 16, y + 4, 12, 0, 10, 32);
@@ -274,7 +298,7 @@ void Setting() {
 // ve chu caro
 void drawCaro()
 {
-    int xc = 45 + 30;
+    int xc = 45;
     int yc = 5;
     int cyan = 3;
     int pink = 13;
@@ -492,7 +516,7 @@ void DrawIsO(int x, int y)
         DrawLine(IsO[i], 13, x, y);
         y++;
     }
-
+    
 }
 // ve x win hoac o win
 void ve() {
@@ -697,6 +721,9 @@ void NewGameSelection() {
             cout << "    ";
             if (y == menu1_y - 6) y = menu1_y - 8;
             else y += 2;
+            if (isMusicOn) {
+                PlayTick("tick.wav", L"tick_sound");
+            }
             GotoXY(x + 10, y + 6);
             cout << "--->";
             GotoXY(x + 36, y + 6);
@@ -711,6 +738,9 @@ void NewGameSelection() {
             cout << "    ";
             if (y == menu1_y - 8) y = menu1_y - 6;
             else y -= 2;
+            if (isMusicOn) {
+                PlayTick("tick.wav", L"tick_sound");
+            }
             GotoXY(x + 10, y + 6);
             cout << "--->";
             GotoXY(x + 36, y + 6);
@@ -736,6 +766,9 @@ void NewGameSelection() {
     }
 }
 void NewGame() {
+    if (isMusicOn) {
+        PlayMo("mo.wav", L"mo_sound");
+    }
     int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 15;
     DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
     DrawFull(x, y, w, h, 195, 197);
@@ -766,21 +799,107 @@ void DrawRoundedBox(int x, int y, int width, int height, int color) {
     for (int i = 1; i < width - 1; i++) cout << char(205);
     cout << char(188);
 }
-bool isMusicPlaying = false;
-void PlayMusic(bool isPlaying) {
-    if (isPlaying) {
-        PlaySound(TEXT("musicc.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
-        isMusicPlaying = true;
-
+void CharToWChar(const char* charArray, wchar_t* wcharArray, int size) {
+    mbstowcs(wcharArray, charArray, size);
+}
+void PlayMusic(const char* filePath, const wchar_t* alias) {
+    wchar_t command[1024];
+    wchar_t wFilePath[512];
+    CharToWChar(filePath, wFilePath, 512);
+    swprintf(command, 1024, L"close %s", alias);
+    mciSendString(command, NULL, 0, NULL);
+    swprintf(command, 1024, L"open \"%s\" type mpegvideo alias %s", wFilePath, alias);
+    if (mciSendString(command, NULL, 0, NULL) != 0) {
+        //wcerr << L"Failed to open music file: " << wFilePath << endl;
+        return;
     }
-    else {
-        PlaySound(NULL, NULL, 0);
-        isMusicPlaying = false;
+    swprintf(command, 1024, L"play %s repeat", alias);
+    if (mciSendString(command, NULL, 0, NULL) != 0) {
+        //wcerr << L"Failed to play music: " << wFilePath << endl;
     }
+}
+void PlayTick(const char* filePath, const wchar_t* alias) {
+    wchar_t command[512];
+    wchar_t wFilePath[512];
+    CharToWChar(filePath, wFilePath, 512);
+    swprintf(command, 512, L"close tick_sound");
+    mciSendString(command, NULL, 0, NULL);
+    swprintf(command, 512, L"open \"%s\" type waveaudio alias tick_sound", wFilePath);
+    if (mciSendString(command, NULL, 0, NULL) != 0) {
+        //wcerr << L"Failed to open tick sound file: " << wFilePath << endl;
+        return;
+    }
+    swprintf(command, 512, L"play tick_sound");
+    if (mciSendString(command, NULL, 0, NULL) != 0) {
+        //wcerr << L"Failed to play tick sound: " << wFilePath << endl;
+    }
+}
+void PlayWin(const char* filePath, const wchar_t* alias) {
+    wchar_t command[512];
+    wchar_t wFilePath[512];
+    CharToWChar(filePath, wFilePath, 512);
+    swprintf(command, 512, L"close win_sound");
+    mciSendString(command, NULL, 0, NULL);
+    swprintf(command, 512, L"open \"%s\" type waveaudio alias win_sound", wFilePath);
+    if (mciSendString(command, NULL, 0, NULL) != 0) {
+        // wcerr << L"Failed to open win sound file: " << wFilePath << endl;
+        return;
+    }
+    swprintf(command, 512, L"play win_sound");
+    if (mciSendString(command, NULL, 0, NULL) != 0) {
+        //wcerr << L"Failed to play win sound: " << wFilePath << endl;
+    }
+}
+void PlayMove(const char* filePath, const wchar_t* alias) {
+    wchar_t command[512];
+    wchar_t wFilePath[512];
+    CharToWChar(filePath, wFilePath, 512);
+    swprintf(command, 512, L"close move_sound");
+    mciSendString(command, NULL, 0, NULL);
+    swprintf(command, 512, L"open \"%s\" type waveaudio alias move_sound", wFilePath);
+    if (mciSendString(command, NULL, 0, NULL) != 0) {
+        //wcerr << L"Failed to open  sound file: " << wFilePath << endl;
+        return;
+    }
+    swprintf(command, 512, L"play move_sound");
+    if (mciSendString(command, NULL, 0, NULL) != 0) {
+        //wcerr << L"Failed to play move sound: " << wFilePath << endl;
+    }
+}
+void PlayMo(const char* filePath, const wchar_t* alias) {
+    wchar_t command[512];
+    wchar_t wFilePath[512];
+    CharToWChar(filePath, wFilePath, 512);
+    swprintf(command, 512, L"close mo_sound");
+    mciSendString(command, NULL, 0, NULL);
+    swprintf(command, 512, L"open \"%s\" type waveaudio alias mo_sound", wFilePath);
+    if (mciSendString(command, NULL, 0, NULL) != 0) {
+        //wcerr << L"Failed to open  sound file: " << wFilePath << endl;
+        return;
+    }
+    swprintf(command, 512, L"play mo_sound");
+    if (mciSendString(command, NULL, 0, NULL) != 0) {
+        //wcerr << L"Failed to play mo sound: " << wFilePath << endl;
+    }
+}
+void StopAllSounds() {
+    mciSendString(L"stop music_bg", NULL, 0, NULL);
+    mciSendString(L"close music_bg", NULL, 0, NULL);
+    mciSendString(L"stop tick_sound", NULL, 0, NULL);
+    mciSendString(L"close tick_sound", NULL, 0, NULL);
+    mciSendString(L"stop win_sound", NULL, 0, NULL);
+    mciSendString(L"close win_sound", NULL, 0, NULL);
+    mciSendString(L"stop move_sound", NULL, 0, NULL);
+    mciSendString(L"close move_sound", NULL, 0, NULL);
+    mciSendString(L"stop mo_sound", NULL, 0, NULL);
+    mciSendString(L"close mo_sound", NULL, 0, NULL);
 }
 
 void PauseMenu()
 {
+    if (isMusicOn) {
+        PlayMo("mo.wav", L"mo_sound");
+    }
     int x = menu1_x - 15, y = menu1_y - 12, w = 50, h = 20;
     DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
     DrawFull(x, y, w, h, 195, 197);
@@ -815,6 +934,9 @@ void PauseMenu()
                 y += 2;
                 option++;
             }
+            if (isMusicOn) {
+                PlayTick("tick.wav", L"tick_sound");
+            }
             GotoXY(x + 17, y + 6); cout << "--->";
             GotoXY(x + 32, y + 6); cout << "<---";
         }
@@ -830,6 +952,9 @@ void PauseMenu()
             {
                 y -= 2;
                 option--;
+            }
+            if (isMusicOn) {
+                PlayTick("tick.wav", L"tick_sound");
             }
             GotoXY(x + 17, y + 6); cout << "--->";
             GotoXY(x + 32, y + 6); cout << "<---";
@@ -868,6 +993,9 @@ void PauseSelection(int option)
 
 void SaveGameMenu()
 {
+    if (isMusicOn) {
+        PlayMo("mo.wav", L"mo_sound");
+    }
     int x = menu1_x - 15 + 10, y = menu1_y - 12 + 5, w = 30, h = 10;
     DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
     DrawFull(x, y, w, h, 195, 197);
@@ -888,6 +1016,9 @@ void SaveGameMenu()
 }
 void duplicateNameMenu()
 {
+    if (isMusicOn) {
+        PlayMo("mo.wav", L"mo_sound");
+    }
     int x = menu1_x - 15 + 10, y = menu1_y - 12 + 5, w = 30, h = 10;
     DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
     DrawFull(x, y, w, h, 195, 197);
@@ -901,6 +1032,7 @@ void duplicateNameMenu()
 }
 void SaveSuccessMenu()
 {
+
     int x = menu1_x - 15 + 10, y = menu1_y - 12 + 5, w = 30, h = 10;
     DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
     DrawFull(x, y, w, h, 195, 197);
@@ -925,21 +1057,29 @@ void maxNumSFMenu()
     cout << "Press Esc to go back.";
     txtColor(116);
 }
-void SettingPause()
+void SettingPause() 
 {
+    if (isMusicOn) {
+        PlayMo("mo.wav", L"mo_sound");
+    }
     int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 13;
     int centerXOn = x + 27;
     int centerXOff = x + 16;
     int centerY = y + 4;
-    bool isMusicOn = true;
     DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
     DrawFull(x, y, w, h, 195, 197);
     DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
     GotoXY(x + 5, y + 4);
     cout << "Music ";
     DrawRoundedBox(x + 15, y + 3, 15, 3, 10);
-    DrawFull(x + 16, y + 4, 12, 0, 10, 32);
-    DrawFull(x + 27, y + 4, 1, 0, 136, 32);
+    if (isMusicOn) {
+        DrawFull(x + 16, y + 4, 12, 0.95, 10, 32);
+        DrawFull(x + 27, y + 4, 1, 0.95, 136, 32);
+    }
+    else {
+        DrawRoundedBox(x + 15, y + 3, 15, 3, 10);
+        DrawFull(x + 16, y + 4, 1, 0.95, 136, 32);
+    }
 
     GotoXY(x + 5, y + 7);
     cout << "F to OFF music";
@@ -955,7 +1095,7 @@ void SettingPause()
             char key = _getch();
             if (key == 'F' || key == 'f') {
                 if (isMusicOn) {
-                    PlayMusic(false);
+                    StopAllSounds();
                     isMusicOn = false;
                     DrawFull(x + 16, y + 4, 12, 0, 119, 32);
                     DrawRoundedBox(x + 15, y + 3, 15, 3, 10);
@@ -965,7 +1105,7 @@ void SettingPause()
             }
             else if (key == 'O' || key == 'o') {
                 if (!isMusicOn) {
-                    PlayMusic(true);
+                    PlayMusic("musicc.wav", L"music_bg");
                     isMusicOn = true;
                     DrawRoundedBox(x + 15, y + 3, 15, 3, 12);
                     DrawFull(x + 16, y + 4, 12, 0, 10, 32);
@@ -978,29 +1118,4 @@ void SettingPause()
             }
         }
     }
-}
-
-void drawcloud(int x, int y)
-{
-    char cloud[30][30] = { "        0000",
-                          "       087780",
-                          "    0008777770",
-                          "   07770778880",
-                          "  0777770787700",
-                          "  07777788780770",
-                          " 0777777777777880",
-                          " 0777777777777880",
-                          "  00000000000000",
-                          "FFFFFFFFFFFFFFF",
-                          "  3    3     3 ",
-                          " 9    9     9 ",
-                          "3    3     3 ",
-
-
-    };
-    for (int i = 0; i < 13; i++) {
-        DrawLine(cloud[i], 17, x, y);
-        y++;
-    }
-
 }

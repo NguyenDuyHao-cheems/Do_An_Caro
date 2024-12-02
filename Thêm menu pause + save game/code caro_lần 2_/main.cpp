@@ -1,6 +1,7 @@
 #include "Console.h"
 #include "Menu.h"
 #include "Game.h"
+//tuan test
 //test
 int main() {
     PlayMusic("musicc.wav", L"music_bg");

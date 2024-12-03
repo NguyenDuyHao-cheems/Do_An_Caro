@@ -21,7 +21,7 @@ void StartGame();
 
 void hideCursor();
 void showCursor();
-
+void changeColorCursor(bool turn);
 //load
 void loadGameState(char filename[]);
 void LoadGameSelection();

@@ -3,12 +3,11 @@
 #include "Game.h"
 
 int main() {
-    PlayMusic("musicc.wav", L"music_bg");
+    //PlayMusic("musicc.wav", L"music_bg");
     SetConsoleOutputCP(437);
-    SetFontSize(16, 16);
-    SetConsoleSize(146,39);
+    SetFontSize(8, 16);
+    setConsoleWindow(1600, 900);
     FixConsoleWindow();
-
     printMenu();
     system("pause");
     return 0;

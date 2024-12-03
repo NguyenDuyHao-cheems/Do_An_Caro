@@ -1,4 +1,4 @@
-#include "menu.h"
+﻿#include "menu.h"
 #include "game.h"
 #include "board.h"
 #include <iostream>
@@ -16,25 +16,132 @@ FILE* tempFileWrite;
 FILE* allSaveFiles;
 
 void AskContinue() {
-    GotoXY(0, BOARD_SIZE * 2 + 4);
-    cout << "Nhan 'y' de choi tiep, phim bat ky de thoat: ";
-    char c = toupper(_getch());
-    if (c == 'Y') {
-        StartGame();
+    if (isMusicOn) {
+        PlayMo("mo.wav", L"mo_sound");
     }
-    else {
-        printMenu();
+    int currentOpt = 0;
+    int x = menu1_x , y = menu1_y , w = 50, h = 8;
+    DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+    DrawFull(x, y, w, h, 195, 197);
+    DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+    GotoXY(x + 15, y + 2); cout << "Do you want to play again?";
+    txtColor(112);
+    GotoXY(x + 18, y + 5); cout << "Yes";
+    GotoXY(x + 32, y + 5); cout << "No";
+    txtColor(116);
+    GotoXY(x + 18-3, y + 5); cout << "->";
+    GotoXY(x + 18+4, y + 5); cout << "<-";
+    while (1) {
+        char c = toupper(_getch());
+        if ( c == 'D')
+        {
+            GotoXY(x + 18-3, y + 5); cout << "  ";
+            GotoXY(x + 18+4, y + 5); cout << "  ";
+            currentOpt = -1;
+            if (isMusicOn) {
+                PlayTick("tick.wav", L"tick_sound");
+            }
+            GotoXY(x + 32-3, y + 5); cout << "->";
+            GotoXY(x + 32+4, y + 5); cout << "<-";
+        }
+        if (c == 'A') {
+            GotoXY(x + 32 - 3, y + 5); cout << "  ";
+            GotoXY(x + 32 + 4, y + 5); cout << "  ";
+            currentOpt = 1;
+            if (isMusicOn) {
+                PlayTick("tick.wav", L"tick_sound");
+            }
+            GotoXY(x + 18 - 3, y + 5); cout << "->";
+            GotoXY(x + 18 + 4, y + 5); cout << "<-";
+        }
+        else if (c == 13)
+        {
+            if (currentOpt==1)
+            {
+                StartGame();
+            }
+            else 
+            {
+                printMenu();
+            }
+            break;
+        }
     }
+    
 }
 void AskContinuePlaybot() {
-    GotoXY(0, BOARD_SIZE * 2 + 4);
-    cout << "Nhan 'y' de choi tiep, phim bat ky de thoat: ";
-    char c = toupper(_getch());
-    if (c == 'Y') {
-        StartGamewithbot();
+    hideCursor();
+    if (isMusicOn) {
+        PlayMo("mo.wav", L"mo_sound");
     }
-    else {
-        printMenu();
+    int currentOpt = 0;
+    int x = menu1_x, y = menu1_y, w = 50, h = 8;
+    DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+    DrawFull(x, y, w, h, 195, 197);
+    DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+    GotoXY(x + 15, y + 2); cout << "Do you want to play again?";
+    txtColor(112);
+    GotoXY(x + 18, y + 5); cout << "Yes";
+    GotoXY(x + 32, y + 5); cout << "No";
+    txtColor(116);
+    GotoXY(x + 18 - 3, y + 5); cout << "->";
+    GotoXY(x + 18 + 4, y + 5); cout << "<-";
+    while (1) {
+        char c = toupper(_getch());
+        if (c == 'D')
+        {
+            GotoXY(x + 18 - 3, y + 5); cout << "  ";
+            GotoXY(x + 18 + 4, y + 5); cout << "  ";
+            currentOpt = -1;
+            if (isMusicOn) {
+                PlayTick("tick.wav", L"tick_sound");
+            }
+            GotoXY(x + 32 - 3, y + 5); cout << "->";
+            GotoXY(x + 32 + 4, y + 5); cout << "<-";
+        }
+        if (c == 'A') {
+            GotoXY(x + 32 - 3, y + 5); cout << "  ";
+            GotoXY(x + 32 + 4, y + 5); cout << "  ";
+            currentOpt = 1;
+            if (isMusicOn) {
+                PlayTick("tick.wav", L"tick_sound");
+            }
+            GotoXY(x + 18 - 3, y + 5); cout << "->";
+            GotoXY(x + 18 + 4, y + 5); cout << "<-";
+        }
+        else if (c == 13)
+        {
+            if (currentOpt == 1)
+            {
+                StartGamewithbot();
+            }
+            else
+            {
+                printMenu();
+            }
+            break;
+        }
+    }
+}
+void changeColorCursor(bool turn)
+{
+    if (turn) {
+        txtColor((7 << 4) | 4);
+
+        cout << "[";
+        GotoXY(_X + 1, _Y);
+        cout << "]";
+
+        txtColor(7);
+    }
+    if (!turn) {
+        txtColor((7 << 4) | 1);
+
+        cout << "[";
+        GotoXY(_X + 1, _Y);
+        cout << "]";
+
+        txtColor(7);
     }
 }
 void PlayGame(int k) 
@@ -47,7 +154,7 @@ void PlayGame(int k)
         fprintf(tempFileWrite, "p ");
     }
     else tempFileWrite = fopen("Temporary.txt", "a");
-
+    int prevX = _X, prevY = _Y;
     while (kt == 1) {
         if (!_TURN)
         {
@@ -59,7 +166,31 @@ void PlayGame(int k)
             DrawIsX(55, 1);
             DrawNotO(91, 1);
         }
+        int prevRow = (prevY - TOP - 1) / 2;
+        int prevCol = (prevX - LEFT - 2) / 4;
+        GotoXY(prevX - 1, prevY);
+        if (_A[prevRow][prevCol].c == -1) {
+            txtColor((7 << 4) | 4);
+            cout << " X ";
+            txtColor(7);
+        }
+        else if (_A[prevRow][prevCol].c == 1) {
+            txtColor((7 << 4) | 1);
+            cout << " O ";
+            txtColor(7);
+        }
+        else {
+            cout <<"   ";
+        }
+        txtColor(7);
+        GotoXY(_X - 1, _Y);
+        changeColorCursor(_TURN);
+        
         GotoXY(_X, _Y);
+       
+        prevX = _X;
+        prevY = _Y;
+            
         _COMMAND = toupper(_getch());
         if (_COMMAND == 'A') {
             MoveLeft();
@@ -86,62 +217,66 @@ void PlayGame(int k)
             }
         }
         else if (_COMMAND == 13) {
-            result = CheckBoard(_X, _Y);
-            if (result != 0) {
-                GotoXY(_X, _Y);
-                if (result == -1) {
-                    txtColor((7<<4)|4);
-                    cout << "X";
-                    fprintf(tempFileWrite, "X(%d,%d) ", _X, _Y);
-                }
-                else {
-                    txtColor(FOREGROUND_BLUE | BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE);
-                    cout << "O";
-                    fprintf(tempFileWrite, "O(%d,%d) ", _X, _Y);
-                }
-                fflush(tempFileWrite);
-                xUndo = _X;
-                yUndo = _Y;
-                int row = (_Y - TOP - 1) / 2;
-                int col = (_X - LEFT - 2) / 4;
-                int winPositions[5][2];
-                int gameResult = TestBoard(row, col, winPositions);
-                if (gameResult != 2) {
-                    txtColor(BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE);
-                    GotoXY(0, BOARD_SIZE * 2 + 2);
-                    if (gameResult == 0) {
-                        if (isMusicOn) {
-                            PlayWin("win.wav", L"win_sound");
-                        }
-                        cout << "Hoa nhau";
-                        ve3();
-                    }
-                    else if (gameResult == -1) {
-                        if (isMusicOn) {
-                            PlayWin("win.wav", L"win_sound");
-                        }
-                        nhapnhay(winPositions, 'X');
-                        ve();
-
+            int row = (_Y - TOP - 1) / 2;
+            int col = (_X - LEFT - 2) / 4;
+                result = CheckBoard(_X, _Y);
+                if (result != 0) {
+                    GotoXY(_X, _Y);
+                    if (result == -1) {
+                        txtColor((7 << 4) | 4);
+                        cout << "X";
+                        _A[row][col].c = -1;
+                        fprintf(tempFileWrite, "X(%d,%d) ", _X, _Y);
                     }
                     else {
-                        if (isMusicOn) {
-                            PlayWin("win.wav", L"win_sound");
-                        }
-                        nhapnhay(winPositions, 'O');
-                        ve2();
+                        txtColor(FOREGROUND_BLUE | BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE);
+                        cout << "O";
+                        _A[row][col].c = 1;
+                        fprintf(tempFileWrite, "O(%d,%d) ", _X, _Y);
                     }
-                    AskContinue();
+                    fflush(tempFileWrite);
+                    xUndo = _X;
+                    yUndo = _Y;
+                    int winPositions[5][2];
+                    int gameResult = TestBoard(row, col, winPositions);
+                    if (gameResult != 2) {
+                        txtColor(BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE);
+                        GotoXY(0, BOARD_SIZE * 2 + 2);
+                        if (gameResult == 0) {
+                            if (isMusicOn) {
+                                PlayWin("win.wav", L"win_sound");
+                            }
+                            ve3();
+                        }
+                        else if (gameResult == -1) {
+                            if (isMusicOn) {
+                                PlayWin("win.wav", L"win_sound");
+                            }
+                            nhapnhay(winPositions, 'X');
+                            ve();
+
+                        }
+                        else {
+                            if (isMusicOn) {
+                                PlayWin("win.wav", L"win_sound");
+                            }
+                            nhapnhay(winPositions, 'O');
+                            ve2();
+                        }
+                        AskContinue();
+                    }
+                    _TURN = !_TURN;
                 }
-                _TURN = !_TURN;
-            }
+            
         }
         else if (_COMMAND == 'R')
         {
             if (result == -1 || result == 1)
             {
                 GotoXY(xUndo, yUndo);
-                std::cout << " ";
+                txtColor(112);
+                cout << " ";
+                txtColor(116);
                 _TURN = !_TURN;
                 int row = (yUndo - TOP - 1) / 2;
                 int col = (xUndo - LEFT - 2) / 4;
@@ -164,7 +299,6 @@ void PlayGame(int k)
 void ResumeGame(int gameOption)
 {
     system("cls");
-    showCursor();
     ResetData();
     DrawBoard(BOARD_SIZE);
     
@@ -460,7 +594,6 @@ void MoveUp() {
 }
 void StartGame() {
     system("cls");
-    showCursor();
     ResetData();
     DrawBoard(BOARD_SIZE);
     PlayGame(0);
@@ -777,7 +910,6 @@ void PlaywithBot(int k) {
                     if (gameResult != 2) {
                         GotoXY(0, BOARD_SIZE * 2 + 2);
                         if (gameResult == 0) {
-                            cout << "Hoa nhau";
                             ve3();
                         }
                         else {

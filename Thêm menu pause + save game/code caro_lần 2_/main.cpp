@@ -1,7 +1,7 @@
 #include "Console.h"
 #include "Menu.h"
 #include "Game.h"
-
+//test
 int main() {
     PlayMusic("musicc.wav", L"music_bg");
     SetConsoleOutputCP(437);

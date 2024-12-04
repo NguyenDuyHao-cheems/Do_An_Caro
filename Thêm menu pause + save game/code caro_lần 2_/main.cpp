@@ -6,7 +6,7 @@ int main() {
     //PlayMusic("musicc.wav", L"music_bg");
     SetConsoleOutputCP(437);
     SetFontSize(8, 16);
-    setConsoleWindow(1600, 900);
+    setConsoleWindow(1680, 900);
     FixConsoleWindow();
     printMenu();
     system("pause");

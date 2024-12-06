@@ -125,24 +125,11 @@ void AskContinuePlaybot() {
 }
 void changeColorCursor(bool turn)
 {
-    if (turn) {
-        txtColor((7 << 4) | 4);
-
-        cout << "[";
-        GotoXY(_X + 1, _Y);
-        cout << "]";
-
-        txtColor(7);
-    }
-    if (!turn) {
-        txtColor((7 << 4) | 1);
-
-        cout << "[";
-        GotoXY(_X + 1, _Y);
-        cout << "]";
-
-        txtColor(7);
-    }
+    txtColor((7 << 4) | (turn ? 4 : 1)); 
+    cout << "[";                         
+    GotoXY(_X + 1, _Y);                  
+    cout << "]";                         
+    txtColor(7);
 }
 void PlayGame(int k) 
 {    
@@ -154,6 +141,7 @@ void PlayGame(int k)
         fprintf(tempFileWrite, "p ");
     }
     else tempFileWrite = fopen("Temporary.txt", "a");
+
     int prevX = _X, prevY = _Y;
     while (kt == 1) {
         if (!_TURN)
@@ -168,21 +156,25 @@ void PlayGame(int k)
         }
         int prevRow = (prevY - TOP - 1) / 2;
         int prevCol = (prevX - LEFT - 2) / 4;
-        GotoXY(prevX - 1, prevY);
-        if (_A[prevRow][prevCol].c == -1) {
-            txtColor((7 << 4) | 4);
-            cout << " X ";
+        if (prevX != _X || prevY != _Y)
+        {
+            GotoXY(prevX - 1, prevY);
+            if (_A[prevRow][prevCol].c == -1) {
+                txtColor((7 << 4) | 4);
+                cout << " X ";
+                txtColor(7);
+            }
+            else if (_A[prevRow][prevCol].c == 1) {
+                txtColor((7 << 4) | 1);
+                cout << " O ";
+                txtColor(7);
+            }
+            else {
+                cout << "   ";
+            }
             txtColor(7);
         }
-        else if (_A[prevRow][prevCol].c == 1) {
-            txtColor((7 << 4) | 1);
-            cout << " O ";
-            txtColor(7);
-        }
-        else {
-            cout <<"   ";
-        }
-        txtColor(7);
+        
         GotoXY(_X - 1, _Y);
         changeColorCursor(_TURN);
         
@@ -192,25 +184,25 @@ void PlayGame(int k)
         prevY = _Y;
             
         _COMMAND = toupper(_getch());
-        if (_COMMAND == 'A') {
+        if (_COMMAND == 'A'|| _COMMAND == 75) {
             MoveLeft();
             if (isMusicOn) {
                 PlayMove("move.wav", L"move_sound");
             }
         }
-        else if (_COMMAND == 'D') {
+        else if (_COMMAND == 'D'|| _COMMAND == 77) {
             MoveRight();
             if (isMusicOn) {
                 PlayMove("move.wav", L"move_sound");
             }
         }
-        else if (_COMMAND == 'W') {
+        else if (_COMMAND == 'W'|| _COMMAND == 72) {
             MoveUp();
             if (isMusicOn) {
                 PlayMove("move.wav", L"move_sound");
             }
         }
-        else if (_COMMAND == 'S') {
+        else if (_COMMAND == 'S'|| _COMMAND == 80) {
             MoveDown();
             if (isMusicOn) {
                 PlayMove("move.wav", L"move_sound");

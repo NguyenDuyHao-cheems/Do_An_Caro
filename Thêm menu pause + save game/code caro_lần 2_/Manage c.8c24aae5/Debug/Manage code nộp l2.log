@@ -1,4 +1,11 @@
-﻿  menu.cpp
+﻿  Board.cpp
+  console.cpp
+  game.cpp
+  main.cpp
+  menu.cpp
+C:\Users\HP\OneDrive - VNU-HCMUS\Documents\Visual Studio 2022\Do_an_caro_local_repos\Feature\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\menu.cpp(335,37): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\HP\OneDrive - VNU-HCMUS\Documents\Visual Studio 2022\Do_an_caro_local_repos\Feature\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\menu.cpp(336,36): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\HP\OneDrive - VNU-HCMUS\Documents\Visual Studio 2022\Do_an_caro_local_repos\Feature\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\menu.cpp(340,36): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
 C:\Users\HP\OneDrive - VNU-HCMUS\Documents\Visual Studio 2022\Do_an_caro_local_repos\Feature\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\menu.cpp(608,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 C:\Users\HP\OneDrive - VNU-HCMUS\Documents\Visual Studio 2022\Do_an_caro_local_repos\Feature\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\menu.cpp(612,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 C:\Users\HP\OneDrive - VNU-HCMUS\Documents\Visual Studio 2022\Do_an_caro_local_repos\Feature\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\menu.cpp(617,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
@@ -15,4 +22,9 @@ C:\Users\HP\OneDrive - VNU-HCMUS\Documents\Visual Studio 2022\Do_an_caro_local_r
 C:\Users\HP\OneDrive - VNU-HCMUS\Documents\Visual Studio 2022\Do_an_caro_local_repos\Feature\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\menu.cpp(705,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 C:\Users\HP\OneDrive - VNU-HCMUS\Documents\Visual Studio 2022\Do_an_caro_local_repos\Feature\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\menu.cpp(764,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 C:\Users\HP\OneDrive - VNU-HCMUS\Documents\Visual Studio 2022\Do_an_caro_local_repos\Feature\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\menu.cpp(780,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-  Manage code nộp l2.vcxproj -> C:\Users\HP\OneDrive - VNU-HCMUS\Documents\Visual Studio 2022\Do_an_caro_local_repos\Feature\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\x64\Debug\Manage code nộp l2.exe
+C:\Users\HP\OneDrive - VNU-HCMUS\Documents\Visual Studio 2022\Do_an_caro_local_repos\Feature\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\menu.cpp(1158,37): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\HP\OneDrive - VNU-HCMUS\Documents\Visual Studio 2022\Do_an_caro_local_repos\Feature\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\menu.cpp(1159,36): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\HP\OneDrive - VNU-HCMUS\Documents\Visual Studio 2022\Do_an_caro_local_repos\Feature\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\menu.cpp(1163,36): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  Generating Code...
+menu.obj : error LNK2019: unresolved external symbol __imp__mciSendStringW@16 referenced in function "void __cdecl PlayMo(char const *,wchar_t const *)" (?PlayMo@@YAXPBDPB_W@Z)
+C:\Users\HP\OneDrive - VNU-HCMUS\Documents\Visual Studio 2022\Do_an_caro_local_repos\Feature\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\Debug\Manage code nộp l2.exe : fatal error LNK1120: 1 unresolved externals

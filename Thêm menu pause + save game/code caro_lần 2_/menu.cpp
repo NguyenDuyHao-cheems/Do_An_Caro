@@ -170,7 +170,7 @@ void printMenu() {
     drawpoke(118, 22);
     drawpoke2(25, 22);
 
-    txtColor((15 << 4) | 0);
+    txtColor((15 << 4) | 4);
     Box(menu1_x + 3, menu1_y - 1, 19, 2);
     GotoXY(menu1_x + 5, menu1_y);
     cout << "    NEW GAME     " << endl;
@@ -332,12 +332,12 @@ void Setting() {
     cout << "Music ";
     DrawRoundedBox(x + 15, y + 3, 15, 3, 10);
     if (isMusicOn) {
-        DrawFull(x + 16, y + 4, 12, 0.95, 10, 32);
-        DrawFull(x + 27, y + 4, 1, 0.95, 136, 32);
+        DrawFull(x + 16, y + 4, 12, 0, 10, 32);
+        DrawFull(x + 27, y + 4, 1, 0, 136, 32);
     }
     else {
         DrawRoundedBox(x + 15, y + 3, 15, 3, 10);
-        DrawFull(x + 16, y + 4, 1, 0.95, 136, 32);
+        DrawFull(x + 16, y + 4, 1, 0, 136, 32);
     }
 
     GotoXY(x + 5, y + 7);
@@ -1155,12 +1155,12 @@ void SettingPause()
     cout << "Music ";
     DrawRoundedBox(x + 15, y + 3, 15, 3, 10);
     if (isMusicOn) {
-        DrawFull(x + 16, y + 4, 12, 0.95, 10, 32);
-        DrawFull(x + 27, y + 4, 1, 0.95, 136, 32);
+        DrawFull(x + 16, y + 4, 12, 0, 10, 32);
+        DrawFull(x + 27, y + 4, 1, 0, 136, 32);
     }
     else {
         DrawRoundedBox(x + 15, y + 3, 15, 3, 10);
-        DrawFull(x + 16, y + 4, 1, 0.95, 136, 32);
+        DrawFull(x + 16, y + 4, 1, 0, 136, 32);
     }
 
     GotoXY(x + 5, y + 7);

@@ -142,6 +142,10 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="..\musicc.wav" />
+    <Media Include="mo.wav" />
+    <Media Include="move.wav" />
+    <Media Include="tick.wav" />
+    <Media Include="win.wav" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="allSaveFiles.txt" />

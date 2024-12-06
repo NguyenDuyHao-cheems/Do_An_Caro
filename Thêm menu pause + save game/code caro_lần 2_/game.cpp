@@ -158,13 +158,13 @@ void PlayGame(int k)
     while (kt == 1) {
         if (!_TURN)
         {
-            DrawNotX(55, 1);
-            DrawIsO(91, 1);
+            DrawNotX(70, 1);
+            DrawIsO(91+15, 1);
         }
         else
         {
-            DrawIsX(55, 1);
-            DrawNotO(91, 1);
+            DrawIsX(70, 1);
+            DrawNotO(91+15, 1);
         }
         int prevRow = (prevY - TOP - 1) / 2;
         int prevCol = (prevX - LEFT - 2) / 4;

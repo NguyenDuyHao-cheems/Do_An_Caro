@@ -170,7 +170,7 @@ void printMenu() {
     drawpoke(118, 22);
     drawpoke2(25, 22);
 
-    txtColor((15 << 4) | 4);
+    txtColor((15 << 4) | 0);
     Box(menu1_x + 3, menu1_y - 1, 19, 2);
     GotoXY(menu1_x + 5, menu1_y);
     cout << "    NEW GAME     " << endl;

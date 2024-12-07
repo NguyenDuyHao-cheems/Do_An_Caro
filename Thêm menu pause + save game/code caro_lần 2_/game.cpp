@@ -15,7 +15,6 @@ int numSaveFile = getNumSaveFile(savefiles);
 char filename[MAX_FILE_LENGTH + 1] = "";
 FILE* tempFileWrite;
 FILE* allSaveFiles;
-
 void AskContinue() {
     if (isMusicOn) {
         PlayMo("mo.wav", L"mo_sound");
@@ -136,14 +135,8 @@ void PlayGame(int k)
 {    
     int kt = 1;
     int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 15;
-
-
-
-
     drawTableResult();
     TableResult(win_x, win_y, run_x, run_y);
-
-
     if (k == 0)
     {
         tempFileWrite = fopen("Temporary.txt", "w");
@@ -455,23 +448,7 @@ bool checkDuplicate(char filename[]) {
     }
     return false;
 }
-bool isValidName(char filename[])
-{
-    bool isValid = false;
-    int i = 0;
 
-    if (filename == "\0") return false;
-    while (filename[i] != '\0')
-    {
-        if (filename[i] != ' ')
-        {
-            isValid = true;
-            break;
-        }
-        i++;
-    }
-    return isValid;
-}
 bool isValidName(char filename[]) {
     if (filename[0] == '\0') return false;
     for (int i = 0; filename[i] != '\0'; i++) {
@@ -487,20 +464,20 @@ void writeTempToSF() {
             perror("Failed to open allSaveFiles.txt");
             return;
         }
-        tempFile = fopen("Temporary.txt", "r");
-        if (!tempFile) {
+        tempFileWrite = fopen("Temporary.txt", "r");
+        if (!tempFileWrite) {
             perror("Failed to open Temporary.txt");
             fclose(allSaveFiles);
             return;
         }
         fprintf(allSaveFiles, "%s\n", filename);
         char ch;
-        while ((ch = fgetc(tempFile)) != EOF) {
+        while ((ch = fgetc(tempFileWrite)) != EOF) {
             fputc(ch, allSaveFiles);
         }
         fputc('\n', allSaveFiles);
         fclose(allSaveFiles);
-        fclose(tempFile);
+        fclose(tempFileWrite);
     }
 
 bool checkWin(int row, int col, int winPositions[5][2]) {

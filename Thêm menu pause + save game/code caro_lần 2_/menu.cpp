@@ -170,6 +170,7 @@ void printMenu() {
     drawpoke(118, 22);
     drawpoke2(25, 22);
 
+
     txtColor((15 << 4) | 4);
     Box(menu1_x + 3, menu1_y - 1, 19, 2);
     GotoXY(menu1_x + 5, menu1_y);
@@ -221,26 +222,47 @@ void Box(int x, int y, int w, int h) {
 
 }
 void Help() {
+    system("cls");
+    system("color F0");
     if (isMusicOn) {
         PlayMo("mo.wav", L"mo_sound");
     }
-    int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 13;
+    int x = menu1_x - 15, y = menu1_y , w = 103, h = 15;
+    drawPinkBox(5, 2);
+    drawHowtoPlay(10, 6);
+
+    drawTable(10, 25);
     DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
     DrawFull(x, y, w, h, 195, 197);
     DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+    drawpoke(140, 2);
     int i = 2;
-    GotoXY(x + 20, y + 2);
+    GotoXY(20, y + 2);
+    txtColor((15 << 4) | 0);
     cout << "Control: ";
-    GotoXY(x + 5, y + 3 + i);
+    GotoXY( 15, y + 3-2 + i);
     cout << "W A S D: Move";
-    GotoXY(x + 5, y + 4 + i);
+    GotoXY( 15, y + 4 -1+ i);
     cout << "Enter: choose";
-    GotoXY(x + 5, y + 5 + i);
-    cout << "L: Save Game";
-    GotoXY(x + 5, y + 6 + i);
+    GotoXY( 15, y + 10 -1+ i);
+    cout << "Press Esc to turn back";
+    GotoXY( 15, y + 6 -1+ i);
     cout << "Esc: Pause game";
-    GotoXY(x + 5, y + 8 + i);
-    cout << "Press Esc to turn back the main Menu...";
+    GotoXY(15, y + 8 + i-1);
+    cout << "U: undo move";
+    txtColor((7<<4)|4);
+    GotoXY(x +30 , y + 2);
+    cout << " RULE ";
+    GotoXY(x+3, y + 4);
+    cout << "Objective: Be the first player to align 5 of your symbols (X or O) in a row, column, or diagonal.";
+    GotoXY(x +3, y + 6);
+    cout << "Players: Two players take turns placing their symbol (X or O) on the board.";
+    GotoXY(x+3 , y + 8);
+    cout << "The game ends when a player aligns 5 symbols consecutively.";
+    GotoXY(x +3, y + 10);
+    cout << "If the board is full with no winner, the game is a draw.";
+    GotoXY(x+3 , y + 12);
+    cout << "Undo (Optional): Players can undo their last move";
     while (1) {
         if (_getch() == 27) printMenu();
     }
@@ -1254,3 +1276,74 @@ void drawpoke2(int x, int y) {
         y++;
     }
 }
+void drawTable(int x, int y)
+{
+    char table[22][25] = {
+        "0000000000000000000     ",
+        "0FFFFFFFFFFFFFFFFFF0    ",
+        "0FFFFFFFFFFFFFFFFFFF0   ",
+        "0FFFFFFFFFFFFFFFFFFFF0  ",
+        "0FFFFFFFFFFFFFFFFFFFFF0 ",
+        "0FFFFFFFFFFFFFFFFFFFFFF0",
+        "0FFFFFFFFFFFFFFFFFFFFFF0",
+        "0FFFFFFFFFFFFFFFFFFFFFF0",
+        "0FFFFFFFFFFFFFFFFFFFFF0 ",
+        "0FFFFFFFFFFFFFFFFFFFF0  ",
+        "0FFFFFFFFFFFFFFFFFFF0   ",
+        "0FFFFFFFFFFFFFFFFFF0    ",
+        "0000000000000000000     ",
+        "       00               ",
+        "       00               ",
+        "       00               ",
+        "       00               ",
+        "       00               ",
+        "       00               ",
+        "       00               ",
+        "       00               " };
+    for (int i = 0; i <= 21; i++)
+    {
+        DrawLine(table[i], 25, x, y);
+        y++;
+    }
+}
+void drawHowtoPlay(int x, int y)
+{
+    char howtoPlay[5][63] = {
+        "F  F   FF   F   F    FFFFF   FF     FFFF   F      FFFF   F   F",
+        "F  F  F  F  F F F      F    F  F    F   F  F     F    F  F   F",
+        "FFFF  F  F  F F F      F    F  F    F   F  F     FFFFFF   F F ",
+        "F  F  F  F  F F F      F    F  F    FFFF   F     F    F    F  ",
+        "F  F   FF    F F       F     FF     F      FFFF  F    F    F  " };
+    for (int i = 0; i <= 4; i++)
+    {
+        DrawLine(howtoPlay[i], 63, x, y);
+        y++;
+    }
+
+
+}
+void drawPinkBox(int x, int y)
+{
+    char pinkBox[13][67] = {
+        "   000000000000000000000000000000000000000000000000000000000000   ",
+        "  0BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB0  ",
+        " 0BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB0 ",
+        "0BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB0",
+        "0BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB0",
+        "0BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB0",
+        "0BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB0",
+        "0BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB0",
+        "0BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB0",
+        "0BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB0",
+        " 0BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB0 ",
+        "  0BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB0  ",
+        "   000000000000000000000000000000000000000000000000000000000000   " };
+    for (int i = 0; i < 13; i++)
+    {
+        DrawLine(pinkBox[i], 67, x, y);
+        y++;
+    }
+        
+    
+}
+

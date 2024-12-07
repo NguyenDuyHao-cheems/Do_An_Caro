@@ -28,6 +28,12 @@ void DrawNotO(int x, int y);
 void DrawIsO(int x, int y);
 void drawpoke(int x, int y);
 void drawpoke2(int x, int y);
+void drawTable(int x, int y);
+void drawHowtoPlay(int x, int y);
+void drawPinkBox(int x, int y);
+
+
+
 
 void PauseMenu();
 void PauseSelection(int option);

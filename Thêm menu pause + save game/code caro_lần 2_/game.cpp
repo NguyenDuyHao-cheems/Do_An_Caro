@@ -13,7 +13,7 @@ int result;
 char savefiles[MAX_FILE_SAVE][MAX_FILE_LENGTH + 1] = { "" };
 int numSaveFile = getNumSaveFile(savefiles);
 char filename[MAX_FILE_LENGTH + 1] = "";
-FILE* tempFileWrite;
+FILE* tempFile;
 FILE* allSaveFiles;
 void AskContinue() {
     if (isMusicOn) {
@@ -139,10 +139,10 @@ void PlayGame(int k)
     TableResult(win_x, win_y, run_x, run_y);
     if (k == 0)
     {
-        tempFileWrite = fopen("Temporary.txt", "w");
-        fprintf(tempFileWrite, "p ");
+        tempFile = fopen("Temporary.txt", "w");
+        fprintf(tempFile, "p ");
     }
-    else tempFileWrite = fopen("Temporary.txt", "a");
+    else tempFile = fopen("Temporary.txt", "a");
 
     int prevX = _X, prevY = _Y;
     while (kt == 1) {
@@ -223,15 +223,15 @@ void PlayGame(int k)
                         txtColor((15 << 4) | 4);
                         cout << "X";
                         _A[row][col].c = -1;
-                        fprintf(tempFileWrite, "X(%d,%d) ", _X, _Y);
+                        fprintf(tempFile, "X(%d,%d) ", _X, _Y);
                     }
                     else {
                         txtColor((15 << 4) | 1);
                         cout << "O";
                         _A[row][col].c = 1;
-                        fprintf(tempFileWrite, "O(%d,%d) ", _X, _Y);
+                        fprintf(tempFile, "O(%d,%d) ", _X, _Y);
                     }
-                    fflush(tempFileWrite);
+                    fflush(tempFile);
                     xUndo = _X;
                     yUndo = _Y;
                     int winPositions[5][2];
@@ -292,8 +292,8 @@ void PlayGame(int k)
                 TableResult(win_x, win_y, run_x, run_y);
                 _A[row][col].c = 0;
                 result = 0;
-                fprintf(tempFileWrite, "U(%d,%d) ", xUndo, yUndo);
-                fflush(tempFileWrite);
+                fprintf(tempFile, "U(%d,%d) ", xUndo, yUndo);
+                fflush(tempFile);
             }
             GotoXY(_X, _Y);
         }
@@ -304,7 +304,7 @@ void PlayGame(int k)
         }
         TableResult(win_x, win_y, run_x, run_y);
     }
-    fclose(tempFileWrite);
+    fclose(tempFile);
 }
 // pause function
 void ResumeGame(int gameOption)
@@ -464,20 +464,20 @@ void writeTempToSF() {
             perror("Failed to open allSaveFiles.txt");
             return;
         }
-        tempFileWrite = fopen("Temporary.txt", "r");
-        if (!tempFileWrite) {
+        tempFile = fopen("Temporary.txt", "r");
+        if (!tempFile) {
             perror("Failed to open Temporary.txt");
             fclose(allSaveFiles);
             return;
         }
         fprintf(allSaveFiles, "%s\n", filename);
         char ch;
-        while ((ch = fgetc(tempFileWrite)) != EOF) {
+        while ((ch = fgetc(tempFile)) != EOF) {
             fputc(ch, allSaveFiles);
         }
         fputc('\n', allSaveFiles);
         fclose(allSaveFiles);
-        fclose(tempFileWrite);
+        fclose(tempFile);
     }
 
 bool checkWin(int row, int col, int winPositions[5][2]) {
@@ -615,7 +615,7 @@ void loadGameState(char filename[])
     DrawBoard(BOARD_SIZE);
 
     allSaveFiles = fopen("allSaveFiles.txt", "rt");
-    tempFileWrite = fopen("Temporary.txt", "wt");
+    tempFile = fopen("Temporary.txt", "wt");
     if (!allSaveFiles)
     {
         cerr << "Error opening save files!";
@@ -632,11 +632,11 @@ void loadGameState(char filename[])
         saveMove[strcspn(saveMove, "\n")] = '\0';
     }
     buffer = fscanf(allSaveFiles, "\n%c ", &gameMode);
-    fprintf(tempFileWrite, "%c ", gameMode);
+    fprintf(tempFile, "%c ", gameMode);
     while (fscanf(allSaveFiles, "%c(%d,%d) ", &posXO, &posX, &posY) != EOF)
     {
         if (posXO != 'X' && posXO != 'O' && posXO != 'U') break;
-        fprintf(tempFileWrite, "%c(%d,%d) ", posXO, posX, posY);
+        fprintf(tempFile, "%c(%d,%d) ", posXO, posX, posY);
         int row = (posY - TOP - 1) / 2;
         int col = (posX - LEFT - 2) / 4;
         GotoXY(posX, posY);
@@ -663,7 +663,7 @@ void loadGameState(char filename[])
         }
     }
     fclose(allSaveFiles);
-    fclose(tempFileWrite);
+    fclose(tempFile);
 
     int xCount = 0, oCount = 0;
     for (int i = 0; i < BOARD_SIZE; i++)
@@ -829,10 +829,10 @@ void PlaywithBot(int k) {
 
     if (k == 0)
     {
-        tempFileWrite = fopen("Temporary.txt", "w");
-        fprintf(tempFileWrite, "b ");
+        tempFile = fopen("Temporary.txt", "w");
+        fprintf(tempFile, "b ");
     }
-    else tempFileWrite = fopen("Temporary.txt", "a");
+    else tempFile = fopen("Temporary.txt", "a");
 
     while (kt == 1) {
         if (!_TURN)
@@ -882,8 +882,8 @@ void PlaywithBot(int k) {
                     GotoXY(_X, _Y);
                     txtColor(FOREGROUND_RED | FOREGROUND_INTENSITY | BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE);
                     cout << 'X';
-                    fprintf(tempFileWrite, "X(%d,%d) ", _X, _Y);
-                    fflush(tempFileWrite);
+                    fprintf(tempFile, "X(%d,%d) ", _X, _Y);
+                    fflush(tempFile);
                     xUndo = _X;
                     yUndo = _Y;
                     int row = (_Y - TOP - 1) / 2;
@@ -934,8 +934,8 @@ void PlaywithBot(int k) {
                             int col = (xUndo - LEFT - 2) / 4;
                             _A[row][col].c = 0;
                             result = 0;
-                            fprintf(tempFileWrite, "U(%d,%d) ", xUndo, yUndo);
-                            fflush(tempFileWrite);
+                            fprintf(tempFile, "U(%d,%d) ", xUndo, yUndo);
+                            fflush(tempFile);
                         }
                         GotoXY(_X, _Y);
                         _TURN = !_TURN;
@@ -951,8 +951,8 @@ void PlaywithBot(int k) {
                     GotoXY(pX, pY);
                     txtColor(FOREGROUND_BLUE | FOREGROUND_INTENSITY | BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE);
                     cout << 'O';
-                    fprintf(tempFileWrite, "O(%d,%d) ", pX, pY);
-                    fflush(tempFileWrite);
+                    fprintf(tempFile, "O(%d,%d) ", pX, pY);
+                    fflush(tempFile);
                     int row = (pY - TOP - 1) / 2;
                     int col = (pX - LEFT - 2) / 4;
                     int winPositions[5][2];
@@ -987,7 +987,7 @@ void PlaywithBot(int k) {
             }
         }
     }
-    fclose(tempFileWrite);
+    fclose(tempFile);
 }
 // hieu ung noi bat chuoi x hoac o
 void nhapnhay(const int winPositions[5][2], char symbol) {

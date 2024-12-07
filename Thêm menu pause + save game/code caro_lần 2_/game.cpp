@@ -319,55 +319,42 @@ void ResumeGame(int gameOption)
     system("cls");
     ResetData();
     DrawBoard(BOARD_SIZE);
-    
     char playMode, posXO;
-    int posX = 0, posY = 0, buffer;
+    int posX = 0, posY = 0;
     FILE* tempFileRead = fopen("Temporary.txt", "rt");
-    if (!tempFileRead)
-    {
+    if (!tempFileRead) {
         cerr << "Error opening temporary save files!";
         return;
     }
-
-    buffer = fscanf(tempFileRead, "%c ", &playMode);
-    while (fscanf(tempFileRead, "%c(%d,%d) ", &posXO, &posX, &posY) != EOF)
-    {
+    if (fscanf(tempFileRead, "%c ", &playMode) != 1) {
+        fclose(tempFileRead);
+        cerr << "Error reading play mode!";
+        return;
+    }
+    int xCount = 0, oCount = 0;
+    while (fscanf(tempFileRead, "%c(%d,%d) ", &posXO, &posX, &posY) != EOF) {
         int row = (posY - TOP - 1) / 2;
         int col = (posX - LEFT - 2) / 4;
         GotoXY(posX, posY);
-        if (posXO == 'X')
-        {
-            txtColor((15 << 4) | 4);
-            cout << "X";
+        if (posXO == 'X') {
+            txtColor((7 << 4) | 4); cout << "X";
             _A[row][col].c = -1;
-            xUndo = posX;
-            yUndo = posY;
+            xCount++;
+            xUndo = posX; yUndo = posY;
         }
-        else if (posXO == 'O')
-        {
-            txtColor((15 << 4) | 1);
+        else if (posXO == 'O') {
+            txtColor(FOREGROUND_BLUE | BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE);
             cout << "O";
             _A[row][col].c = 1;
-            xUndo = posX;
-            yUndo = posY;
+            oCount++;
+            xUndo = posX; yUndo = posY;
         }
-        else if (posXO == 'U')
-        {
+        else if (posXO == 'U') {
             cout << " ";
             _A[row][col].c = 0;
         }
     }
     fclose(tempFileRead);
-    
-    int xCount = 0, oCount = 0;
-    for (int i = 0; i < BOARD_SIZE; i++)
-    {
-        for (int j = 0; j < BOARD_SIZE; j++)
-        {
-            if (_A[i][j].c == -1) xCount++;
-            else if (_A[i][j].c == 1) oCount++;
-        }
-    }
     _TURN = (xCount > oCount) ? false : true;
     if (playMode == 'p') PlayGame(1);
     else if (playMode == 'b') PlaywithBot(1);
@@ -376,30 +363,26 @@ void ResumeGame(int gameOption)
 }
 void SaveGameName()
 {
-    int x = menu1_x - 15 + 10, y = menu1_y - 12 + 5;
+    int x = menu1_x - 5, y = menu1_y - 7;
     GotoXY(x + 7, y + 6);
     int i = 0;
-    while (true)
-    {
-        if (_kbhit())
-        {
+    while (true) {
+        if (_kbhit()) {
             char key = _getch();
-            if (key == 27) PauseMenu();
-            else if (key == '\r')
-            {
+            if (key == 27) {
+                PauseMenu();
+                return;
+            }
+            if (key == '\r') {
                 filename[i] = '\0';
                 break;
             }
-            else if (key == '\b')
-            {
-                if (i > 0)
-                {
-                    i--;
-                    cout << "\b \b";
-                }
+            if (key == '\b' && i > 0) {
+                i--;
+                cout << "\b \b";
+                continue;
             }
-            else if (i < MAX_FILE_LENGTH - 1)
-            {
+            if (i < MAX_FILE_LENGTH - 1 && key != '\b') {
                 txtColor(14);
                 cout << key;
                 txtColor(116);
@@ -407,51 +390,43 @@ void SaveGameName()
             }
         }
     }
-    if (!isValidName(filename)) 
-    {
+    if (!isValidName(filename)) {
         GotoXY(x + 9, y + 8);
         cout << "Invalid input!";
         GotoXY(x + 7, y + 6);
-        cout << "                  ";
+        cout << string(MAX_FILE_LENGTH, ' ');
+        return;
     }
-    else if (checkDuplicate(filename))
-    {
+    if (checkDuplicate(filename)) {
         duplicateNameMenu();
-        while (char command = _getch())
-        {
-            if (command == 27)
-            {
+        while (true) {
+            char command = _getch();
+            if (command == 27) {
                 SaveGameMenu();
-                break;
+                return;
             }
         }
     }
-    else 
-    {
-        if (numSaveFile < MAX_FILE_SAVE)
-        {
-            SaveSuccessMenu();
-            strcpy(savefiles[numSaveFile++ - 1], filename);
-            writeTempToSF();
-            numSaveFile = getNumSaveFile(savefiles);
-            while (char command = _getch())
-            {
-                if (command == 27)
-                {
-                    PauseMenu();
-                    break;
-                }
+    if (numSaveFile < MAX_FILE_SAVE) {
+        SaveSuccessMenu();
+        strcpy(savefiles[numSaveFile++ - 1], filename);
+        writeTempToSF();
+        numSaveFile = getNumSaveFile(savefiles);
+        while (true) {
+            char command = _getch();
+            if (command == 27) {
+                PauseMenu();
+                return;
             }
         }
-        else {
-            maxNumSFMenu();
-            while (char command = _getch())
-            {
-                if (command == 27)
-                {
-                    PauseMenu();
-                    break;
-                }
+    }
+    else {
+        maxNumSFMenu();
+        while (true) {
+            char command = _getch();
+            if (command == 27) {
+                PauseMenu();
+                return;
             }
         }
     }
@@ -459,31 +434,26 @@ void SaveGameName()
 int getNumSaveFile(char savefiles[][MAX_FILE_LENGTH + 1])
 {
     int count = 0;
-    char buffer[5000];
+    char buffer[2000];
     char ch[20];
     allSaveFiles = fopen("allSaveFiles.txt", "rt");
     
-    while (fgets(ch, 20, allSaveFiles) != NULL)
+    while (fgets(ch, MAX_FILE_LENGTH + 1, allSaveFiles) != NULL)
     {
         ch[strcspn(ch, "\n")] = '\0';
         strcpy(savefiles[count++], ch);
-        fgets(buffer, 5000, allSaveFiles);
+        fgets(buffer, sizeof(buffer), allSaveFiles);
     }
     fclose(allSaveFiles);
     return count;
 }
-bool checkDuplicate(char filename[])
-{
-    bool isDuplicate = false;
-    for (int i = 0; i < MAX_FILE_SAVE; i++)
-    {
-        if (strcmp(filename, savefiles[i]) == 0)
-        {
-            isDuplicate = true;
-            break;
+bool checkDuplicate(char filename[]) {
+    for (int i = 0; i < MAX_FILE_SAVE; i++) {
+        if (strcmp(filename, savefiles[i]) == 0) {
+            return true;
         }
     }
-    return isDuplicate;
+    return false;
 }
 bool isValidName(char filename[])
 {
@@ -502,18 +472,36 @@ bool isValidName(char filename[])
     }
     return isValid;
 }
-void writeTempToSF()
-{
-    allSaveFiles = fopen("allSaveFiles.txt", "a");
-    tempFileWrite = fopen("Temporary.txt", "r");
-    
-    fprintf(allSaveFiles, "%s\n", filename);
-    char ch;
-    while ((ch = fgetc(tempFileWrite)) != EOF) fputc(ch, allSaveFiles);
-    fprintf(allSaveFiles, "\n");
-    fclose(allSaveFiles);
-    fclose(tempFileWrite);
+bool isValidName(char filename[]) {
+    if (filename[0] == '\0') return false;
+    for (int i = 0; filename[i] != '\0'; i++) {
+        if (filename[i] != ' ') {
+            return true;
+        }
+    }
+    return false;
 }
+void writeTempToSF() {
+        allSaveFiles = fopen("allSaveFiles.txt", "a");
+        if (!allSaveFiles) {
+            perror("Failed to open allSaveFiles.txt");
+            return;
+        }
+        tempFile = fopen("Temporary.txt", "r");
+        if (!tempFile) {
+            perror("Failed to open Temporary.txt");
+            fclose(allSaveFiles);
+            return;
+        }
+        fprintf(allSaveFiles, "%s\n", filename);
+        char ch;
+        while ((ch = fgetc(tempFile)) != EOF) {
+            fputc(ch, allSaveFiles);
+        }
+        fputc('\n', allSaveFiles);
+        fclose(allSaveFiles);
+        fclose(tempFile);
+    }
 
 bool checkWin(int row, int col, int winPositions[5][2]) {
     int current = _A[row][col].c;

@@ -623,117 +623,44 @@ void DrawIsO(int x, int y)
 }
 // ve x win hoac o win
 void ve() {
-    int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 15;
-    DrawFull(30, 8, w + 12, 10, 31, 32);
-    float i = 32;
-    for (int j = 10; j < 18; j++) {
-        DrawFull(i, j, 1, 0, 255, 32);
-        i += 1;
+    int x = 40, y = menu1_y + 8;
+    int w = 75, h = 12;
+    DrawFull(x - 4, y - 2, w, h, 240, 32);
+    char win_X[9][35] = {
+        "CC     CC    EEE   444 EE 44    EE",
+        "CE6   6EC    4C     C4 C4 4C4   C4",
+        " 6E6 6E6     CC     CC C4 CCC4  CC",
+        "  6E6E6      CC  4  CC C4 CCCC4 CC",
+        "   6E6    6  CC CCC CC C4 CC4CC4CC",
+        "  6E6E6      CCCC4CCCC C4 CC 4CCCC",
+        " 6E6 6E6     4CC4 4CC4 C4 4C  4CC4",
+        "CE6   6EC    4C4   4C4 C4 4C   4C4",
+        "CC     CC    44     44 44 44    44"
+    };
+    for (int i = 0; i < 9; i++) {
+        DrawLine(win_X[i], 34, x, y);
+        y++;
     }
-    for (int j = 10; j < 18; j++) {
-        DrawFull(i, j, 1, 0, 255, 32);
-        i -= 1;
-    }
-    float i1 = 48;
-    for (int j = 10; j < 18; j++) {
-        DrawFull(i1, j, 1, 0, 255, 32);
-        i1 += 0.5;
-    }
-    for (int j = 17; j > 12; j--) {
-        DrawFull(i1, j, 1, 0, 255, 32);
-        i1 += 1;
-    }
-    int h1 = i1;
-    for (int j = 13; j < 18; j++) {
-        DrawFull(h1, j, 1, 0, 255, 32);
-        h1 += 1;
-    }
-    float h2 = 65;
-    for (int j = 11; j < 18; j++) {
-        DrawFull(h2, j, 1, 0, 255, 32);
-        h2 -= 0.5;
-    }
-    DrawFull(65, 10, 1, 0, 255, 32);
-    for (int j = 10; j < 18; j++) {
-        DrawFull(69, j, 1, 0, 255, 32);
-    }
-    for (int j = 10; j < 18; j++) {
-        DrawFull(73, j, 1, 0, 255, 32);
-    }
-    float m = 74.5;
-    for (int j = 10; j < 18; j++) {
-        DrawFull(m, j, 1, 0, 255, 32);
-        m += 2;
-    }
-    for (int j = 10; j < 18; j++) {
-        DrawFull(89, j, 1, 0, 255, 32);
-    }
-    cout << endl;
 }
 void ve2() {
-    int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 15;
-    DrawFull(30, 8, w + 12, 10, 31, 32);
-
-    for (int h = 37; h < 41; h++) {
-        DrawFull(h, 10, 1, 0, 255, 32);
+    int x = 40, y = menu1_y + 8;
+    int w = 74, h = 12;
+    DrawFull(x - 4, y - 2, w, h, 240, 32);
+    char win_Y[9][34] = {
+        "  111       BBB   111 BB 11    BB",
+        " 13331      13     31 31 131   31",
+        "133 331     13     33 31 3331  33",
+        "13   31     33  1  33 31 33331 33",
+        "13 B 31  B  33 333 33 31 33133133",
+        "13   31     333313333 31 33 13333",
+        "133 331     1331 1331 31 13  1331",
+        " 13331      131   131 31 13   131",
+        "  111       11     11 11 11    11"
+    };
+    for (int i = 0; i < 9; i++) {
+        DrawLine(win_Y[i], 34, x, y);
+        y++;
     }
-    for (int h2 = 36; h2 < 41; h2++) {
-        DrawFull(h2, 17, 1, 0, 255, 32);
-    }
-    for (int hn = 12; hn < 16; hn++) {
-        DrawFull(33, hn, 1, 0, 255, 32);
-    }
-    for (int hn = 12; hn < 16; hn++) {
-        DrawFull(43, hn, 1, 0, 255, 32);
-    }
-    int hj = 10;
-    for (float h = 36.75; h > 35; h--) {
-        DrawFull(h, hj, 1, 0, 255, 32);
-        hj++;
-    }
-    int hl = 10;
-    for (float h = 40.75; h < 42; h++) {
-        DrawFull(h, hl, 1, 0, 255, 32);
-        hl++;
-    }
-    float i1 = 48;
-    for (int j = 10; j < 18; j++) {
-        DrawFull(i1, j, 1, 0, 255, 32);
-        i1 += 0.5;
-    }
-    for (int j = 17; j > 12; j--) {
-        DrawFull(i1, j, 1, 0, 255, 32);
-        i1 += 1;
-    }
-    int h1 = i1;
-    for (int j = 13; j < 18; j++) {
-        DrawFull(h1, j, 1, 0, 255, 32);
-        h1 += 1;
-    }
-    float h2 = 65;
-    for (int j = 11; j < 18; j++) {
-        DrawFull(h2, j, 1, 0, 255, 32);
-        h2 -= 0.5;
-    }
-    DrawFull(65, 10, 1, 0, 255, 32);
-    for (int j = 10; j < 18; j++) {
-        DrawFull(69, j, 1, 0, 255, 32);
-    }
-    for (int j = 10; j < 18; j++) {
-        DrawFull(73, j, 1, 0, 255, 32);
-    }
-    float m = 74.5;
-    for (int j = 10; j < 18; j++) {
-        DrawFull(m, j, 1, 0, 255, 32);
-        m += 2;
-    }
-    for (int j = 10; j < 18; j++) {
-        DrawFull(89, j, 1, 0, 255, 32);
-    }
-
-    DrawFull(34, 16, 1, 0, 255, 32);
-    DrawFull(42, 16, 1, 0, 255, 32);
-
 }
 void ve3() {
     int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 15;

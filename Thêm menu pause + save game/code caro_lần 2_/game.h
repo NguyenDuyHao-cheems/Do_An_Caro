@@ -4,6 +4,7 @@
 #define MAX_FILE_LENGTH 15
 #define MAX_FILE_SAVE 10
 
+
 #include "Board.h"
 #include "Console.h"
 extern bool isMusicOn;
@@ -41,3 +42,7 @@ bool checkDuplicate(char filename[]);
 int getNumSaveFile(char savefiles[][MAX_FILE_LENGTH + 1]);
 bool isValidName(char filename[]);
 void writeTempToSF();
+
+void TableResult(int& win_x, int& win_y, int& run_x, int& run_y);
+void drawTableResult();
+

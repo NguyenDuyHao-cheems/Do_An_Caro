@@ -23,21 +23,18 @@ void ResetData() {
 
 void DrawBoard(int pSize) {
     for (int i = 1; i <= pSize * 4 - 1; i++) {
-        Sleep(5);
         for (int j = 0; j <= pSize; j++) {
             GotoXY(LEFT + i, TOP + 2 * j);
             cout << char(205);
         }
     }
     for (int i = 1; i <= pSize - 1; i++) {
-        Sleep(10);
         for (int j = 1; j <= pSize - 1; j++) {
             GotoXY(LEFT + 4 * i, TOP + 2 * j);
             cout << char(206);
         }
     }
     for (int i = 0; i <= pSize; i++) {
-        Sleep(15);
         for (int j = 1; j <= pSize; j++) {
             GotoXY(LEFT + 4 * i, TOP + 2 * j - 1);
             cout << char(186);
@@ -69,7 +66,7 @@ void DrawBoard(int pSize) {
     GotoXY(LEFT, TOP + BOARD_SIZE * 2); cout << char(200);
     GotoXY(LEFT + pSize * 4, TOP + BOARD_SIZE * 2); cout << char(188);
     GotoXY(LEFT + pSize * 4, TOP); cout << char(187);
-    system("color 74");
+    system("color F4");
 }
 
 int CheckBoard(int pX, int pY) {

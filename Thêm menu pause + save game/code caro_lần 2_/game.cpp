@@ -15,6 +15,9 @@ int numSaveFile = getNumSaveFile(savefiles);
 char filename[MAX_FILE_LENGTH + 1] = "";
 FILE* tempFile;
 FILE* allSaveFiles;
+int optionSF = 1;
+int newGame = -1;
+
 void AskContinue() {
     if (isMusicOn) {
         PlayMo("mo.wav", L"mo_sound");
@@ -479,7 +482,92 @@ void writeTempToSF() {
         fclose(allSaveFiles);
         fclose(tempFile);
     }
-
+void SaveGameMenu()
+{
+    if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
+    int x = menu1_x - 15 + 10, y = menu1_y - 12 + 5, w = 30, h = 10;
+    DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+    DrawFull(x, y, w, h, 195, 197);
+    DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+    if (newGame)
+    {
+        GotoXY(x + 6, y + 2); cout << "NAME YOUR SAVE FILE:";
+        txtColor(112);
+        GotoXY(x + 6, y + 3); cout << "( <= 14 characters )";
+        GotoXY(x + 5, y + 9); cout << "Press Esc to go back.";
+        txtColor(116);
+        DrawRoundedBox(x + 3, y + 5, 25, 3, 0);
+        while (true)
+        {
+            SaveGameName();
+            if (toupper(_getch()) == 27) break;
+        }
+    }
+    else confirmOverwrite();
+}
+void confirmOverwrite()
+{
+    int x = menu1_x - 7, y = menu1_y - 8, w = 35, h = 7;
+    int kt = 1;
+    txtColor(112);
+    GotoXY(x + 8, y + 8); cout << "Yes";
+    GotoXY(x + 24, y + 8); cout << "No";
+    GotoXY(x + 10, y + 4); cout << "THIS ACTION IS";
+    GotoXY(x + 11, y + 5); cout << "IRREVERSIBLE!";
+    txtColor(116);
+    GotoXY(x + 13, y + 3); cout << "WARNINGS:";
+    GotoXY(x + 5, y + 8); cout << "->";
+    GotoXY(x + 13, y + 8); cout << "<-";
+    while (kt == 1) {
+        char c = toupper(_getch());
+        if (c == 'A' || c == 'D' || c == 75 || c == 77) {
+            GotoXY(x + 5, y + 8); cout << "  ";
+            GotoXY(x + 13, y + 8); cout << "  ";
+            if (x == menu1_x - 7) x = menu1_x + 8;
+            else if (x == menu1_x + 8) x = menu1_x - 7;
+            if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
+            GotoXY(x + 5, y + 8); cout << "->";
+            GotoXY(x + 13, y + 8); cout << "<-";
+        }
+        else if (c == 27) {
+            PauseMenu();
+            kt = 0;
+        }
+        else if (c == 13) 
+        {
+            if (x == menu1_x - 7) {
+                overwriteSF();
+                PauseMenu();
+                break;
+            }
+            else if (x == menu1_x + 8) {
+                PauseMenu();
+                break;
+            }
+        }
+    }
+}
+void overwriteSF()
+{
+    strcpy(filename, savefiles[optionSF - 1]);
+    writeTempToSF();
+    char* buffer = new char[2000];
+    tempFile = fopen("Temporary.txt", "r");
+    if (!tempFile) {
+        if (tempFile) fclose(tempFile);
+        cerr << "Error opening file.";
+        return;
+    }
+    fgets(buffer, 2000, tempFile);
+    fclose(tempFile);
+    deleteSaveFile(savefiles[optionSF - 1]);
+    numSaveFile = getNumSaveFile(savefiles);
+    optionSF = numSaveFile;
+    tempFile = fopen("Temporary.txt", "w");
+    fputs(buffer, tempFile);
+    fclose(tempFile);
+    delete[] buffer;
+}
 bool checkWin(int row, int col, int winPositions[5][2]) {
     int current = _A[row][col].c;
     if (current == 0) return false;
@@ -579,6 +667,7 @@ void StartGame() {
     system("cls");
     ResetData();
     DrawBoard(BOARD_SIZE);
+    newGame = true;
     PlayGame(0);
 }
 void StartGamewithbot() {
@@ -586,6 +675,7 @@ void StartGamewithbot() {
     showCursor();
     ResetData();
     DrawBoard(BOARD_SIZE);
+    newGame = true;
     PlaywithBot(0);
 }
 // hide, unhide cursor
@@ -621,7 +711,8 @@ void loadGameState(char filename[])
         cerr << "Error opening save files!";
         return;
     }
-    char saveName[MAX_FILE_LENGTH + 1], saveMove[5000] = "", posXO, gameMode;
+    char saveName[MAX_FILE_LENGTH + 1], posXO, gameMode;
+    char* saveMove = new char[5000];
     int posX = 0, posY = 0, buffer;
 
     while (fgets(saveName, MAX_FILE_LENGTH + 1, allSaveFiles) != NULL)
@@ -675,14 +766,129 @@ void loadGameState(char filename[])
         }
     }
     _TURN = (xCount > oCount) ? false : true;
+    newGame = false;
+    delete[] saveMove;
     if (gameMode == 'p') PlayGame(1);
     else if (gameMode == 'b') PlaywithBot(1);
+}
+void deleteSaveFile(char* filename)
+{
+    tempFile = fopen("Temporary.txt", "w+");
+    allSaveFiles = fopen("allSaveFiles.txt", "r");
+    char *buffer = new char [2000];
+    char ch;
+    if (!tempFile || !allSaveFiles) {
+        cerr << "Error opening file.";
+        fclose(tempFile);
+        fclose(allSaveFiles);
+        delete[] buffer;
+        return;
+    }
+    for (int i = 0; i < 2 * (optionSF - 1); i++) {
+        if (fgets(buffer, 2000, allSaveFiles)) fputs(buffer, tempFile);
+    }
+    fgets(buffer, 2000, allSaveFiles);
+    fgets(buffer, 2000, allSaveFiles);
+    while (fgets(buffer, 2000, allSaveFiles)) fputs(buffer, tempFile);
+    allSaveFiles = fopen("allSaveFiles.txt", "w+");
+    rewind(tempFile);
+    while (fgets(buffer, 2000, tempFile)) fputs(buffer, allSaveFiles);
+    fflush(tempFile);
+    fflush(allSaveFiles);
+    fclose(tempFile);
+    fclose(allSaveFiles);
+    delete[] buffer;
+    numSaveFile = getNumSaveFile(savefiles);
+}
+void confirmMenu()
+{
+    int x = menu1_x - 7, y = menu1_y - 8, w = 35, h = 7, kt = 1;
+    DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+    DrawFull(x, y, w, h, 195, 197);
+    DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+    txtColor(112);
+    GotoXY(x + 7, y + 5); cout << "Yes";
+    GotoXY(x + 25, y + 5); cout << "No";
+    GotoXY(x + 4, y + 3); cout << "THIS ACTION IS IRREVERSIBLE!";
+    txtColor(116);
+    GotoXY(x + 13, y + 2); cout << "WARNINGS:";
+    GotoXY(x + 4, y + 5); cout << "->";
+    GotoXY(x + 11, y + 5); cout << "<-";
+    while (kt == 1) {
+        char c = toupper(_getch());
+        if (c == 'A' || c == 'D' || c == 75 || c == 77) {
+            GotoXY(x + 4, y + 5); cout << "  ";
+            GotoXY(x + 11, y + 5); cout << "  ";
+            if (x == menu1_x - 7) x = menu1_x + 11;
+            else if (x == menu1_x + 11) x = menu1_x - 7;
+            if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
+            GotoXY(x + 4, y + 5); cout << "->";
+            GotoXY(x + 11, y + 5); cout << "<-";
+        }
+        else if (c == 27) {
+            loadOrDeleteMenu();
+            kt = 0;
+        }
+        else if (c == 13) {
+            if (x == menu1_x - 7) {
+                deleteSaveFile(savefiles[optionSF - 1]);
+                LoadGame();
+                break;
+            }
+            else if (x == menu1_x + 11) {
+                loadOrDeleteMenu();
+                break;
+            }
+        }
+    }
+}
+void loadOrDeleteMenu()
+{
+    int x = menu1_x - 7, y = menu1_y - 8, w = 35, h = 7;
+    int kt = 1;
+    DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+    DrawFull(x, y, w, h, 195, 197);
+    DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+    txtColor(112);
+    GotoXY(x + 8, y + 3); cout << "Load";
+    GotoXY(x + 22, y + 3); cout << "Delete";
+    txtColor(116);
+    GotoXY(x + 8, y + 5); cout << "Press Esc to go back.";
+    GotoXY(x + 4, y + 3); cout << "->";
+    GotoXY(x + 14, y + 3); cout << "<-";
+    while (kt == 1) {
+        char c = toupper(_getch());
+        if (c == 'A' || c == 'D' || c == 75 || c == 77) {
+            GotoXY(x + 4, y + 3); cout << "  ";
+            GotoXY(x + 14, y + 3); cout << "  ";
+            if (x == menu1_x - 7) x = menu1_x + 8;
+            else if (x == menu1_x + 8) x = menu1_x - 7;
+            if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
+            GotoXY(x + 4, y + 3); cout << "->";
+            GotoXY(x + 14, y + 3); cout << "<-";
+        }
+        else if (c == 27) {
+            LoadGame();
+            kt = 0;
+        }
+        else if (c == 13) {
+            if (x == menu1_x - 7) {
+                loadGameState(savefiles[optionSF - 1]);
+                break;
+            }
+            else if (x == menu1_x + 8) {
+                confirmMenu();
+                break;
+            }
+        }
+    }
 }
 void LoadGameSelection()
 {
     numSaveFile = getNumSaveFile(savefiles);
     int x = menu1_x - 15, y = menu1_y - 15;
-    int move, kt = 1, option = 1;
+    int move, kt = 1;
+    optionSF = 1;
     while (kt == 1)
     {
         GotoXY(x + 11, y + 5);
@@ -700,7 +906,7 @@ void LoadGameSelection()
             GotoXY(x + 34, y + 5);
             cout << "    ";
             y = (y == menu1_y - 15 + numSaveFile - 1) ? menu1_y - 15 : y + 1;
-            option = (option == numSaveFile) ? 1 : option + 1;
+            optionSF = (optionSF == numSaveFile) ? 1 : optionSF + 1;
         }
         else if (move == 72 || move == 'W')
         {
@@ -709,11 +915,11 @@ void LoadGameSelection()
             GotoXY(x + 34, y + 5);
             cout << "    ";
             y = (y == menu1_y - 15) ? menu1_y - 15 + numSaveFile - 1: y - 1;
-            option = (option == 1) ? numSaveFile : option - 1;
+            optionSF = (optionSF == 1) ? numSaveFile : optionSF - 1;
         }
         else if (move == 13)
         {
-            loadGameState(savefiles[option - 1]);
+            loadOrDeleteMenu();
             kt = 0;
         }
         else if (move == 27)
@@ -725,11 +931,9 @@ void LoadGameSelection()
 }
 void LoadGame()
 {
-    if (isMusicOn) {
-        PlayMo("mo.wav", L"mo_sound");
-    }
+    if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
     int x = menu1_x - 15, y = menu1_y - 15, w = 50, h = 18;
-
+    numSaveFile = getNumSaveFile(savefiles);
     DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
     DrawFull(x, y, w, h, 195, 197);
     DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
@@ -1095,6 +1299,4 @@ void drawTableResult()
     cout << "    Run: ";
     GotoXY(N + 38, M + 7);
     cout << "    Win: ";
-
-
 }

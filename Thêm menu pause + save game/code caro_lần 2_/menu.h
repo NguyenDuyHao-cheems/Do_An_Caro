@@ -42,7 +42,8 @@ void duplicateNameMenu();
 void SaveSuccessMenu();
 void maxNumSFMenu();
 void SettingPause();
-
+void loadOrDeleteMenu();
+void confirmOverwrite();
 // ham ve hieu ung thang thua hoa
 void ve();
 void ve2();

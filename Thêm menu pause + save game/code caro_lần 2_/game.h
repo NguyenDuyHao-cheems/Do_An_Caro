@@ -42,6 +42,9 @@ bool checkDuplicate(char filename[]);
 int getNumSaveFile(char savefiles[][MAX_FILE_LENGTH + 1]);
 bool isValidName(char filename[]);
 void writeTempToSF();
+void confirmMenu();
+void deleteSaveFile(char* filename);
+void overwriteSF();
 
 void TableResult(int& win_x, int& win_y, int& run_x, int& run_y);
 void drawTableResult();

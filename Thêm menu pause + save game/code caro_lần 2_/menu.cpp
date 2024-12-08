@@ -1020,31 +1020,6 @@ void PauseSelection(int option)
         PauseSelection(option);
     }
 }
-
-void SaveGameMenu()
-{
-    if (isMusicOn) {
-        PlayMo("mo.wav", L"mo_sound");
-    }
-    int x = menu1_x - 15 + 10, y = menu1_y - 12 + 5, w = 30, h = 10;
-    DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
-    DrawFull(x, y, w, h, 195, 197);
-    DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
-    GotoXY(x + 6, y + 2);
-    cout << "NAME YOUR SAVE FILE:";
-    GotoXY(x + 6, y + 3);
-    txtColor(112);
-    cout << "( <= 14 characters )";
-    GotoXY(x + 5, y + 9);
-    cout << "Press Esc to go back.";
-    txtColor(116);
-    DrawRoundedBox(x + 3, y + 5, 25, 3, 0);
-    while (true)
-    {
-        SaveGameName();
-    }
-}
-
 void duplicateNameMenu()
 {
     if (isMusicOn) {

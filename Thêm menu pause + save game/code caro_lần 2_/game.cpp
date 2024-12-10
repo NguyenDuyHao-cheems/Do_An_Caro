@@ -133,10 +133,6 @@ void changeColorCursor(bool turn)
     cout << "]";                         
     txtColor(7);
 }
-void PlayGame(int k) 
-{    
-    int kt = 1;
-    int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 15;
 
 void Count_sumTime(TIME& time, int x, int y, int& k)
 {
@@ -171,6 +167,7 @@ void Count_sumTime(TIME& time, int x, int y, int& k)
         continue;
     }
 }
+
 
 void CountTime_XO(TIME& time, int x, int y, int& k)
 {

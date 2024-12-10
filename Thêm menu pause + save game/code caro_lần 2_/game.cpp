@@ -22,7 +22,7 @@ void AskContinue() {
     if (isMusicOn) {
         PlayMo("mo.wav", L"mo_sound");
     }
-    int currentOpt = 0;
+    int currentOpt = 1;
     int x = menu1_x , y = menu1_y , w = 50, h = 8;
     DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
     DrawFull(x, y, w, h, 195, 197);
@@ -63,7 +63,7 @@ void AskContinue() {
             {
                 StartGame();
             }
-            else 
+            else if (currentOpt==-1)
             {
                 printMenu();
             }

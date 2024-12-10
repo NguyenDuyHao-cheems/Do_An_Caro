@@ -32,135 +32,49 @@ void SelectMenu(int k) {
         break;
     }
 }
+void DrawMenuOption(int x, int y, const char* text, int color)
+{
+    txtColor(color);
+    GotoXY(x, y);
+    cout << text;
+}
 void MenuSelection() {
-    int x = menu1_x, y = menu1_y;
-    int move;
+    const int menuCount = 6;
+    const char* menuOptions[menuCount] = { "NEW GAME", "LOAD GAME", "HELP", "ABOUT", "EXIT", "SETTINGS" };
+    const int menuYOffset = 3;
+    int menuPositions[menuCount] = { menu1_y, menu1_y + 3, menu1_y + 6, menu1_y + 9, menu1_y + 12, menu1_y + 15 };
+    int x = menu1_x;
+    int currentIndex = 0;
+    int locate;
     while (true) {
-        move = _getch();
+        int move = _getch();
         move = toupper(move);
-        if (move == 80 || move == 'S') {
-            txtColor((15 << 4) | 4);
-            switch (y) {
-            case menu1_y:
-                GotoXY(x + 9, y);
-                cout << "NEW GAME";
-                break;
-            case menu1_y + 3:
-                GotoXY(x + 9, y);
-                cout << "LOAD GAME";
-                break;
-            case menu1_y + 6:
-                GotoXY(x + 5 + 6, y);
-                cout << "HELP";
-                break;
-            case  menu1_y + 9:
-                GotoXY(x + 5 + 6, y);
-                cout << "ABOUT";
-                break;
-            case menu1_y + 12:
-                GotoXY(x + 5 + 6, y);
-                cout << "EXIT";
-                break;
-            case menu1_y + 15:
-                GotoXY(x + 5 + 5, y);
-                cout << "SETTINGS";
-                break;
-            }
-            if (y == menu1_y + 15) y = menu1_y;
-            else y += 3;
-            txtColor((0 << 4) | 14);
-            switch (y) {
-            case menu1_y:
-                GotoXY(x + 9, y);
-                cout << "NEW GAME";
-                break;
-            case menu1_y + 3:
-                GotoXY(x + 9, y);
-                cout << "LOAD GAME";
-                break;
-            case menu1_y + 6:
-                GotoXY(x + 5 + 6, y);
-                cout << "HELP";
-                break;
-            case  menu1_y + 9:
-                GotoXY(x + 5 + 6, y);
-                cout << "ABOUT";
-                break;
-            case menu1_y + 12:
-                GotoXY(x + 5 + 6, y);
-                cout << "EXIT";
-                break;
-            case menu1_y + 15:
-                GotoXY(x + 5 + 5, y);
-                cout << "SETTINGS";
-                break;
-            }
+        if (currentIndex == 4) locate = 11;
+        else if (currentIndex == 2 || currentIndex == 3) locate = 5 + 6;
+        else if (currentIndex == 5) locate = 10;
+        else locate = 9;
+        DrawMenuOption(x + locate, menuPositions[currentIndex], menuOptions[currentIndex], (15 << 4) | 4);
 
+        if (move == 80 || move == 'S') {
+            currentIndex = (currentIndex + 1) % menuCount;
         }
-        if (move == 72 || move == 'W') {
-            txtColor((15 << 4) | 4);
-            switch (y) {
-            case menu1_y:
-                GotoXY(x + 9, y);
-                cout << "NEW GAME";
-                break;
-            case menu1_y + 3:
-                GotoXY(x + 9, y);
-                cout << "LOAD GAME";
-                break;
-            case menu1_y + 6:
-                GotoXY(x + 5 + 6, y);
-                cout << "HELP";
-                break;
-            case  menu1_y + 9:
-                GotoXY(x + 5 + 6, y);
-                cout << "ABOUT";
-                break;
-            case menu1_y + 12:
-                GotoXY(x + 5 + 6, y);
-                cout << "EXIT";
-                break;
-            case menu1_y + 15:
-                GotoXY(x + 5 + 5, y);
-                cout << "SETTINGS";
-                break;
-            }
-            if (y == menu1_y) y = menu1_y + 15;
-            else y -= 3;
-            txtColor((0 << 4) | 14);
-            switch (y) {
-            case menu1_y:
-                GotoXY(x + 9, y);
-                cout << "NEW GAME";
-                break;
-            case menu1_y + 3:
-                GotoXY(x + 9, y);
-                cout << "LOAD GAME";
-                break;
-            case menu1_y + 6:
-                GotoXY(x + 5 + 6, y);
-                cout << "HELP";
-                break;
-            case  menu1_y + 9:
-                GotoXY(x + 5 + 6, y);
-                cout << "ABOUT";
-                break;
-            case menu1_y + 12:
-                GotoXY(x + 5 + 6, y);
-                cout << "EXIT";
-                break;
-            case menu1_y + 15:
-                GotoXY(x + 5 + 5, y);
-                cout << "SETTINGS";
-                break;
-            }
+        else if (move == 72 || move == 'W') {
+            currentIndex = (currentIndex - 1 + menuCount) % menuCount;
         }
-        if (move == 13) {
-            SelectMenu(y);
+        else if (move == 13) {
+            SelectMenu(menuPositions[currentIndex]);
             break;
         }
-    }
 
+        if (isMusicOn) {
+            PlayTick("tick.wav", L"tick_sound");
+        }
+        if (currentIndex == 4) locate = 11;
+        else if (currentIndex == 2 || currentIndex == 3) locate = 5 + 6;
+        else if (currentIndex == 5) locate = 10;
+        else locate = 9;
+        DrawMenuOption(x + locate, menuPositions[currentIndex], menuOptions[currentIndex], (0 << 4) | 14);
+    }
 }
 void printMenu() {
     system("cls");

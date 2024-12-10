@@ -33,6 +33,7 @@ void drawHowtoPlay(int x, int y);
 void drawPinkBox(int x, int y);
 void drawPauseBox(int x, int y);
 void drawESC(int x, int y);
+void DrawMenuOption(int x, int y, const char* text, int color);
 
 
 

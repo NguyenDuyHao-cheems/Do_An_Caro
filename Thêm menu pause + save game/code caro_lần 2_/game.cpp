@@ -132,7 +132,6 @@ void changeColorCursor(bool turn)
     cout << "[";                         
     GotoXY(_X + 1, _Y);                  
     cout << "]";                         
-    txtColor(7);
 }
 void PlayGame(int k) 
 {    
@@ -168,18 +167,16 @@ void PlayGame(int k)
             if (_A[prevRow][prevCol].c == -1) {
                 txtColor((15 << 4) | 4);
                 cout << " X ";
-                txtColor(7);
             }
             else if (_A[prevRow][prevCol].c == 1) {
                 txtColor((15 << 4) | 1);
                 cout << " O ";
-                txtColor(7);
             }
             else {
                 txtColor((15 << 4) | 1);
                 cout << "   ";
+
             }
-            txtColor(7);
         }
         
         GotoXY(_X - 1, _Y);
@@ -333,13 +330,13 @@ void ResumeGame(int gameOption)
         int col = (posX - LEFT - 2) / 4;
         GotoXY(posX, posY);
         if (posXO == 'X') {
-            txtColor((7 << 4) | 4); cout << "X";
+            txtColor((15 << 4) | 4); cout << "X";
             _A[row][col].c = -1;
             xCount++;
             xUndo = posX; yUndo = posY;
         }
         else if (posXO == 'O') {
-            txtColor(FOREGROUND_BLUE | BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE);
+            txtColor((15<<4)|1);
             cout << "O";
             _A[row][col].c = 1;
             oCount++;

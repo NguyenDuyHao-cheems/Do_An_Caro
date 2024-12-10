@@ -1,2 +1,4 @@
-﻿  game.cpp
+﻿  menu.cpp
+C:\Users\HP\OneDrive - VNU-HCMUS\Documents\Visual Studio 2022\Do_an_caro_local_repos\Feature\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\menu.cpp(714,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\HP\OneDrive - VNU-HCMUS\Documents\Visual Studio 2022\Do_an_caro_local_repos\Feature\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\menu.cpp(730,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
   Manage code nộp l2.vcxproj -> C:\Users\HP\OneDrive - VNU-HCMUS\Documents\Visual Studio 2022\Do_an_caro_local_repos\Feature\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\x64\Debug\Manage code nộp l2.exe

@@ -31,7 +31,8 @@ void drawpoke2(int x, int y);
 void drawTable(int x, int y);
 void drawHowtoPlay(int x, int y);
 void drawPinkBox(int x, int y);
-
+void drawPauseBox(int x, int y);
+void drawESC(int x, int y);
 
 
 

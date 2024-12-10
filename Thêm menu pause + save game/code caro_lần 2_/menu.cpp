@@ -228,40 +228,41 @@ void Help() {
         PlayMo("mo.wav", L"mo_sound");
     }
     int x = menu1_x - 15, y = menu1_y , w = 103, h = 15;
+    drawESC(130, 40);
     drawPinkBox(5, 2);
     drawHowtoPlay(10, 6);
-
-    drawTable(10, 25);
-    DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
-    DrawFull(x, y, w, h, 195, 197);
-    DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+    int xTable = -5, yTable = 1;
+    drawTable(xTable+10, yTable+25);
+    DrawFull(x + 2, y , w + 1, h, 136, 32);
+    DrawFull(x, y-1, w, h, 195, 197);
+    DrawFull(x + 2, y , w - 4, h - 2, 119, 32);
     drawpoke(140, 2);
     int i = 2;
-    GotoXY(20, y + 2);
+    GotoXY(xTable+20,yTable+ y + 2);
     txtColor((15 << 4) | 0);
     cout << "Control: ";
-    GotoXY( 15, y + 3-2 + i);
+    GotoXY( xTable+15,yTable+ y + 3-2 + i);
     cout << "W A S D: Move";
-    GotoXY( 15, y + 4 -1+ i);
+    GotoXY(xTable+ 15,yTable+ y + 4 -1+ i);
     cout << "Enter: choose";
-    GotoXY( 15, y + 10 -1+ i);
+    GotoXY( xTable+15,yTable+ y + 10 -1+ i);
     cout << "Press Esc to turn back";
-    GotoXY( 15, y + 6 -1+ i);
+    GotoXY(xTable+ 15, yTable+ y + 6 -1+ i);
     cout << "Esc: Pause game";
-    GotoXY(15, y + 8 + i-1);
+    GotoXY(xTable +15,yTable+  y + 8 + i-1);
     cout << "U: undo move";
     txtColor((7<<4)|4);
-    GotoXY(x +30 , y + 2);
+    GotoXY(x +30 , y + 2-1);
     cout << " RULE ";
-    GotoXY(x+3, y + 4);
+    GotoXY(x+3, y + 4-1);
     cout << "Objective: Be the first player to align 5 of your symbols (X or O) in a row, column, or diagonal.";
-    GotoXY(x +3, y + 6);
+    GotoXY(x +3, y + 6-1);
     cout << "Players: Two players take turns placing their symbol (X or O) on the board.";
-    GotoXY(x+3 , y + 8);
+    GotoXY(x+3 , y + 8-1);
     cout << "The game ends when a player aligns 5 symbols consecutively.";
-    GotoXY(x +3, y + 10);
+    GotoXY(x +3, y + 10-1);
     cout << "If the board is full with no winner, the game is a draw.";
-    GotoXY(x+3 , y + 12);
+    GotoXY(x+3 , y + 12-1);
     cout << "Undo (Optional): Players can undo their last move";
     while (1) {
         if (_getch() == 27) printMenu();
@@ -1249,3 +1250,48 @@ void drawPinkBox(int x, int y)
     
 }
 
+void drawPauseBox(int x, int y)
+{
+    char pauseBox[15][19] = {
+        "    000000000   ",
+        "   08888888880  ",
+        "  0888888888880 ",
+        " 08880F080F08880 ",
+        " 08880F080F08880 ",
+        " 08880F080F08880 ",
+        " 08880F080F08880 ",
+        " 08880F080F08880 ",
+        " 08880F080F08880 ",
+        " 08880F080F08880 ",
+        " 08880F080F08880 ",
+        "  0888888888880 ",
+        "   08888888880  ",
+        "    000000000   "
+
+    };
+    for (int i = 0; i < 15; i++)
+    {
+        DrawLine(pauseBox[i], 19, x, y);
+        y++;
+    }
+} 
+void drawESC(int x, int y)
+{
+    char esc[8][27] = {
+        " 0000     000     0000  ",
+        "0FFFF0   0FFF0   0FFFF0 ",
+        "0F0000  0F0000  0F00000",
+        "0F0000  0F0000  0F00000",
+        "0FFFF0  00FFF0  0F00000 ",
+        "0F0000  0000F0  0F00000 ",
+        "0FFFF0  0FFFF0  0FFFFF0 ",
+        " 0000   000000   000000 ",
+
+    };
+    for (int i = 0; i < 8; i++)
+    {
+        DrawLine(esc[i], 27, x, y);
+        y++;
+    }
+
+}

@@ -1038,13 +1038,13 @@ void PlaywithBot(int k) {
     while (kt == 1) {
         if (!_TURN)
         {
-            DrawNotX(55, 1);
-            DrawIsO(91, 1);
+            DrawNotX(BOARD_SIZE * 5 + 3, TOP - 1);
+            DrawIsO(BOARD_SIZE * 5 + 38, TOP - 1);
         }
         else
         {
-            DrawIsX(55, 1);
-            DrawNotO(91, 1);
+            DrawIsX(BOARD_SIZE * 5 + 3, TOP - 1);
+            DrawNotO(BOARD_SIZE * 5 + 38, TOP - 1);
         }
         GotoXY(_X, _Y);
         while (_TURN == true) {
@@ -1053,25 +1053,25 @@ void PlaywithBot(int k) {
                 PauseMenu();
                 kt = 0;
             }
-            else if (_COMMAND == 'A') {
+            else if (_COMMAND == 'A' || _COMMAND == 75) {
                 MoveLeft();
                 if (isMusicOn) {
                     PlayMove("move.wav", L"move_sound");
                 }
             }
-            else if (_COMMAND == 'D') {
+            else if (_COMMAND == 'D' || _COMMAND == 77) {
                 MoveRight();
                 if (isMusicOn) {
                     PlayMove("move.wav", L"move_sound");
                 }
             }
-            else if (_COMMAND == 'W') {
+            else if (_COMMAND == 'W' || _COMMAND == 72) {
                 MoveUp();
                 if (isMusicOn) {
                     PlayMove("move.wav", L"move_sound");
                 }
             }
-            else if (_COMMAND == 'S') {
+            else if (_COMMAND == 'S' || _COMMAND == 80) {
                 MoveDown();
                 if (isMusicOn) {
                     PlayMove("move.wav", L"move_sound");
@@ -1081,7 +1081,7 @@ void PlaywithBot(int k) {
                 result = CheckBoard(_X, _Y);
                 if (result != 0) {
                     GotoXY(_X, _Y);
-                    txtColor(FOREGROUND_RED | FOREGROUND_INTENSITY | BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE);
+                    txtColor((15<<4)|4);
                     cout << 'X';
                     fprintf(tempFile, "X(%d,%d) ", _X, _Y);
                     fflush(tempFile);
@@ -1150,7 +1150,7 @@ void PlaywithBot(int k) {
                 result = CheckBoard(pX, pY);
                 if (result != 0) {
                     GotoXY(pX, pY);
-                    txtColor(FOREGROUND_BLUE | FOREGROUND_INTENSITY | BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE);
+                    txtColor((15<<4)|1);
                     cout << 'O';
                     fprintf(tempFile, "O(%d,%d) ", pX, pY);
                     fflush(tempFile);

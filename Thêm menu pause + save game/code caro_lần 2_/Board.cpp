@@ -44,20 +44,20 @@ void DrawBoard(int pSize) {
     int i, j;
 
     j = TOP;
-    i = LEFT + 4;
+    i = LEFT + 4 - 30;
     while (i <= (pSize + 1) * 4) {
-        GotoXY(i, j);
+        GotoXY(i + 30, j);
         cout << char(203);
-        GotoXY(i, j + pSize * 2);
+        GotoXY(i + 30, j + pSize * 2);
         cout << char(202);
         i = i + 4;
     }
-    j = TOP + 2;
+    j = TOP + 2 - 4;
     i = LEFT;
     while (j <= (pSize + 1) * 2) {
-        GotoXY(i, j);
+        GotoXY(i, j + 4);
         cout << char(204);
-        GotoXY(i + pSize * 4, j);
+        GotoXY(i + pSize * 4, j + 4);
         cout << char(185);
         j = j + 2;
     }

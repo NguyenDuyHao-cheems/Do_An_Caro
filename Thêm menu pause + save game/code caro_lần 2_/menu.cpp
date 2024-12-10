@@ -6,6 +6,7 @@
 #include "board.h"
 #include "game.h"
 #include "menu.h"
+#pragma comment(lib, "winmm.lib")
 using namespace std;
 
 int optionGame;
@@ -530,7 +531,7 @@ void DrawNotX(int x, int y)
                           "044666666666440",
                           "004466666664400",
                           " 0044EEEEE4400 ",
-                          "  006666666600 ",
+                          "  00666666600 ",
                           "  06666666660  ",
                           " 0666664666660 ",
                           "066666444666660",
@@ -546,7 +547,7 @@ void DrawNotX(int x, int y)
 }
 void DrawIsX(int x, int y)
 {
-    char IsX[20][20] = { " 8888     8888 ",
+    char IsX[20][20] = {  " 8888     8888 ",
                           "8EEEE8   8EEEE8",
                           "8EEEE8   8EEEE8",
                           "8EEEEE8 8EEEEE8",
@@ -554,7 +555,7 @@ void DrawIsX(int x, int y)
                           "8CCEEEEEEEEECC8",
                           "88CCEEEEEEECC88",
                           " 88CCCCCCCCC88 ",
-                          "  88EEEEEEEE88 ",
+                          "  88EEEEEEE88 ",
                           "  8EEEEEEEEE8  ",
                           " 8EEEEECEEEEE8 ",
                           "8EEEEECCCEEEEE8",

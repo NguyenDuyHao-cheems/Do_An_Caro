@@ -1,2 +1,2 @@
-﻿  menu.cpp
-  Manage code nộp l2.vcxproj -> C:\do an caro new\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\x64\Debug\Manage code nộp l2.exe
+﻿  game.cpp
+LINK : fatal error LNK1168: cannot open C:\do an caro new\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\x64\Debug\Manage code nộp l2.exe for writing

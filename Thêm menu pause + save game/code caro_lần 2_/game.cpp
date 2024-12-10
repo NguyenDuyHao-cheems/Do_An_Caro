@@ -133,24 +133,15 @@ void changeColorCursor(bool turn)
     cout << "]";                         
     txtColor(7);
 }
-void PlayGame(int k) 
-{    
-    int kt = 1;
-    int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 15;
 
 void Count_sumTime(TIME& time, int x, int y, int& k)
 {
+    x = x + 20;
     mutex mtx;
     lock_guard<mutex> lock(mtx);
     PrintAt(x + 1, y - 3, "00 : 0" + to_string(time.seconds));
     while (true) {
-        if (k == 1) {
-            time.minutes = 0;
-            time.seconds = 0;
-            PrintAt(x + 1, y - 3, "00 : 0" + to_string(time.seconds));
-            k = 0;
-        }
-        else if (k == 2) {
+        if (k == 2) {
             time.minutes = 0;
             time.seconds = 0;
             PrintAt(x + 1, y - 3, "       ");
@@ -168,12 +159,12 @@ void Count_sumTime(TIME& time, int x, int y, int& k)
         }
         if (time.seconds < 10) PrintAt(x + 6, y - 3, "0" + to_string(time.seconds));
         else PrintAt(x + 6, y - 3, to_string(time.seconds));
-        continue;
     }
 }
 
 void CountTime_XO(TIME& time, int x, int y, int& k)
 {
+    x = x + 20;
     mutex mtx;
     lock_guard<mutex> lock(mtx);
     time.seconds = 15;
@@ -192,9 +183,9 @@ void CountTime_XO(TIME& time, int x, int y, int& k)
         Sleep(1000);
         time.seconds--;
         if (time.seconds == -1) {
+            _TURN = !_TURN;
             time.seconds = 15;
             PrintAt(x + 3, y, to_string(time.seconds));
-            _TURN = !_TURN;
         }
         if (time.seconds < 10) PrintAt(x + 3, y, "0" + to_string(time.seconds));
         else PrintAt(x + 3, y, to_string(time.seconds));
@@ -206,9 +197,9 @@ void PlayGame(int k)
     int kt = 1, value = 0;
     int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 15;
 
-    thread clock_sum(Count_sumTime, ref(sum), BOARD_SIZE * 5 + 29, TOP + 25, ref(value));
+    thread clock_sum(Count_sumTime, ref(sum), BOARD_SIZE * 5 + LEFT + 6, TOP + 25, ref(value));
     clock_sum.detach();
-    thread clock_XO(CountTime_XO, ref(XO), BOARD_SIZE * 5 + 29, TOP + 25, ref(value));
+    thread clock_XO(CountTime_XO, ref(XO), BOARD_SIZE * 5 + LEFT + 6, TOP + 25, ref(value));
     clock_XO.detach();
     drawTableResult();
     TableResult(win_x, win_y, run_x, run_y);
@@ -224,14 +215,14 @@ void PlayGame(int k)
     while (kt == 1) {
         if (!_TURN)
         {
-            DrawNotX(BOARD_SIZE * 5 + 3, TOP - 1);
-            DrawIsO(BOARD_SIZE * 5 + 38, TOP - 1);
+            DrawNotX(BOARD_SIZE * 5 + LEFT, TOP - 1);
+            DrawIsO(BOARD_SIZE * 5 + 35 + LEFT, TOP - 1);
         }
         else
         {
 
-            DrawIsX(BOARD_SIZE * 5 + 3, TOP - 1);
-            DrawNotO(BOARD_SIZE * 5 + 38, TOP - 1);
+            DrawIsX(BOARD_SIZE * 5 + LEFT, TOP - 1);
+            DrawNotO(BOARD_SIZE * 5 + 35 + LEFT, TOP - 1);
         }
         int prevRow = (prevY - TOP - 1) / 2;
         int prevCol = (prevX - LEFT - 2) / 4;
@@ -254,16 +245,15 @@ void PlayGame(int k)
             }
             txtColor(7);
         }
-        
         GotoXY(_X - 1, _Y);
         changeColorCursor(_TURN);
-        
         GotoXY(_X, _Y);
        
         prevX = _X;
         prevY = _Y;
             
         _COMMAND = toupper(_getch());
+        //if (XO.seconds == -1 ) kt = 0;
         if (_COMMAND == 'A'|| _COMMAND == 75) {
             MoveLeft();
             if (isMusicOn) {
@@ -314,6 +304,7 @@ void PlayGame(int k)
                     int winPositions[5][2];
                     int gameResult = TestBoard(row, col, winPositions);
                     if (gameResult != 2) {
+                        value = 2;
                         txtColor(BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE);
                         GotoXY(0, BOARD_SIZE * 2 + 2);
                         if (gameResult == 0) {
@@ -690,6 +681,7 @@ void StartGame() {
 }
 void StartGamewithbot() {
     system("cls");
+    run_x = 0, run_y = 0;
     showCursor();
     ResetData();
     DrawBoard(BOARD_SIZE);
@@ -942,8 +934,8 @@ void PlaywithBot(int k) {
     else tempFileWrite = fopen("Temporary.txt", "a");
     drawTableResult();
     TableResult(win_x, win_y, run_x, run_y);
-    DrawNotX(BOARD_SIZE * 5 + 3, TOP - 1);
-    DrawIsO(BOARD_SIZE * 5 + 38, TOP - 1);
+    DrawNotX(BOARD_SIZE * 5 + LEFT, TOP - 1);
+    DrawIsO(BOARD_SIZE * 5 + 35 + LEFT, TOP - 1);
     while (kt == 1) {
         GotoXY(_X, _Y);
         while (_TURN == true) {
@@ -979,8 +971,8 @@ void PlaywithBot(int k) {
             else if (_COMMAND == 13) {
                 run_x++;
                 result = CheckBoard(_X, _Y);
-                DrawIsX(BOARD_SIZE * 5 + 3, TOP - 1);
-                DrawNotO(BOARD_SIZE * 5 + 38, TOP - 1);
+                DrawIsX(BOARD_SIZE * 5 + LEFT, TOP - 1);
+                DrawNotO(BOARD_SIZE * 5 + 35 + LEFT, TOP - 1);
                 if (result != 0) {
                     GotoXY(_X, _Y);
                     txtColor(FOREGROUND_RED | FOREGROUND_INTENSITY | BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE);
@@ -1054,8 +1046,8 @@ void PlaywithBot(int k) {
                 int pX, pY;
                 BotMove(pX, pY);
                 result = CheckBoard(pX, pY);
-                DrawNotX(BOARD_SIZE * 5 + 3, TOP - 1);
-                DrawIsO(BOARD_SIZE * 5 + 38, TOP - 1);
+                DrawNotX(BOARD_SIZE * 5 + LEFT, TOP - 1);
+                DrawIsO(BOARD_SIZE * 5 + 35 + LEFT, TOP - 1);
                 if (result != 0) {
                     run_y++;
                     GotoXY(pX, pY);
@@ -1139,7 +1131,7 @@ void nhapnhay(const int winPositions[5][2], char symbol) {
 void TableResult(int& win_x, int& win_y, int& run_x, int& run_y)
 {
     int move_x = 0, move_y = 0;
-    int N = BOARD_SIZE * 5 + 7, M = TOP + 18;
+    int N = BOARD_SIZE * 5 + LEFT + 4, M = TOP + 18;
     if (_TURN) move_x++;
     else move_y++;
     txtColor(116);
@@ -1160,7 +1152,7 @@ void TableResult(int& win_x, int& win_y, int& run_x, int& run_y)
 }
 void drawTableResult()
 {
-    int t = 219, t2 = 219, t3 = 205, t4 = 179, N = BOARD_SIZE * 5 + 7, M = TOP + 18;
+    int t = 219, t2 = 219, t3 = 205, t4 = 179, N = BOARD_SIZE * 5 + LEFT + 4, M = TOP + 18;
     txtColor(124);
     for (int i = LEFT - 2; i <= 4 * BOARD_SIZE + LEFT + 2; i++) {
         GotoXY(i, TOP - 1);
@@ -1207,5 +1199,22 @@ void drawTableResult()
     GotoXY(N + 38, M + 7);
     cout << "    Win: ";
 
-
+    txtColor(0 * 16 + 15);
+    GotoXY(LEFT + 3 - 30, TOP);
+    cout << "HOW TO PLAY :";
+    txtColor(15 * 16);
+    GotoXY(LEFT + 3 - 30, TOP + 1);
+    cout << "R : UNDO";
+    GotoXY(LEFT + 3 - 30, TOP + 2);
+    cout << "W : UP";
+    GotoXY(LEFT + 3 - 30, TOP + 3);
+    cout << "A : LEFT";
+    GotoXY(LEFT + 3 - 30, TOP + 4);
+    cout << "S : DOWN";
+    GotoXY(LEFT + 3 - 30, TOP + 5);
+    cout << "D : RIGHT";
+    GotoXY(LEFT + 3 - 30, TOP + 6);
+    cout << "ESC : MORE OPTION";
+    GotoXY(LEFT + 3 - 30, TOP + 7);
+    cout << "ENTER : CHOOSE";
 }

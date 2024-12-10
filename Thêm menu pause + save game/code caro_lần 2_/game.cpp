@@ -5,6 +5,7 @@
 #include <conio.h>
 extern int win_x = 0, win_y = 0;
 int run_x = 0, run_y = 0;
+TIME sum, XO;
 using namespace std;
 bool isMusicOn = true;
 int _COMMAND = 0;
@@ -137,12 +138,80 @@ void PlayGame(int k)
     int kt = 1;
     int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 15;
 
+void Count_sumTime(TIME& time, int x, int y, int& k)
+{
+    mutex mtx;
+    lock_guard<mutex> lock(mtx);
+    PrintAt(x + 1, y - 3, "00 : 0" + to_string(time.seconds));
+    while (true) {
+        if (k == 1) {
+            time.minutes = 0;
+            time.seconds = 0;
+            PrintAt(x + 1, y - 3, "00 : 0" + to_string(time.seconds));
+            k = 0;
+        }
+        else if (k == 2) {
+            time.minutes = 0;
+            time.seconds = 0;
+            PrintAt(x + 1, y - 3, "       ");
+            break;
+        }
+        Sleep(1000);
+        time.seconds++;
+        if (time.seconds == 60) {
+            time.seconds = 0;
+            PrintAt(x + 6, y - 3, "0" + to_string(time.seconds));
+            time.minutes++;
+            if (time.minutes < 10) PrintAt(x + 1, y - 3, "0" + to_string(time.minutes));
+            else PrintAt(x + 1, y - 3, to_string(time.minutes));
+            continue;
+        }
+        if (time.seconds < 10) PrintAt(x + 6, y - 3, "0" + to_string(time.seconds));
+        else PrintAt(x + 6, y - 3, to_string(time.seconds));
+        continue;
+    }
+}
 
+void CountTime_XO(TIME& time, int x, int y, int& k)
+{
+    mutex mtx;
+    lock_guard<mutex> lock(mtx);
+    time.seconds = 15;
+    PrintAt(x + 3, y, to_string(time.seconds));
+    while (true) {
+        if (k == 1) {
+            time.seconds = 15;
+            PrintAt(x + 3, y, to_string(time.seconds));
+            k = 0;
+        }
+        else if (k == 2) {
+            time.seconds = 0;
+            PrintAt(x + 3, y, "       ");
+            break;
+        }
+        Sleep(1000);
+        time.seconds--;
+        if (time.seconds == -1) {
+            time.seconds = 15;
+            PrintAt(x + 3, y, to_string(time.seconds));
+            _TURN = !_TURN;
+        }
+        if (time.seconds < 10) PrintAt(x + 3, y, "0" + to_string(time.seconds));
+        else PrintAt(x + 3, y, to_string(time.seconds));
+    }
+}
 
+void PlayGame(int k) 
+{    
+    int kt = 1, value = 0;
+    int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 15;
 
+    thread clock_sum(Count_sumTime, ref(sum), BOARD_SIZE * 5 + 29, TOP + 25, ref(value));
+    clock_sum.detach();
+    thread clock_XO(CountTime_XO, ref(XO), BOARD_SIZE * 5 + 29, TOP + 25, ref(value));
+    clock_XO.detach();
     drawTableResult();
     TableResult(win_x, win_y, run_x, run_y);
-
 
     if (k == 0)
     {
@@ -224,6 +293,7 @@ void PlayGame(int k)
             int col = (_X - LEFT - 2) / 4;
             result = CheckBoard(_X, _Y);
                 if (result != 0) {
+                    value = 1;
                     result == -1 ? run_x++ : run_y++;
                     GotoXY(_X, _Y);
                     if (result == -1) {
@@ -306,6 +376,7 @@ void PlayGame(int k)
         }
         else if (_COMMAND == 27)
         {
+            value = 2;
             PauseMenu();
             kt = 0;
         }
@@ -612,6 +683,7 @@ void MoveUp() {
 }
 void StartGame() {
     system("cls");
+    run_x = 0, run_y = 0;
     ResetData();
     DrawBoard(BOARD_SIZE);
     PlayGame(0);
@@ -868,18 +940,11 @@ void PlaywithBot(int k) {
         fprintf(tempFileWrite, "b ");
     }
     else tempFileWrite = fopen("Temporary.txt", "a");
-
+    drawTableResult();
+    TableResult(win_x, win_y, run_x, run_y);
+    DrawNotX(BOARD_SIZE * 5 + 3, TOP - 1);
+    DrawIsO(BOARD_SIZE * 5 + 38, TOP - 1);
     while (kt == 1) {
-        if (!_TURN)
-        {
-            DrawNotX(55, 1);
-            DrawIsO(91, 1);
-        }
-        else
-        {
-            DrawIsX(55, 1);
-            DrawNotO(91, 1);
-        }
         GotoXY(_X, _Y);
         while (_TURN == true) {
             _COMMAND = toupper(_getch());
@@ -912,7 +977,10 @@ void PlaywithBot(int k) {
                 }
             }
             else if (_COMMAND == 13) {
+                run_x++;
                 result = CheckBoard(_X, _Y);
+                DrawIsX(BOARD_SIZE * 5 + 3, TOP - 1);
+                DrawNotO(BOARD_SIZE * 5 + 38, TOP - 1);
                 if (result != 0) {
                     GotoXY(_X, _Y);
                     txtColor(FOREGROUND_RED | FOREGROUND_INTENSITY | BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE);
@@ -932,11 +1000,13 @@ void PlaywithBot(int k) {
                         }
                         else {
                             if (gameResult == -1) {
+                                TableResult(win_x, win_y, run_x, run_y);
                                 cout << "Nguoi choi thang";
                                 nhapnhay(winPositions, 'X');
                                 ve();
                             }
                             else {
+                                TableResult(win_x, win_y, run_x, run_y);
                                 cout << "May thang";
                                 nhapnhay(winPositions, 'O');
                                 ve2();
@@ -948,6 +1018,7 @@ void PlaywithBot(int k) {
                 }
             }
         }
+        TableResult(win_x, win_y, run_x, run_y);
         while (!_TURN)
         {
             int delayMiliSecs = 2000;
@@ -963,6 +1034,7 @@ void PlaywithBot(int k) {
                     {
                         if (result == -1 || result == 1)
                         {
+                            run_x--;
                             GotoXY(xUndo, yUndo);
                             std::cout << " ";
                             int row = (yUndo - TOP - 1) / 2;
@@ -982,7 +1054,10 @@ void PlaywithBot(int k) {
                 int pX, pY;
                 BotMove(pX, pY);
                 result = CheckBoard(pX, pY);
+                DrawNotX(BOARD_SIZE * 5 + 3, TOP - 1);
+                DrawIsO(BOARD_SIZE * 5 + 38, TOP - 1);
                 if (result != 0) {
+                    run_y++;
                     GotoXY(pX, pY);
                     txtColor(FOREGROUND_BLUE | FOREGROUND_INTENSITY | BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE);
                     cout << 'O';
@@ -1021,6 +1096,7 @@ void PlaywithBot(int k) {
                 }
             }
         }
+        TableResult(win_x, win_y, run_x, run_y);
     }
     fclose(tempFileWrite);
 }

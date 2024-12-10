@@ -52,3 +52,11 @@ void setConsoleWindow(int w, int h)
 
     MoveWindow(console, r.left, r.top, w, h, TRUE);
 }
+
+void PrintAt(int x, int y, const std::string& text) {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD coord = { static_cast<SHORT>(x), static_cast<SHORT>(y) };
+    DWORD written;
+    std::wstring wText(text.begin(), text.end());
+    WriteConsoleOutputCharacter(hConsole, wText.c_str(), wText.length(), coord, &written);
+}

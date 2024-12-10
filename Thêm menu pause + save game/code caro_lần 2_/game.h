@@ -10,6 +10,8 @@
 extern bool isMusicOn;
 extern int _COMMAND;
 void AskContinue();
+void Count_sumTime(TIME& time, int x, int y, int& k);
+void CountTime_XO(TIME& time, int x, int y, int& k);
 void PlayGame(int k);
 bool checkWin(int row, int col, int winPositions[5][2]);
 bool isFull(_POINT board[][BOARD_SIZE]);

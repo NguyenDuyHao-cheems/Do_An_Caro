@@ -11,6 +11,10 @@ struct _POINT { //kieu du lieu luu vi tri tren ban co va xac dinh vi tri da duoc
     int x, y, c;
 };
 
+struct TIME {
+    int minutes = 0, seconds = 0;
+};
+
 extern _POINT _A[BOARD_SIZE][BOARD_SIZE]; //ban co 
 extern bool _TURN; //bien luot choi
 

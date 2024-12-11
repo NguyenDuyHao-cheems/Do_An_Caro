@@ -78,7 +78,7 @@ void AskContinuePlaybot() {
     if (isMusicOn) {
         PlayMo("mo.wav", L"mo_sound");
     }
-    int currentOpt = 0;
+    int currentOpt = 1;
     int x = menu1_x, y = menu1_y, w = 50, h = 8;
     DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
     DrawFull(x, y, w, h, 195, 197);
@@ -243,13 +243,13 @@ void PlayGame(int k)
         if (!_TURN)
         {
             DrawNotX(BOARD_SIZE * 5 + LEFT, TOP - 1);
-            DrawIsO(BOARD_SIZE * 5 + 36 + LEFT, TOP - 1);
+            DrawIsO(BOARD_SIZE * 5 + 37 + LEFT, TOP - 1);
         }
         else
         {
 
             DrawIsX(BOARD_SIZE * 5 + LEFT, TOP - 1);
-            DrawNotO(BOARD_SIZE * 5 + 36 + LEFT, TOP - 1);
+            DrawNotO(BOARD_SIZE * 5 + 37 + LEFT, TOP - 1);
         }
         int prevRow = (prevY - TOP - 1) / 2;
         int prevCol = (prevX - LEFT - 2) / 4;
@@ -971,6 +971,7 @@ void PlaywithBot(int k) {
         while (_TURN == true) {
             _COMMAND = toupper(_getch());
             if (_COMMAND == 27) {
+                value = 2;
                 PauseMenu();
                 kt = 0;
             }
@@ -999,6 +1000,7 @@ void PlaywithBot(int k) {
                 }
             }
             else if (_COMMAND == 13) {
+                value = 1;
                 run_x++;
                 result = CheckBoard(_X, _Y);
                 DrawIsX(BOARD_SIZE * 5 + LEFT, TOP - 1);
@@ -1016,6 +1018,7 @@ void PlaywithBot(int k) {
                     int winPositions[5][2];
                     int gameResult = TestBoard(row, col, winPositions);
                     if (gameResult != 2) {
+                        value = 2;
                         GotoXY(0, BOARD_SIZE * 2 + 2);
                         if (gameResult == 0) {
                             ve3();
@@ -1091,6 +1094,7 @@ void PlaywithBot(int k) {
 
                     int gameResult = TestBoard(row, col, winPositions);
                     if (gameResult != 2) {
+                        value = 2;
                         GotoXY(0, BOARD_SIZE * 2 + 2);
                         if (gameResult == 0) { 
                             ve3();

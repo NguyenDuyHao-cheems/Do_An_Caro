@@ -11,9 +11,21 @@ using namespace std;
 
 int optionGame;
 //bool isMusicOn = true;
+
+void playername() {
+    int x = menu1_x - 20, y = menu1_y - 20;
+    GotoXY(x, y);
+    drawPlayername(x, y);
+    Box(x, y + 18, 20, 1);
+    Box(x + 20, y + 18, 20, 1);
+    DrawIsX(x, y + 21);
+    DrawIsO(x + 35, y + 21);
+}
+
 void SelectMenu(int k) {
     switch (k) {
     case menu1_y:
+        //playername();
         NewGame();
         break;
     case menu1_y + 3:
@@ -1255,7 +1267,30 @@ void drawPinkBox(int x, int y)
         DrawLine(pinkBox[i], 67, x, y);
         y++;
     }
-        
-    
 }
 
+void drawPlayername(int x, int y) {
+    char Playername[16][31] = {
+        "333333333333333333333333333333",
+        "                              ",
+        "  EEE  E    EE  E E EEE EEE   ",
+        "  E  E E   E  E E E E   E  E  ",
+        "  E  E E   E  E EEE EEE E  E  ",
+        "  EEE  E   EEEE   E E   EEE   ",
+        "  E    EEE E  E EEE EEE E  E  ",
+        "                              ",
+        "                              ",
+        "     E  E  EE  E   E EEE      ",
+        "     EE E E  E EE EE E        ",
+        "     E EE E  E E E E EEE      ",
+        "     E  E EEEE E   E E        ",
+        "     E  E E  E E   E EEE      ",
+        "                              ",
+        "333333333333333333333333333333",
+    };
+    for (int i = 0; i < 16; i++)
+    {
+        DrawLine(Playername[i], 31, x, y);
+        y++;
+    }
+}

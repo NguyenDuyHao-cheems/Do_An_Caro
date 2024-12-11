@@ -32,7 +32,7 @@ void drawpoke2(int x, int y);
 void drawTable(int x, int y);
 void drawHowtoPlay(int x, int y);
 void drawPinkBox(int x, int y);
-
+void drawPlayername(int x, int y);
 
 
 

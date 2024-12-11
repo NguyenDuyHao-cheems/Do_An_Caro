@@ -14,6 +14,7 @@ int optionGame;
 
 void playername() {
     int x = menu1_x - 20, y = menu1_y - 20;
+    DrawFull(x - 6, y - 2, 70, 40, 5, 32);
     GotoXY(x, y);
     drawPlayername(x, y);
     Box(x, y + 18, 20, 1);
@@ -25,7 +26,7 @@ void playername() {
 void SelectMenu(int k) {
     switch (k) {
     case menu1_y:
-        //playername();
+        playername();
         NewGame();
         break;
     case menu1_y + 3:

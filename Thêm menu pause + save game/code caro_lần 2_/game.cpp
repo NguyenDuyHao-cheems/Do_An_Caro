@@ -701,14 +701,14 @@ void MoveUp() {
 }
 void StartGame() {
     system("cls");
-    run_x = 0, run_y = 0;
+    run_x = 0, run_y = 0, win_x = 0, win_y = 0;
     ResetData();
     DrawBoard(BOARD_SIZE);
     PlayGame(0);
 }
 void StartGamewithbot() {
     system("cls");
-    run_x = 0, run_y = 0;
+    run_x = 0, run_y = 0, win_x = 0, win_y = 0;
     showCursor();
     ResetData();
     DrawBoard(BOARD_SIZE);

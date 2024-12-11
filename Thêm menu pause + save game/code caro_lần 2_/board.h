@@ -3,7 +3,7 @@
 #include "Console.h"
 
 #define BOARD_SIZE 15 // kich thuoc ban co
-#define LEFT 33
+#define LEFT 36
 #define TOP 8
 #define menu1_x LEFT+41+17+20-30 // toa do menu
 #define menu1_y TOP+12+8-4

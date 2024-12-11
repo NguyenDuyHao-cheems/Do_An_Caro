@@ -1102,6 +1102,39 @@ void SettingPause()
         }
     }
 }
+
+void drawPhuthuy(int x, int y) {
+    char phuthuy[22][16] = {
+        "    5D         ",
+        "   55DD        ",
+        "  5 56D        ",
+        "    55DD       ",
+        "    556D       ",
+        "   565DDDD     ",
+        " 55555DDDDDD   ",
+        "5558E3EE355    ",
+        "  88EE777      ",
+        "  8878747      ",
+        "  8578777      ",
+        "  5587778      ",
+        "  5587878     3",
+        " 5555787D    3 ",
+        " 5555787DD  3  ",
+        " 5 5557D DDE   ",
+        "3E35557D  3    ",
+        "33356DDD       ",
+        "33355DD6       ",
+        "  55DDDD       ",
+        " 565D6DD       ",
+        "5555DDDDD      ",
+    };
+    for (int i = 0; i <= 21; i++)
+    {
+        DrawLine(phuthuy[i], 15, x, y);
+        y++;
+    }
+}
+
 void drawpoke(int x, int y) {
     char poke[22][22] = {
     "    0000         0   ",

@@ -1,5 +1,10 @@
-﻿  menu.cpp
+﻿  Board.cpp
+  console.cpp
+  game.cpp
+D:\Do_an_caro_local_repos\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\game.cpp(768,10): warning C4101: 'ch': unreferenced local variable
+  main.cpp
+  menu.cpp
 D:\Do_an_caro_local_repos\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\menu.cpp(651,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 D:\Do_an_caro_local_repos\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\menu.cpp(667,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-  LINK : D:\Do_an_caro_local_repos\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\x64\Debug\Manage code nộp l2.exe not found or not built by the last incremental link; performing full link
+  Generating Code...
   Manage code nộp l2.vcxproj -> D:\Do_an_caro_local_repos\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\x64\Debug\Manage code nộp l2.exe

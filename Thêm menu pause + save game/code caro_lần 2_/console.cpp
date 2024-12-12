@@ -1,5 +1,6 @@
 #include "Console.h"
-
+#include <string>
+#include <mutex>
 void FixConsoleWindow() {
     HWND consoleWindow = GetConsoleWindow();
     LONG style = GetWindowLong(consoleWindow, GWL_STYLE);
@@ -52,3 +53,4 @@ void setConsoleWindow(int w, int h)
 
     MoveWindow(console, r.left, r.top, w, h, TRUE);
 }
+

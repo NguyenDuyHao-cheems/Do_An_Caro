@@ -190,29 +190,22 @@ void PlayGame(int k)
         _COMMAND = toupper(_getch());
         if (_COMMAND == 'A'|| _COMMAND == 75) {
             MoveLeft();
-            if (isMusicOn) {
-                PlayMove("move.wav", L"move_sound");
-            }
         }
         else if (_COMMAND == 'D'|| _COMMAND == 77) {
             MoveRight();
-            if (isMusicOn) {
-                PlayMove("move.wav", L"move_sound");
-            }
+
         }
         else if (_COMMAND == 'W'|| _COMMAND == 72) {
             MoveUp();
-            if (isMusicOn) {
-                PlayMove("move.wav", L"move_sound");
-            }
         }
         else if (_COMMAND == 'S'|| _COMMAND == 80) {
             MoveDown();
+        }
+        else if (_COMMAND == 13) {
             if (isMusicOn) {
                 PlayMove("move.wav", L"move_sound");
             }
-        }
-        else if (_COMMAND == 13) {
+
             int row = (_Y - TOP - 1) / 2;
             int col = (_X - LEFT - 2) / 4;
             result = CheckBoard(_X, _Y);
@@ -669,7 +662,6 @@ void StartGame() {
 }
 void StartGamewithbot() {
     system("cls");
-    showCursor();
     ResetData();
     DrawBoard(BOARD_SIZE);
     newGame = true;
@@ -1023,18 +1015,52 @@ void BotMove(int& pX, int& pY) {
     pX = 4 * pY + LEFT + 2;
     pY = 2 * temp + TOP + 1;
 }
+void cursorBot(int _X, int _Y, int& preX, int& preY)
+{
+    txtColor((15 << 4) | 4);
+    GotoXY(_X - 1, _Y);
+    cout << "[";
+    GotoXY(_X + 1, _Y);
+    cout << "]";
+    int prevRow = (preY - TOP - 1) / 2;
+    int prevCol = (preX - LEFT - 2) / 4;
+    if (preX != _X || preY != _Y)
+    {
+        GotoXY(preX - 1, preY);
+        if (_A[prevRow][prevCol].c == -1) {
+            txtColor((15 << 4) | 4);
+            cout << " X ";
+        }
+        else if (_A[prevRow][prevCol].c == 1) {
+            txtColor((15 << 4) | 1);
+            cout << " O ";
+        }
+        else {
+            txtColor((15 << 4) | 1);
+            cout << "   ";
+
+        }
+    }
+    preX = _X;
+    preY = _Y;
+    GotoXY(_X, _Y);
+}
 void PlaywithBot(int k) {
     int xUndo, yUndo, kt = 1;
     result = 0;
     bool validEnter = true;
-
+    int preX = _X;
+    int preY = _Y;
+    GotoXY(_X-1, _Y);
+    cout << "[";
+    GotoXY(_X + 1, _Y);
+    cout << "]";
     if (k == 0)
     {
         tempFile = fopen("Temporary.txt", "w");
         fprintf(tempFile, "b ");
     }
     else tempFile = fopen("Temporary.txt", "a");
-
     while (kt == 1) {
         if (!_TURN)
         {
@@ -1046,38 +1072,41 @@ void PlaywithBot(int k) {
             DrawIsX(BOARD_SIZE * 5 + 3, TOP - 1);
             DrawNotO(BOARD_SIZE * 5 + 38, TOP - 1);
         }
-        GotoXY(_X, _Y);
+        
+        
         while (_TURN == true) {
             _COMMAND = toupper(_getch());
+          
             if (_COMMAND == 27) {
                 PauseMenu();
                 kt = 0;
             }
             else if (_COMMAND == 'A' || _COMMAND == 75) {
                 MoveLeft();
-                if (isMusicOn) {
-                    PlayMove("move.wav", L"move_sound");
-                }
+                cursorBot(_X, _Y, preX, preY);
+
             }
             else if (_COMMAND == 'D' || _COMMAND == 77) {
                 MoveRight();
-                if (isMusicOn) {
-                    PlayMove("move.wav", L"move_sound");
-                }
+                cursorBot(_X, _Y, preX, preY);
+
+
             }
             else if (_COMMAND == 'W' || _COMMAND == 72) {
                 MoveUp();
-                if (isMusicOn) {
-                    PlayMove("move.wav", L"move_sound");
-                }
+                cursorBot(_X, _Y, preX, preY);
+
+
             }
             else if (_COMMAND == 'S' || _COMMAND == 80) {
                 MoveDown();
-                if (isMusicOn) {
-                    PlayMove("move.wav", L"move_sound");
-                }
+                cursorBot(_X, _Y, preX, preY);
+
+
             }
+
             else if (_COMMAND == 13) {
+               
                 result = CheckBoard(_X, _Y);
                 if (result != 0) {
                     GotoXY(_X, _Y);
@@ -1098,12 +1127,10 @@ void PlaywithBot(int k) {
                         }
                         else {
                             if (gameResult == -1) {
-                                cout << "Nguoi choi thang";
                                 nhapnhay(winPositions, 'X');
                                 ve();
                             }
                             else {
-                                cout << "May thang";
                                 nhapnhay(winPositions, 'O');
                                 ve2();
                             }

@@ -10,7 +10,11 @@
 extern bool isMusicOn;
 extern int _COMMAND;
 void AskContinue();
-void PlayGame(int k);
+void Count_sumTime(TIME& time, int x, int y, int& k);
+
+void CountTime_XO(TIME& time, int x, int y, int& k);
+
+void PlayGame(int k, int& win_x, int& win_y); 
 bool checkWin(int row, int col, int winPositions[5][2]);
 bool isFull(_POINT board[][BOARD_SIZE]);
 int TestBoard(int row, int col, int winPositions[5][2]);
@@ -31,7 +35,8 @@ void LoadGame();
 //play with bot
 int evaluatePosition(int row, int col, int player);
 void BotMove(int& pX, int& pY);
-void PlaywithBot(int k);
+
+void PlaywithBot(int k, int& win_x, int& win_y);
 void StartGamewithbot();
 void AskContinuePlaybot();
 
@@ -49,4 +54,12 @@ void overwriteSF();
 
 void TableResult(int& win_x, int& win_y, int& run_x, int& run_y);
 void drawTableResult();
+void drawPhuthuy(int x, int y);
+
+void drawStart(int x, int y);
+
+void drawEnd(int x, int y);
+
+void SmallMenu(int x, int y);
+void drawPikachu(int x, int y);
 

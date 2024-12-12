@@ -3,7 +3,10 @@
 #include "menu.h"
 
 using namespace std;
-
+int win_x, win_y;
+char name1[14];
+char name2[14];
+int newGameOpt;
 _POINT _A[BOARD_SIZE][BOARD_SIZE];
 bool _TURN;
 int _X, _Y;
@@ -45,7 +48,7 @@ void DrawBoard(int pSize) {
 
     j = TOP;
     i = LEFT + 4;
-    while (i <= (pSize + 1) * 4) {
+    while (i <= (pSize + LEFT / 4) * 4) {
         GotoXY(i, j);
         cout << char(203);
         GotoXY(i, j + pSize * 2);
@@ -54,7 +57,7 @@ void DrawBoard(int pSize) {
     }
     j = TOP + 2;
     i = LEFT;
-    while (j <= (pSize + 1) * 2) {
+    while (j <= (pSize + TOP / 2) * 2) {
         GotoXY(i, j);
         cout << char(204);
         GotoXY(i + pSize * 4, j);

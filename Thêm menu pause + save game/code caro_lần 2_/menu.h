@@ -85,4 +85,14 @@ void ve3();
 //new game
 void NewGameSelection();
 void NewGame();
+void drawBigCloud(int x, int y);
 
+void drawSmallCloud(int x, int y);
+
+void drawInformation(int x, int y);
+
+void playerName_withPlayer();
+
+void playerName_withBot();
+
+void drawPlayername(int x, int y);

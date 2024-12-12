@@ -82,8 +82,23 @@ void printMenu() {
     system("color F0");
     hideCursor();
     drawCaro();
-    drawpoke(118, 22);
-    drawpoke2(25, 22);
+    win_x = 0; win_y = 0;
+
+    drawBigCloud(25, 35);
+
+    drawBigCloud(129, 35);
+
+    drawSmallCloud(19, 7);
+
+    drawSmallCloud(26, 10);
+
+    drawSmallCloud(139, 5);
+
+    drawSmallCloud(157, 13);
+
+    drawpoke(131, 25);
+
+    drawpoke2(28, 26);
 
     txtColor((15 << 4) | 4);
     Box(menu1_x + 3, menu1_y - 1, 19, 2);
@@ -150,7 +165,7 @@ void Help() {
     DrawFull(x + 2, y , w + 1, h, 136, 32);
     DrawFull(x, y-1, w, h, 195, 197);
     DrawFull(x + 2, y , w - 4, h - 2, 119, 32);
-    drawpoke(140, 2);
+    des(140, 2);
     int i = 2;
     GotoXY(xTable+20,yTable+ y + 2);
     txtColor((15 << 4) | 0);
@@ -250,33 +265,78 @@ void Exit() {
     
 }
 void About() {
+    system("cls");
+
+    system("color F0");
+
     if (isMusicOn) {
+
         PlayMo("mo.wav", L"mo_sound");
+
     }
-    int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 18;
+
+    drawPinkBox(5, 2);
+
+    drawInformation(18, 6);
+
+    drawSmallCloud(13, 25);
+
+    drawBigCloud(21, 35);
+
+    drawSmallCloud(134, 40);
+
+    drawBigCloud(143, 25);
+
+    drawPikachu(142, 2);
+
+    int x = menu1_x - 12, y = menu1_y - 2, w = 50, h = 18;
+
     DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+
     DrawFull(x, y, w, h, 195, 197);
+
     DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+
     GotoXY(x + 20, y + 1);
+
     cout << "Member:";
+
     GotoXY(x + 5, y + 3);
+
     cout << "1. MSSV: 24120306 - Nguyen Duy Hao";
+
     GotoXY(x + 5, y + 5);
+
     cout << "2. MSSV: 24120295 - Pham Xuan Duy";
+
     GotoXY(x + 5, y + 7);
+
     cout << "3. MSSV: 24120224 - Nguyen Anh Thai";
+
     GotoXY(x + 5, y + 9);
+
     cout << "4. MSSV: 24120289 - Nguyen Anh Duc";
+
     GotoXY(x + 5, y + 11);
+
     cout << "5. MSSV: 24120237 - Nguyen Dinh Tuan";
+
     GotoXY(x + 5, y + 13);
+
     cout << "GVDH: Truong Toan Thinh";
+
     GotoXY(x + 5, y + 15);
+
     cout << "Press Esc to turn back the main Menu...";
 
+
+
     while (1) {
+
         if (_getch() == 27) printMenu();
+
     }
+
 }
 void Setting() {
     system("cls");
@@ -569,7 +629,7 @@ void DrawIsO(int x, int y)
 }
 // ve x win hoac o win
 void ve() {
-    int x = 40, y = menu1_y + 8;
+    int x = BOARD_SIZE * 5 + 3 + LEFT, y = TOP + 3;
     int w = 75, h = 12;
     DrawFull(x - 4, y - 2, w, h, 240, 32);
     char win_X[9][35] = {
@@ -589,7 +649,7 @@ void ve() {
     }
 }
 void ve2() {
-    int x = 40, y = menu1_y + 8;
+    int x = BOARD_SIZE * 5 + 3 + LEFT, y = TOP + 3;
     int w = 74, h = 12;
     DrawFull(x - 4, y - 2, w, h, 240, 32);
     char win_Y[9][34] = {
@@ -609,7 +669,7 @@ void ve2() {
     }
 }
 void ve3() {
-    int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 15;
+    int x = BOARD_SIZE * 5 + 3 + LEFT, y = TOP + 3, w = 50, h = 15;
     DrawFull(30, 8, w + 12, 10, 31, 32);
     for (int j = 10; j < 18; j++) {
         DrawFull(32, j, 1, 0, 255, 32);
@@ -727,10 +787,20 @@ void NewGameSelection() {
         if (move == 13) {
             switch (y) {
             case menu1_y - 8:
-                StartGame(); h = 1;
+                newGameOpt = 1;
+
+                playerName_withPlayer();
+
+                hideCursor();
+
+                StartGame();
                 break;
             case menu1_y - 6:
-                StartGamewithbot(); h = 0;
+                newGameOpt = -1;
+
+                playerName_withBot();
+
+                StartGamewithbot();
                 break;
             }
             kt = 0;
@@ -1580,4 +1650,317 @@ void des(int x, int y) {
         DrawLine(poke[i], 30, x, y);
         y++;
     }
+}
+
+void drawBigCloud(int x, int y) {
+
+    char cloud[26][26] = {
+
+        "           000           ",
+        "          07770          ",
+        "     000 0777770 00      ",
+        "   00777077777770770     ",
+        "  07777777777777777700   ",
+        " 0777777777777777777770  ",
+        " 07777777777777777777770 ",
+        "0777777777777777777777770",
+        "0777777777777777777777770",
+        " 00000000000000000000000 "
+    };
+
+    for (int i = 0; i < 10; i++)
+
+    {
+
+        DrawLine(cloud[i], 25, x, y);
+
+        y++;
+
+    }
+}
+void drawSmallCloud(int x, int y) {
+
+    char cloud[14][14] = {
+
+        "      00     ",
+        "   0 0770    ",
+        "  070777700  ",
+        " 07777777770 ",
+        "0777777777770",
+        " 00000000000 ",
+
+    };
+
+    for (int i = 0; i < 6; i++)
+
+    {
+
+        DrawLine(cloud[i], 13, x, y);
+
+        y++;
+
+    }
+
+}
+void drawInformation(int x, int y) {
+
+    char information[5][54] = {
+
+        "FFF F   F FFF  FF  FFF  F   F  FF  FFF FFF  FF  F   F",
+
+        " F  FF  F F   F  F F  F FF FF F  F  F   F  F  F FF  F",
+
+        " F  F F F FF  F  F FFF  F F F FFFF  F   F  F  F F F F",
+
+        " F  F  FF F   F  F F  F F   F F  F  F   F  F  F F  FF",
+
+        "FFF F   F F    FF  F  F F   F F  F  F  FFF  FF  F   F"
+
+    };
+
+    for (int i = 0; i <= 4; i++)
+
+    {
+
+        DrawLine(information[i], 53, x, y);
+
+        y++;
+
+    }
+
+}
+void inputname(int x, int y, char name[]) {
+
+    GotoXY(x, y);
+
+    int i = 0;
+
+    while (true)
+
+    {
+
+        if (_kbhit())
+
+        {
+
+            char key = _getch();
+
+            if (key == 27) printMenu();
+
+            else if (key == '\r')
+
+            {
+
+                name[i] = '\0';
+
+                break;
+
+            }
+
+            else if (key == '\b')
+
+            {
+
+                if (i > 0)
+
+                {
+
+                    i--;
+
+                    cout << "\b \b";
+
+                }
+
+            }
+
+            else if (i < MAX_FILE_LENGTH - 2)
+
+            {
+
+                txtColor(14);
+
+                cout << key;
+
+                txtColor(15 * 16);
+
+                name[i++] = key;
+
+            }
+
+            if (key == 13) {
+
+                break;
+
+            }
+
+        }
+
+    }
+
+    if (!isValidName(name))
+
+    {
+
+        i = 0;
+
+        GotoXY(x - 1, y);
+
+        cout << "  Invalid input!";
+
+        Sleep(2000);
+
+        GotoXY(x - 1, y);
+
+        cout << "                ";
+
+        GotoXY(x, y);
+
+        inputname(x, y, name);
+
+    }
+
+}
+void playerName_withPlayer() {
+
+    showCursor();
+
+    int x = menu1_x - 20, y = menu1_y - 20;
+
+    DrawFull(x - 8, y - 3, 75, 44, 4 * 16, 32);
+
+    DrawFull(x - 6, y - 2, 71, 42, 15 * 16, 32);
+
+    drawPlayername(x, y);
+
+    DrawFull(x, y, 59, 0, 3 * 16, 32);
+
+    DrawFull(x, y + 15, 59, 0, 3 * 16, 32);
+
+    DrawIsX(x, y + 23);
+
+    DrawIsO(x + 34, y + 23);
+
+    txtColor(15 * 16 + 4);
+
+    GotoXY(x + 8, y + 17);
+
+    cout << "PLAYER NAME X";
+
+    Box(x + 4, y + 18, 20, 2);
+
+    GotoXY(x + 40, y + 17);
+
+    txtColor(15 * 16 + 1);
+
+    cout << "PLAYER NAME O";
+
+    Box(x + 36, y + 18, 20, 2);
+
+    txtColor(15 * 16);
+
+    GotoXY(x + 16, y + 21);
+
+    cout << "    ( <=  13 characters )";
+
+    inputname(x + 6, y + 19, name1);
+
+    inputname(x + 38, y + 19, name2);
+
+}
+
+
+
+void playerName_withBot() {
+
+    showCursor();
+
+    int x = menu1_x - 20, y = menu1_y - 20;
+
+    DrawFull(x - 8, y - 3, 75, 44, 4 * 16, 32);
+
+    DrawFull(x - 6, y - 2, 71, 42, 15 * 16, 32);
+
+    drawPlayername(x, y);
+
+    DrawFull(x, y, 59, 0, 3 * 16, 32);
+
+    DrawFull(x, y + 15, 59, 0, 3 * 16, 32);
+
+    DrawIsX(x, y + 23);
+
+    DrawIsO(x + 34, y + 23);
+
+    txtColor(15 * 16 + 4);
+
+    GotoXY(x + 8, y + 17);
+
+    cout << "PLAYER NAME X";
+
+    Box(x + 4, y + 18, 20, 2);
+
+    GotoXY(x + 40, y + 17);
+
+    txtColor(15 * 16 + 1);
+
+    cout << "PLAYER NAME O";
+
+    Box(x + 36, y + 18, 20, 2);
+
+    txtColor(15 * 16);
+
+    GotoXY(x + 16, y + 21);
+
+    cout << "    ( <=  13 characters )";
+
+    inputname(x + 6, y + 19, name1);
+
+}
+void drawPlayername(int x, int y) {
+
+    char Playername[16][31] = {
+
+        "111111111111111111111111111111",
+
+        "                              ",
+
+        "  444  4    44  4 4 444 444   ",
+
+        "  4  4 4   4  4 4 4 4   4  4  ",
+
+        "  4  4 4   4  4 444 444 4  4  ",
+
+        "  444  4   4444   4 4   444   ",
+
+        "  4    444 4  4 444 444 4  4  ",
+
+        "                              ",
+
+        "                              ",
+
+        "     4  4  44  4   4 444      ",
+
+        "     44 4 4  4 44 44 4        ",
+
+        "     4 44 4  4 4 4 4 444      ",
+
+        "     4  4 4444 4   4 4        ",
+
+        "     4  4 4  4 4   4 444      ",
+
+        "                              ",
+
+        "111111111111111111111111111111",
+
+    };
+
+    for (int i = 0; i < 16; i++)
+
+    {
+
+        DrawLine(Playername[i], 31, x, y);
+
+        y++;
+
+    }
+
 }

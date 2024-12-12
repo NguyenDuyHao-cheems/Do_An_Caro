@@ -3,12 +3,13 @@
 #include "board.h"
 #include <iostream>
 #include <conio.h>
-extern int win_x = 0, win_y = 0;
+using namespace std;
+
+int win_x = 0, win_y = 0;
 int run_x = 0, run_y = 0;
 int turn_x = 0, turn_y = 0;
 int  N = BOARD_SIZE * 5 + LEFT + 4, M = TOP + 18;
 TIME sum, XO;
-using namespace std;
 bool isMusicOn = true;
 int _COMMAND = 0;
 int xUndo, yUndo;
@@ -23,7 +24,7 @@ void AskContinue() {
     if (isMusicOn) {
         PlayMo("mo.wav", L"mo_sound");
     }
-    int currentOpt = 0;
+    int currentOpt = 1;
     int x = menu1_x , y = menu1_y , w = 50, h = 8;
     DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
     DrawFull(x, y, w, h, 195, 197);
@@ -66,6 +67,7 @@ void AskContinue() {
             }
             else 
             {
+                win_x = 0, win_y = 0;
                 printMenu();
             }
             break;
@@ -192,10 +194,10 @@ void CountTime_XO(TIME& time, int x, int y, int& k)
             if (!_TURN)
             {
                 turn_x = 0, turn_y = 1;
-                GotoXY(N + 9, M + 3);
+                GotoXY(N + 9, M + 6);
                 txtColor(116);
                 cout << turn_x;
-                GotoXY(N + 49, M + 3);
+                GotoXY(N + 49, M + 6);
                 txtColor(121);
                 cout << turn_y;
                 DrawNotX(BOARD_SIZE * 5 + LEFT, TOP - 1);
@@ -204,10 +206,10 @@ void CountTime_XO(TIME& time, int x, int y, int& k)
             else
             {
                 turn_y = 1, turn_x = 0;
-                GotoXY(N + 9, M + 3);
+                GotoXY(N + 9, M + 6);
                 txtColor(116);
                 cout << turn_x;
-                GotoXY(N + 49, M + 3);
+                GotoXY(N + 49, M + 6);
                 txtColor(121);
                 cout << turn_y;
                 DrawIsX(BOARD_SIZE * 5 + LEFT, TOP - 1);
@@ -332,7 +334,7 @@ void PlayGame(int k)
                     int gameResult = TestBoard(row, col, winPositions);
                     if (gameResult != 2) {
                         value = 2;
-                        txtColor(BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE);
+                        txtColor(15 * 16 + 4);
                         GotoXY(0, BOARD_SIZE * 2 + 2);
                         if (gameResult == 0) {
                             if (isMusicOn) {
@@ -701,14 +703,14 @@ void MoveUp() {
 }
 void StartGame() {
     system("cls");
-    run_x = 0, run_y = 0, win_x = 0, win_y = 0;
+    run_x = 0, run_y = 0;
     ResetData();
     DrawBoard(BOARD_SIZE);
     PlayGame(0);
 }
 void StartGamewithbot() {
     system("cls");
-    run_x = 0, run_y = 0, win_x = 0, win_y = 0;
+    run_x = 0, run_y = 0;
     showCursor();
     ResetData();
     DrawBoard(BOARD_SIZE);
@@ -1170,19 +1172,19 @@ void TableResult(int& win_x, int& win_y, int& run_x, int& run_y)
     else { turn_y = 1, turn_x = 0;
     }
     txtColor(116);
-    GotoXY(N + 9, M + 3);
+    GotoXY(N + 9, M + 6);
     cout << turn_x;
-    GotoXY(N + 9, M + 5);
+    GotoXY(N + 9, M + 8);
     cout << run_x;
-    GotoXY(N + 9, M + 7);
+    GotoXY(N + 9, M + 10);
     cout << win_x;
 
     txtColor(121);
-    GotoXY(N + 49, M + 3);
+    GotoXY(N + 49, M + 6);
     cout << turn_y;
-    GotoXY(N + 49, M + 5);
+    GotoXY(N + 49, M + 8);
     cout << run_y;
-    GotoXY(N + 49, M + 7);
+    GotoXY(N + 49, M + 10);
     cout << win_y;
 }
 void drawTableResult()
@@ -1207,31 +1209,40 @@ void drawTableResult()
     }
 
     txtColor(116);
-    int w = 20, h = 10;
+    int w = 20, h = 13;
     DrawFull(N - 2, M, w, h, 135, 32);
     DrawFull(N - 4, M - 1, w, h, 68, 32);
     DrawFull(N - 2, M, w - 4, h - 2, 121, 32);
-    GotoXY(N - 1, M + 1);
-    cout << " PLAYER 1: X";
-    GotoXY(N - 1, M + 3);
+    GotoXY(N, M + 1);
+    cout << "   Player";
+    GotoXY(N, M + 3);
+    cout << name1;
+    Box(N - 1, M + 2, 14, 2);
+    GotoXY(N - 1, M + 6);
     cout << "    Turn: ";
-    GotoXY(N - 1, M + 5);
+    GotoXY(N - 1, M + 8);
     cout << "    Run: ";
-    GotoXY(N - 1, M + 7);
+    GotoXY(N - 1, M + 10);
     cout << "    Win: ";
 
     txtColor(121);
     DrawFull(N + 38, M, w, h, 136, 32);
     DrawFull(N + 36, M - 1, w, h, 151, 32);
     DrawFull(N + 38, M, w - 4, h - 2, 119, 32);
-    GotoXY(N + 39, M + 1);
     txtColor(121);
-    cout << " PLAYER 2: O";
-    GotoXY(N + 39, M + 3);
+    Box(N + 39, M + 2, 14, 2);
+    GotoXY(N + 42, M + 1);
+    if (newGameOpt == 1) {
+        cout << " Player";
+        GotoXY(N + 40, M + 3);
+        cout << name2;
+    }
+    else cout << "BOT";
+    GotoXY(N + 39, M + 6);
     cout << "    Turn: ";
-    GotoXY(N + 39, M + 5);
+    GotoXY(N + 39, M + 8);
     cout << "    Run: ";
-    GotoXY(N + 39, M + 7);
+    GotoXY(N + 39, M + 10);
     cout << "    Win: ";
 
     txtColor(15 * 16);

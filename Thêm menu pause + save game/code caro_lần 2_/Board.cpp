@@ -7,7 +7,9 @@ using namespace std;
 _POINT _A[BOARD_SIZE][BOARD_SIZE];
 bool _TURN;
 int _X, _Y;
-
+char name1[14];
+char name2[14];
+int newGameOpt;
 void ResetData() {
     for (int i = 0; i < BOARD_SIZE; i++) {
         for (int j = 0; j < BOARD_SIZE; j++) {

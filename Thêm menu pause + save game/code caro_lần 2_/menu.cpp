@@ -12,21 +12,105 @@ using namespace std;
 int optionGame;
 //bool isMusicOn = true;
 
-void playername() {
-    int x = menu1_x - 20, y = menu1_y - 20;
-    DrawFull(x - 6, y - 2, 70, 40, 5, 32);
+void inputname(int x, int y, char name[]) {
     GotoXY(x, y);
+    int i = 0;
+    while (true)
+    {
+        if (_kbhit())
+        {
+            char key = _getch();
+            if (key == 27) printMenu();
+            else if (key == '\r')
+            {
+                name[i] = '\0';
+                break;
+            }
+            else if (key == '\b')
+            {
+                if (i > 0)
+                {
+                    i--;
+                    cout << "\b \b";
+                }
+            }
+            else if (i < MAX_FILE_LENGTH - 2)
+            {
+                txtColor(14);
+                cout << key;
+                txtColor(15 * 16);
+                name[i++] = key;
+            }
+            if (key == 13) {
+                break;
+            }
+        }
+    }
+    if (!isValidName(name))
+    {
+        i = 0;
+        GotoXY(x -1, y);
+        cout << "  Invalid input!";
+        Sleep(2000);
+        GotoXY(x - 1, y);
+        cout << "                ";
+        GotoXY(x, y);
+        inputname(x, y, name);
+    }
+}
+
+void playerName_withPlayer() {
+    showCursor();
+    int x = menu1_x - 20, y = menu1_y - 20;
+    DrawFull(x - 8, y - 3, 75, 44, 4 * 16, 32);
+    DrawFull(x - 6, y - 2, 71, 42, 15 * 16, 32);
     drawPlayername(x, y);
-    Box(x, y + 18, 20, 1);
-    Box(x + 20, y + 18, 20, 1);
-    DrawIsX(x, y + 21);
-    DrawIsO(x + 35, y + 21);
+    DrawFull(x, y, 59, 0, 3 * 16, 32);
+    DrawFull(x, y + 15, 59, 0, 3 * 16, 32);
+    DrawIsX(x, y + 23);
+    DrawIsO(x + 34, y + 23);
+    txtColor(15 * 16 + 4);
+    GotoXY(x + 8, y + 17);
+    cout << "PLAYER NAME X";
+    Box(x + 4, y + 18, 20, 2);
+    GotoXY(x + 40, y + 17);
+    txtColor(15 * 16 + 1);
+    cout << "PLAYER NAME O";
+    Box(x + 36, y + 18, 20, 2);
+    txtColor(15 * 16);
+    GotoXY(x + 16, y + 21);
+    cout << "    ( <=  13 characters )";
+    inputname(x + 6, y + 19, name1);
+    inputname(x + 38, y + 19,name2);
+}
+
+void playerName_withBot() {
+    showCursor();
+    int x = menu1_x - 20, y = menu1_y - 20;
+    DrawFull(x - 8, y - 3, 75, 44, 4 * 16, 32);
+    DrawFull(x - 6, y - 2, 71, 42, 15 * 16, 32);
+    drawPlayername(x, y);
+    DrawFull(x, y, 59, 0, 3 * 16, 32);
+    DrawFull(x, y + 15, 59, 0, 3 * 16, 32);
+    DrawIsX(x, y + 23);
+    DrawIsO(x + 34, y + 23);
+    txtColor(15 * 16 + 4);
+    GotoXY(x + 8, y + 17);
+    cout << "PLAYER NAME X";
+    Box(x + 4, y + 18, 20, 2);
+    GotoXY(x + 40, y + 17);
+    txtColor(15 * 16 + 1);
+    cout << "PLAYER NAME O";
+    Box(x + 36, y + 18, 20, 2);
+    txtColor(15 * 16);
+    GotoXY(x + 16, y + 21);
+    cout << "    ( <=  13 characters )";
+    inputname(x + 6, y + 19, name1);
 }
 
 void SelectMenu(int k) {
     switch (k) {
     case menu1_y:
-        playername();
         NewGame();
         break;
     case menu1_y + 3:
@@ -183,7 +267,6 @@ void printMenu() {
     drawCaro();
     drawpoke(118, 22);
     drawpoke2(25, 22);
-
 
     txtColor((15 << 4) | 4);
     Box(menu1_x + 3, menu1_y - 1, 19, 2);
@@ -746,9 +829,14 @@ void NewGameSelection() {
         if (move == 13) {
             switch (y) {
             case menu1_y - 8:
+                newGameOpt = 1;
+                playerName_withPlayer();
+                hideCursor();
                 StartGame();
                 break;
             case menu1_y - 6:
+                newGameOpt = -1;
+                playerName_withBot();
                 StartGamewithbot();
                 break;
             }
@@ -1272,22 +1360,22 @@ void drawPinkBox(int x, int y)
 
 void drawPlayername(int x, int y) {
     char Playername[16][31] = {
-        "333333333333333333333333333333",
+        "111111111111111111111111111111",
         "                              ",
-        "  EEE  E    EE  E E EEE EEE   ",
-        "  E  E E   E  E E E E   E  E  ",
-        "  E  E E   E  E EEE EEE E  E  ",
-        "  EEE  E   EEEE   E E   EEE   ",
-        "  E    EEE E  E EEE EEE E  E  ",
+        "  444  4    44  4 4 444 444   ",
+        "  4  4 4   4  4 4 4 4   4  4  ",
+        "  4  4 4   4  4 444 444 4  4  ",
+        "  444  4   4444   4 4   444   ",
+        "  4    444 4  4 444 444 4  4  ",
         "                              ",
         "                              ",
-        "     E  E  EE  E   E EEE      ",
-        "     EE E E  E EE EE E        ",
-        "     E EE E  E E E E EEE      ",
-        "     E  E EEEE E   E E        ",
-        "     E  E E  E E   E EEE      ",
+        "     4  4  44  4   4 444      ",
+        "     44 4 4  4 44 44 4        ",
+        "     4 44 4  4 4 4 4 444      ",
+        "     4  4 4444 4   4 4        ",
+        "     4  4 4  4 4   4 444      ",
         "                              ",
-        "333333333333333333333333333333",
+        "111111111111111111111111111111",
     };
     for (int i = 0; i < 16; i++)
     {

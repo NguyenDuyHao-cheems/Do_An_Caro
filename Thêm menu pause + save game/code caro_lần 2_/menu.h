@@ -33,6 +33,8 @@ void drawTable(int x, int y);
 void drawHowtoPlay(int x, int y);
 void drawPinkBox(int x, int y);
 void drawPlayername(int x, int y);
+void playerName_withPlayer();
+void playerName_withBot();
 
 
 

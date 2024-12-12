@@ -24,3 +24,6 @@ void ResetData(); //ham xoa du lieu ban co
 void DrawBoard(int pSize); //ve ban co
 int CheckBoard(int pX, int pY); // kiem tra vi tri tren ban co da duoc danh hay chua
 
+extern char name1[13 + 1];
+extern char name2[13 + 1];
+extern int newGameOpt;

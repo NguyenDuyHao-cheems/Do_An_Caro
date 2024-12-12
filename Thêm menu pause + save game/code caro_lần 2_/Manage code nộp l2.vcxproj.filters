@@ -46,9 +46,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="..\musicc.wav">
-      <Filter>Resource Files</Filter>
-    </Media>
     <Media Include="tick.wav">
       <Filter>Resource Files</Filter>
     </Media>
@@ -59,6 +56,9 @@
       <Filter>Resource Files</Filter>
     </Media>
     <Media Include="mo.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="musicc.wav">
       <Filter>Resource Files</Filter>
     </Media>
   </ItemGroup>

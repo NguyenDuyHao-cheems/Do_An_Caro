@@ -3,7 +3,7 @@
 #include "Game.h"
 //test
 int main() {
-    //PlayMusic("musicc.wav", L"music_bg");
+    PlayMusic("musicc.wav", L"music_bg");
     SetConsoleOutputCP(437);
     SetFontSize(8, 16);
     setConsoleWindow(1680, 900);

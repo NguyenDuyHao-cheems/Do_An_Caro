@@ -376,41 +376,42 @@ void Help() {
         PlayMo("mo.wav", L"mo_sound");
     }
     int x = menu1_x - 15, y = menu1_y , w = 103, h = 15;
+   const int xRule = 50, yRule = 25;
     drawESC(130, 40);
     drawPinkBox(5, 2);
     drawHowtoPlay(10, 6);
     int xTable = -5, yTable = 1;
     drawTable(xTable+10, yTable+25);
-    DrawFull(x + 2, y , w + 1, h, 136, 32);
-    DrawFull(x, y-1, w, h, 195, 197);
-    DrawFull(x + 2, y , w - 4, h - 2, 119, 32);
+    DrawFull(x + 2, y-2 , w + 1, h, 136, 32);
+    DrawFull(x, y-3, w, h, 195, 197);
+    DrawFull(x + 2, y-2 , w - 4, h - 2, 119, 32);
     des(140, 2);
     int i = 2;
-    GotoXY(xTable+20,yTable+ y + 2);
+    GotoXY(xTable+20,yTable+ y );
     txtColor((15 << 4) | 0);
     cout << "Control: ";
-    GotoXY( xTable+15,yTable+ y + 3-2 + i);
+    GotoXY( xTable+15,yTable+ y + 1-2 + i);
     cout << "W A S D: Move";
-    GotoXY(xTable+ 15,yTable+ y + 4 -1+ i);
+    GotoXY(xTable+ 15,yTable+ y + 2 -1+ i);
     cout << "Enter: choose";
-    GotoXY( xTable+15,yTable+ y + 10 -1+ i);
+    GotoXY( xTable+15,yTable+ y + 8 -1+ i);
     cout << "Press Esc to turn back";
-    GotoXY(xTable+ 15, yTable+ y + 6 -1+ i);
+    GotoXY(xTable+ 15, yTable+ y + 4 -1+ i);
     cout << "Esc: Pause game";
-    GotoXY(xTable +15,yTable+  y + 8 + i-1);
+    GotoXY(xTable +15,yTable+  y + 6 + i-1);
     cout << "U: undo move";
     txtColor((7<<4)|4);
-    GotoXY(x +30 , y + 2-1);
+    GotoXY(x +30 , y -1);
     cout << " RULE ";
-    GotoXY(x+3, y + 4-1);
+    GotoXY(x+3, y + 2-1);
     cout << "Objective: Be the first player to align 5 of your symbols (X or O) in a row, column, or diagonal.";
-    GotoXY(x +3, y + 6-1);
+    GotoXY(x +3, y + 4-1);
     cout << "Players: Two players take turns placing their symbol (X or O) on the board.";
-    GotoXY(x+3 , y + 8-1);
+    GotoXY(x+3 , y + 6-1);
     cout << "The game ends when a player aligns 5 symbols consecutively.";
-    GotoXY(x +3, y + 10-1);
+    GotoXY(x +3, y + 8-1);
     cout << "If the board is full with no winner, the game is a draw.";
-    GotoXY(x+3 , y + 12-1);
+    GotoXY(x+3 , y + 10-1);
     cout << "Undo (Optional): Players can undo their last move";
     while (1) {
         if (_getch() == 27) printMenu();
@@ -2183,4 +2184,35 @@ void drawPlayername(int x, int y) {
 
     }
 
+}
+void drawPikachu2(int x, int y)
+{
+    //9 xanh la, 6 vang cuc, 5 vang nhat
+    char pika[20][20] = {
+        "            000    ",
+        "          004480   ",
+        "         04448FF0  ",
+        "        04448F22F0 ",
+        "     0000448FF2FF0 ",
+        "    06EF0488FFF2F0 ",
+        "     0000000488FF0 ",
+        "       0EEE0044880 ",
+        "   0   0E0FEE04440 ",
+        "  0E0 00E00E0E00000",
+        "  0EE0044EEEEEEE440",
+        "  0E6E004EEE0EEE400",
+        "  0EE0E0EEFEEEFEE0 ",
+        "   00E60181FEF1810 ",
+        "     E0EF0B221B0FE0",
+        "     00E0BB1A1BB0E0",
+        "      001BB1A1BB100",
+        "       0011E0E1100 ",
+        "      0EF000 000FE0",
+        "       000     000 "
+    };
+    for (int i = 0; i < 20; i++)
+    {
+        DrawLine(pika[i], 20, x, y);
+        y++;
+    }
 }

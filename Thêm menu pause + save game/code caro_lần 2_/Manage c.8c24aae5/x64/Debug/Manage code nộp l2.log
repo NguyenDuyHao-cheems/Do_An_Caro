@@ -1,2 +1,3 @@
-﻿  main.cpp
+﻿  game.cpp
+D:\Do_an_caro_local_repos\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\game.cpp(731,1): warning C4715: 'readSystemTime': not all control paths return a value
   Manage code nộp l2.vcxproj -> D:\Do_an_caro_local_repos\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\x64\Debug\Manage code nộp l2.exe

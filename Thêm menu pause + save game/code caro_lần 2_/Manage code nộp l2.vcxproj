@@ -150,6 +150,7 @@
   <ItemGroup>
     <Text Include="allSaveFiles.txt" />
     <Text Include="Temporary.txt" />
+    <Text Include="TimeManage.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

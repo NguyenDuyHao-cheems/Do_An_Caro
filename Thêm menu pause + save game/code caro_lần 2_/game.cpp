@@ -3,17 +3,20 @@
 #include "board.h"
 #include <iostream>
 #include <conio.h>
+#include <time.h>
 int run_x = 0, run_y = 0;
 int turn_x = 0, turn_y = 0;
 
 TIME sum, XO;
 int  N = BOARD_SIZE * 5 + LEFT + 4, M = TOP + 18;
+SystemTime systemtime[MAX_FILE_SAVE];
 using namespace std;
 bool isMusicOn = true;
 int _COMMAND = 0;
 int xUndo, yUndo;
 int result;
 char savefiles[MAX_FILE_SAVE][MAX_FILE_LENGTH + 1] = { "" };
+char playModeGame[MAX_FILE_SAVE] = {};
 int numSaveFile = getNumSaveFile(savefiles);
 char filename[MAX_FILE_LENGTH + 1] = "";
 FILE* tempFile;
@@ -325,6 +328,7 @@ void PlayGame(int k, int& win_x, int& win_y)
     {
         tempFile = fopen("Temporary.txt", "w");
         fprintf(tempFile, "p ");
+        fflush(tempFile);
     }
     else tempFile = fopen("Temporary.txt", "a");
 
@@ -584,6 +588,7 @@ void SaveGameName()
         SaveSuccessMenu();
         strcpy(savefiles[numSaveFile++ - 1], filename);
         writeTempToSF();
+        systemtime[numSaveFile - 1] = readSystemTime(numSaveFile - 1);
         numSaveFile = getNumSaveFile(savefiles);
         while (true) {
             char command = _getch();
@@ -616,6 +621,7 @@ int getNumSaveFile(char savefiles[][MAX_FILE_LENGTH + 1])
         ch[strcspn(ch, "\n")] = '\0';
         strcpy(savefiles[count++], ch);
         fgets(buffer, sizeof(buffer), allSaveFiles);
+        playModeGame[count - 1] = buffer[0];
     }
     fclose(allSaveFiles);
     return count;
@@ -628,7 +634,129 @@ bool checkDuplicate(char filename[]) {
     }
     return false;
 }
+SystemTime getSystemTime() {
 
+    // Get the current time
+
+    time_t now = time(NULL);
+
+
+
+    // Convert to local time
+
+    struct tm* local = localtime(&now);
+
+
+
+    // Create a SystemTime structure and populate it
+
+    SystemTime currentTime;
+
+    currentTime.day = local->tm_mday;
+
+    currentTime.month = local->tm_mon + 1;  // Month is 0-11, so add 1
+
+    currentTime.year = local->tm_year + 1900; // Year since 1900
+
+    currentTime.hour = local->tm_hour;
+
+    currentTime.minute = local->tm_min;
+
+    currentTime.second = local->tm_sec;
+
+    GotoXY(0, 0);
+
+    return currentTime;
+
+}
+
+void writeSystemTime()
+
+{
+
+    FILE* timeManage = fopen("TimeManage.txt", "a");
+
+    if (!timeManage) {
+
+        cerr << "Error opening file.";
+
+        return;
+
+    }
+
+    SystemTime now = getSystemTime();
+
+    fprintf(timeManage, "%d/%d/%d %d:%d:%d\n", now.day, now.month, now.year, now.hour, now.minute, now.second);
+
+    fclose(timeManage);
+
+}
+
+SystemTime readSystemTime(int numTimes)
+
+{
+
+    writeSystemTime();
+
+    SystemTime save;
+
+    char buffer[25];
+
+    FILE* timeManage = fopen("TimeManage.txt", "r");
+
+    if (!timeManage) cerr << "Error opening file.";
+
+    else {
+
+        for (int i = 0; i < numTimes; i++) {
+
+            fgets(buffer, 25, timeManage);
+
+        }
+
+        if (fscanf(timeManage, "%d/%d/%d %d:%d:%d\n", &save.day, &save.month, &save.year,
+
+            &save.hour, &save.minute, &save.second) != 6) {
+
+            cerr << "Error reading file.";
+
+        }
+
+        fclose(timeManage);
+
+        return save;
+
+    }
+
+}
+
+void TimeMagToArray() {
+
+    FILE* timeMag = fopen("TimeManage.txt", "r");
+
+    SystemTime save;
+
+    int i = 0;
+
+    if (!timeMag) {
+
+        cerr << "Error opening file.";
+
+        return;
+
+    }
+
+    while (fscanf(timeMag, "%d/%d/%d %d:%d:%d\n", &save.day, &save.month, &save.year,
+
+        &save.hour, &save.minute, &save.second) == 6) {
+
+        systemtime[i++] = save;
+
+    }
+
+    fclose(timeMag);
+
+}
 bool isValidName(char filename[]) {
     if (filename[0] == '\0') return false;
     for (int i = 0; filename[i] != '\0'; i++) {
@@ -882,7 +1010,6 @@ void loadGameState(char filename[])
 {
     system("cls");
     ResetData();
-    showCursor();
     DrawBoard(BOARD_SIZE);
 
     allSaveFiles = fopen("allSaveFiles.txt", "rt");
@@ -954,32 +1081,70 @@ void loadGameState(char filename[])
 }
 void deleteSaveFile(char* filename)
 {
-    tempFile = fopen("Temporary.txt", "w+");
+    tempFile = fopen("Temporary.txt", "w");
     allSaveFiles = fopen("allSaveFiles.txt", "r");
-    char *buffer = new char [2000];
-    char ch;
+    char buffer[2000];
     if (!tempFile || !allSaveFiles) {
         cerr << "Error opening file.";
-        fclose(tempFile);
-        fclose(allSaveFiles);
-        delete[] buffer;
+        if (tempFile) fclose(tempFile);
+        if (allSaveFiles) fclose(allSaveFiles);
         return;
     }
     for (int i = 0; i < 2 * (optionSF - 1); i++) {
-        if (fgets(buffer, 2000, allSaveFiles)) fputs(buffer, tempFile);
+        if (fgets(buffer, sizeof(buffer), allSaveFiles)) fputs(buffer, tempFile);
     }
-    fgets(buffer, 2000, allSaveFiles);
-    fgets(buffer, 2000, allSaveFiles);
-    while (fgets(buffer, 2000, allSaveFiles)) fputs(buffer, tempFile);
-    allSaveFiles = fopen("allSaveFiles.txt", "w+");
-    rewind(tempFile);
-    while (fgets(buffer, 2000, tempFile)) fputs(buffer, allSaveFiles);
-    fflush(tempFile);
-    fflush(allSaveFiles);
+    fgets(buffer, sizeof(buffer), allSaveFiles);
+    fgets(buffer, sizeof(buffer), allSaveFiles);
     fclose(tempFile);
     fclose(allSaveFiles);
-    delete[] buffer;
+    tempFile = fopen("Temporary.txt", "r");
+    allSaveFiles = fopen("allSaveFiles.txt", "w");
+    if (!tempFile || !allSaveFiles) {
+        cerr << "Error opening file.";
+        if (tempFile) fclose(tempFile);
+        if (allSaveFiles) fclose(allSaveFiles);
+        return;
+    }
+    while (fgets(buffer, sizeof(buffer), tempFile)) fputs(buffer, allSaveFiles);
+    fclose(tempFile);
+    fclose(allSaveFiles);
     numSaveFile = getNumSaveFile(savefiles);
+    FILE* system = fopen("TimeManage.txt", "r");
+    FILE* tempFile = fopen("Temporary.txt", "w");
+    char bufferT[25];
+
+    if (!system || !tempFile) {
+        cerr << "Error opening file.";
+        if (system) fclose(system);
+        if (tempFile) fclose(tempFile);
+        return;
+    }
+
+    for (int i = 0; i < optionSF - 1; i++) {
+        if (fgets(bufferT, sizeof(bufferT), allSaveFiles)) fputs(bufferT, tempFile);
+    }
+    fgets(buffer, sizeof(buffer), allSaveFiles);
+    while (fgets(bufferT, sizeof(bufferT), allSaveFiles)) fputs(bufferT, tempFile);
+
+    fclose(system);
+    fclose(tempFile);
+
+    system = fopen("TimeManage.txt", "w");
+    tempFile = fopen("Temporary.txt", "r");
+
+    if (!system || !tempFile) {
+        cerr << "Error opening file.";
+        if (system) fclose(system);
+        if (tempFile) fclose(tempFile);
+        return;
+    }
+
+    while (fgets(buffer, sizeof(buffer), tempFile)) fputs(buffer, allSaveFiles);
+
+    TimeMagToArray();
+
+    fclose(system);
+    fclose(tempFile);
 }
 void confirmMenu()
 {
@@ -1067,35 +1232,46 @@ void loadOrDeleteMenu()
 void LoadGameSelection()
 {
     numSaveFile = getNumSaveFile(savefiles);
-    int x = menu1_x -15, y = menu1_y - 15;
+    int x = menu1_x +16, y= menu1_y +15;
     int move, kt = 1;
     optionSF = 1;
     while (kt == 1)
     {
-        GotoXY(x + 11, y + 5);
-        std::cout << "--->";
-        GotoXY(x + 34, y + 5);
-        std::cout << "<---";
 
+        for (int i = 1; i <= numSaveFile; i++)
+        {
+            GotoXY(x, y - 15 + i - 1);
+            if (i == optionSF) {
+                txtColor((0 << 4) | 14);
+
+            }
+            else {
+                txtColor((7 << 4) | 0);
+            }
+            char ch[5];
+            if (playModeGame[i - 1] == 'p') strcpy(ch, "PvP");
+            else strcpy(ch, "PvE");
+
+            printf("%-15s %-10s %02d/%02d/%04d %02d:%02d:%02d",
+                savefiles[i - 1],
+                ch,
+                systemtime[i - 1].day,
+                systemtime[i - 1].month,
+                systemtime[i - 1].year,
+                systemtime[i - 1].hour,
+                systemtime[i - 1].minute,
+                systemtime[i - 1].second);
+        }
+        
         move = _getch();
         move = toupper(move);
 
         if (move == 80 || move == 'S')
         {
-            GotoXY(x + 11, y + 5);
-            cout << "    ";
-            GotoXY(x + 34, y + 5);
-            cout << "    ";
-            y = (y == menu1_y - 15 + numSaveFile - 1) ? menu1_y - 15 : y + 1;
             optionSF = (optionSF == numSaveFile) ? 1 : optionSF + 1;
         }
         else if (move == 72 || move == 'W')
         {
-            GotoXY(x + 11, y + 5);
-            cout << "    ";
-            GotoXY(x + 34, y + 5);
-            cout << "    ";
-            y = (y == menu1_y - 15) ? menu1_y - 15 + numSaveFile - 1: y - 1;
             optionSF = (optionSF == 1) ? numSaveFile : optionSF - 1;
         }
         else if (move == 13)
@@ -1118,7 +1294,7 @@ void LoadGame()
         if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
         drawPinkBox2(5, 2);
         load(10, 6);
-        des(46, 20);
+        drawPikachu2(40, 20);
         muiten(5, 37);
 
         int x = menu1_x + 14, y = menu1_y - 5, w = 50, h = 18;
@@ -1137,20 +1313,20 @@ void LoadGame()
             txtColor(112);
             cout << "No save file yet.";
             txtColor(116);
-            while (char command = _getch())
-            {
-                if (command == 27) printMenu();
+
+            while (char command = _getch()) {
+                if (command == 27) {
+                    printMenu();
+                }
             }
         }
-        else
-        {
-            for (int i = 0; i < numSaveFile; i++)
-            {
-                GotoXY(x + 16, y + 5 + i);
-                txtColor(112);
-                cout << savefiles[i];
-                txtColor(116);
-            }
+        else {
+            TimeMagToArray();
+
+            GotoXY(x + 4, y + 4);
+            printf("%s%15s%10s", "NAME", "GAME MODE", "TIME");
+
+            
         }
         LoadGameSelection();
 }

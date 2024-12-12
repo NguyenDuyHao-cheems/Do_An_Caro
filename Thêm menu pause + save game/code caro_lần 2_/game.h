@@ -14,7 +14,7 @@ void Count_sumTime(TIME& time, int x, int y, int& k);
 
 void CountTime_XO(TIME& time, int x, int y, int& k);
 
-void PlayGame(int k, int& win_x, int& win_y); 
+void PlayGame(int k, int& win_x, int& win_y);
 bool checkWin(int row, int col, int winPositions[5][2]);
 bool isFull(_POINT board[][BOARD_SIZE]);
 int TestBoard(int row, int col, int winPositions[5][2]);
@@ -26,7 +26,7 @@ void StartGame();
 
 void hideCursor();
 void showCursor();
-void cursorBot(int _X, int _Y, int &preX, int& preY);
+void cursorBot(int _X, int _Y, int& preX, int& preY);
 void changeColorCursor(bool turn);
 //load
 void loadGameState(char filename[]);
@@ -45,6 +45,12 @@ void nhapnhay(const int winPositions[5][2], char symbol); //hieu ung noi bat chu
 void ResumeGame(int gameOption);
 void SaveGameName();
 bool checkDuplicate(char filename[]);
+
+SystemTime getSystemTime();
+void writeSystemTime();
+SystemTime readSystemTime(int numTimes);
+void TimeMagToArray();
+
 int getNumSaveFile(char savefiles[][MAX_FILE_LENGTH + 1]);
 bool isValidName(char filename[]);
 void writeTempToSF();

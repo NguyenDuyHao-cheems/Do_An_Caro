@@ -68,6 +68,7 @@ void drawPinkBox2(int x, int y);
 void load(int x, int y);
 
 void des(int x, int y);
+void drawPikachu2(int x, int y);
 
 void PauseMenu();
 void PauseSelection(int option);
@@ -86,7 +87,7 @@ void ve3();
 void NewGameSelection();
 void NewGame();
 void drawBigCloud(int x, int y);
-
+void drawMuiten(int x, int y);
 void drawSmallCloud(int x, int y);
 
 void drawInformation(int x, int y);

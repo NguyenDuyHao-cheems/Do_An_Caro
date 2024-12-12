@@ -24,7 +24,14 @@ struct TIME {
     int minutes = 0, seconds = 0;
 
 };
-
+typedef struct {
+    int day;
+    int month;
+    int year;
+    int hour;
+    int minute;
+    int second;
+} SystemTime;
 
 
 extern int win_x;

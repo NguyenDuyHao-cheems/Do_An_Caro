@@ -57,6 +57,18 @@ void drawtrueno(int x, int y);
 void drawNo(int x, int y, int choose);
 void cha(int x, int y);
 
+void Settingve(int x, int y);
+
+void setg(int x, int y);
+
+void muiten(int x, int y);
+
+void drawPinkBox2(int x, int y);
+
+void load(int x, int y);
+
+void des(int x, int y);
+
 void PauseMenu();
 void PauseSelection(int option);
 void SaveGameMenu();

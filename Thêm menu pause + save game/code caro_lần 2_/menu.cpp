@@ -9,6 +9,7 @@
 using namespace std;
 
 int optionGame;
+int h = 0;
 //bool isMusicOn = true;
 void SelectMenu(int k) {
     switch (k) {
@@ -278,10 +279,17 @@ void About() {
     }
 }
 void Setting() {
+    system("cls");
+    system("color F0");
     if (isMusicOn) {
         PlayMo("mo.wav", L"mo_sound");
     }
-    int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 13;
+    drawPinkBox(5, 2);
+    Settingve(10, 6);
+    setg(140, 20);
+    muiten(5, 37);
+
+    int x = menu1_x - 15, y = menu1_y - 5, w = 50, h = 13;
     int centerXOn = x + 27;
     int centerXOff = x + 16;
     int centerY = y + 4;
@@ -289,7 +297,7 @@ void Setting() {
     DrawFull(x, y, w, h, 195, 197);
     DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
     GotoXY(x + 5, y + 4);
-    cout << "Music ";
+    cout << "MUSIC ";
     DrawRoundedBox(x + 15, y + 3, 15, 3, 10);
     if (isMusicOn) {
         DrawFull(x + 16, y + 4, 12, 0, 10, 32);
@@ -301,9 +309,9 @@ void Setting() {
     }
 
     GotoXY(x + 5, y + 7);
-    cout << "F to OFF music";
+    cout << "F TO OFF MUSIC";
     GotoXY(x + 5, y + 8);
-    cout << "O to ON music";
+    cout << "O TO ON MUSIC";
     GotoXY(x + 5, y + 9);
     cout << "Press Esc to turn back to the main Menu...";
 
@@ -719,10 +727,10 @@ void NewGameSelection() {
         if (move == 13) {
             switch (y) {
             case menu1_y - 8:
-                StartGame();
+                StartGame(); h = 1;
                 break;
             case menu1_y - 6:
-                StartGamewithbot();
+                StartGamewithbot(); h = 0;
                 break;
             }
             kt = 0;
@@ -943,7 +951,13 @@ void PauseSelection(int option)
         ResumeGame(optionGame);
         break;
     case 2:
-        StartGame();
+        if (h == 1) {
+            StartGame();
+        }
+        else {
+            StartGamewithbot();
+        }
+
         break;
     case 3:
         SaveGameMenu();
@@ -1435,6 +1449,135 @@ void cha(int x, int y) {
     for (int i = 0; i <= 25; i++)
     {
         DrawLine(poke[i], 40, x, y);
+        y++;
+    }
+}
+void Settingve(int x, int y)
+{
+    char howtoPlay[5][63] = {
+        "     FFFF  FFFF  FFFFF  FFFFF  F  FFF  FFF  FFFFF",
+        "     F     F       F      F    F  F  F   F  F    ",
+        "     FFFF  FFFF    F      F    F  F   F  F  F FFF",
+        "        F  F       F      F    F  F    F F  F   F",
+        "     FFFF  FFFF    F      F    F  F     FF  FFFFF" };
+    for (int i = 0; i <= 4; i++)
+    {
+        DrawLine(howtoPlay[i], 63, x, y);
+        y++;
+    }
+}
+void setg(int x, int y) {
+    char poke[40][40] = {
+        "       000000      ",
+        "  00   088880  00",
+        " 08800088888000880",
+        " 088888888888888880",
+        " 088888000000888880",
+        "  08800      00880",
+        " 0880          0880",
+        "00880    00    08800",
+        "08880   0  0   08880",
+        "08880  0  880  08880",
+        "08880  0 8880  08880",
+        "08880   0880   08880",
+        "00880    00    08800",
+        "  0880        0880",
+        "   08800    00880",
+        "  0888880000888880",
+        " 088880888888088880",
+        "  0880 088880 0880",
+        "   00   0880   00",
+        "        0000",
+    };
+    for (int i = 0; i <= 25; i++)
+    {
+        DrawLine(poke[i], 30, x, y);
+        y++;
+    }
+}
+void muiten(int x, int y) {
+    char poke[40][40] = {
+        "    BB     ",
+        "   BBB     ",
+        "  BBBBBBBBBBBBBBBBB",
+        " BBBBBCCBCCBCCBBBBB",
+        "BBBBBBCBBCBBCBBBBBB",
+        "BBBBBBCCBCCBCBBBBBB",
+        "BBBBBBCBBBCBCBBBBBB",
+        "BBBBBBCCBCCBCCBBBBB",
+        " 9BBBBBBBBBBBBBBBBB",
+        "  9BBB9999999999999",
+        "   9BB9    ",
+        "    99     ",
+    };
+    for (int i = 0; i <= 25; i++)
+    {
+        DrawLine(poke[i], 30, x, y);
+        y++;
+    }
+}
+void drawPinkBox2(int x, int y)
+{
+    char pinkBox[13][90] = {
+        "   0000000000000000000000000000000000000000000000000000000000000000000000   ",
+        "  0BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB0  ",
+        " 0BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB0 ",
+        "0BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB0",
+        "0BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB0",
+        "0BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB0",
+        "0BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB0",
+        "0BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB0",
+        "0BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB0",
+        "0BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB0",
+        " 0BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB0 ",
+        "  0BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB0  ",
+        "   0000000000000000000000000000000000000000000000000000000000000000000000   " };
+    for (int i = 0; i < 13; i++)
+    {
+        DrawLine(pinkBox[i], 90, x, y);
+        y++;
+    }
+
+
+}
+void load(int x, int y)
+{
+    char load[15][80] = {
+          "F       FF      FF     FFF       FFFF    FF    FF      FF  FFFFF",
+          "F     FF  FF   F  F    F  F      F      F  F   F F    F F  F",
+          "F     F    F   FFFF    F   F     F FF   FFFF   F  F  F  F  FFFFF",
+          "F     FF  FF  F    F   F  F      F  F  F    F  F   FF   F  F",
+          "FFFF    FF    F    F   FFF       FFFF  F    F  F        F  FFFFF" };
+    for (int i = 0; i <= 4; i++)
+    {
+        DrawLine(load[i], 63, x, y);
+        y++;
+    }
+}
+void des(int x, int y) {
+    char poke[40][40] = {
+        "         00000      ",
+        "        0222220     ",
+        "       022222220",
+        "      0222222222000 ",
+        "   0  02226622222220",
+        "  0200022666622222E0",
+        "  020202267C722EEE0",
+        "00022200227C7EEEE0",
+        "0202220 02EEEEE00",
+        "022260 0662EE00",
+        "02226006626EE020",
+        " 02226002220EE00",
+        "  0022222200EE0",
+        "    0222222EEE0",
+        "     02222EEEE0",
+        "      022EE0E0",
+        "       00E0 00",
+        "         00",
+    };
+    for (int i = 0; i <= 25; i++)
+    {
+        DrawLine(poke[i], 30, x, y);
         y++;
     }
 }

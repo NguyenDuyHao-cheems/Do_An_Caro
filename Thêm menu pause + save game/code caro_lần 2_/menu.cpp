@@ -84,7 +84,6 @@ void printMenu() {
     drawpoke(118, 22);
     drawpoke2(25, 22);
 
-
     txtColor((15 << 4) | 4);
     Box(menu1_x + 3, menu1_y - 1, 19, 2);
     GotoXY(menu1_x + 5, menu1_y);
@@ -186,44 +185,68 @@ void Exit() {
     if (isMusicOn) {
         PlayMo("mo.wav", L"mo_sound");
     }
-    int x = menu1_x - 3, y = menu1_y - 5, w = 30, h = 8;
-    DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
-    DrawFull(x, y, w, h, 195, 197);
-    DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
-    GotoXY(x + 11, y + 2); cout << "Exit game?";
-    txtColor(112);
-    GotoXY(x + 8, y + 5); cout << "Yes";
-    GotoXY(x + 22, y + 5); cout << "No";
-    txtColor(116);
-    GotoXY(x + 5, y + 5); cout << "->";
-    GotoXY(x + 12, y + 5); cout << "<-";
-    while (1) {
+    system("cls");
+    drawPinkBox(30, 8);
+    cha(1, 22);
+    drawExit(65, 10);
+    DrawFull(52, 28, 35, 7, 0, 219);
+    Box(52, 28, 35, 7);
+    drawtrueYes(60, 30);
+
+    drawNo(110, 30, 0);
+    int opt = 1;
+    while (1)
+    {
         char c = toupper(_getch());
-        if (c == 'A' || c == 'D')
+        if (c == 'D' || c == 77)
         {
-            GotoXY(x + 5, y + 5); cout << "  ";
-            GotoXY(x + 12, y + 5); cout << "  ";
-            if (x == menu1_x - 3) x = menu1_x + 10;
-            else if (x == menu1_x + 10) x = menu1_x - 3;
             if (isMusicOn) {
                 PlayTick("tick.wav", L"tick_sound");
             }
-            GotoXY(x + 5, y + 5); cout << "->";
-            GotoXY(x + 12, y + 5); cout << "<-";
+            DrawFull(52, 28, 35, 7, 15, 219);
+            txtColor((15 << 4) | 15);
+            Box(52, 28, 35, 7);
+
+            DrawFull(102, 28, 35, 7, 0, 219);
+            Box(102, 28, 35, 7);
+            drawNo(110, 30, 1);
+            drawYes(60, 30);
+            txtColor(7);
+            opt = 0;
+            
+        }
+        else if (c == 'A' || c == 75)
+        {
+            if (isMusicOn) {
+                PlayTick("tick.wav", L"tick_sound");
+            }
+            opt = 1;
+            DrawFull(102, 28, 35, 7, 15, 219);
+            txtColor((15 << 4) | 15);
+            Box(102, 28, 35, 7);
+            txtColor(7);
+            DrawFull(52, 28, 35, 7, 0, 219);
+            Box(52, 28, 35, 7);
+            drawNo(110, 30, 0);
+            drawtrueYes(60, 30);
         }
         else if (c == 13)
         {
-            if (x == menu1_x - 3)
+            if (opt == 1)
             {
                 system("cls");
                 exit(0);
+
             }
-            else if (x == menu1_x + 10)
-            {
+            else {
                 printMenu();
+
             }
+            break;
         }
     }
+
+    
 }
 void About() {
     if (isMusicOn) {
@@ -1208,4 +1231,210 @@ void drawESC(int x, int y)
         y++;
     }
 
+}
+void drawExit(int x, int y)
+{
+   
+    char Exit[9][33] = {
+        " 0000   00   00  000    00000  ",
+        " 0000   F00 0F0  0F00  0FFFFF00",
+        "0FFFF0  F0000F0  0F00  000F0000",
+        "0F0000  0F00F00  0F00   00F0000",
+        "0F0000  00FF000  0F00    0F00  ",
+        "0FFFF0  0F00F00  0F00    0F00  ",
+        "0F0000  F0000F0  0F00    0F00  ",
+        "0FFFF0  F00 0F0  0000    0000  ",
+        " 0000   00   00   000     000  ",
+    };
+    for (int i = 0; i < 9; i++)
+    {
+        DrawLine(Exit[i], 33, x, y);
+        y++;
+    }
+    DrawFull(x+16, y-8, 0, 1, 0, 219);
+    DrawFull(x + 16, y -3, 0, 1, 0, 219);
+    DrawFull(x + 18, y - 8, 0, 1, 15, 219);
+    DrawFull(x + 18, y - 3, 0, 1, 15, 219);
+
+
+}
+void drawY(int x, int y)
+{
+    char Y[5][4] = {
+        "8 8",
+        "8 8",
+        " 8 ",
+        " 8 ",
+        " 8 "
+
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(Y[i], 4, x, y);
+        y++;
+    }
+}
+void drawE(int x, int y)
+{
+    char E[5][4] = {
+        "88 ",
+        "8 ",
+        "88",
+        "8",
+        "88"
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(E[i], 4, x, y);
+        y++;
+    }
+}
+void drawS(int x, int y)
+{
+    char S[5][5] = {
+        " 88",
+        "8  ",
+        " 88",
+        "   8",
+        " 88"
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(S[i], 5, x, y);
+        y++;
+    }
+}
+void drawYes(int x, int y) {
+    drawY(x, y );
+    drawE(x + 7, y    );
+    drawS(x + 12, y  );
+}
+void drawtrueY(int x, int y)
+{
+    char Y[5][4] = {
+        "4 4",
+        "4 4",
+        " 4 ",
+        " 4 ",
+        " 4 "
+
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(Y[i], 4, x, y);
+        y++;
+    }
+}
+void drawtrueE(int x, int y)
+{
+    char E[5][4] = {
+        "44 ",
+        "4 ",
+        "44",
+        "4",
+        "44"
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(E[i], 4, x, y);
+        y++;
+    }
+}
+void drawtrueS(int x, int y)
+{
+    char S[5][5] = {
+        " 44",
+        "4  ",
+        " 44",
+        "   4",
+        " 44"
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(S[i], 5, x, y);
+        y++;
+    }
+}
+void drawtrueYes(int x, int y) {
+    drawtrueY(x, y);
+    drawtrueE(x + 7, y);
+    drawtrueS(x + 12, y);
+}
+void drawNo(int x, int y)
+{
+    char no[5][12] = {
+        "8  8   88 ",
+        "88 8  8888 ",
+        "8 88  8888 ",
+        "8  8  8888",
+        "8  8   88 ",
+
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(no[i], 12, x, y);
+        y++;
+    }
+}
+void drawtrueno(int x, int y)
+{
+    char no[5][12] = {
+        "4  4   44 ",
+        "44 4  4444 ",
+        "4 44  4444 ",
+        "4  4  4444",
+        "4  4   44 ",
+
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(no[i], 12, x, y);
+        y++;
+    }
+}
+void drawNo(int x, int y, int choose)
+{
+    if (choose == 1)
+    {
+        drawtrueno(x, y);
+    }
+    else {
+        drawNo(x, y);
+    }
+}
+void cha(int x, int y) {
+    char poke[40][40] = {
+        "                    00      ",
+        "                    0D0     ",
+        "                   0DD0     ",
+        "                   0DCC0    ",
+        "                   0DCEC0   ",
+        "          0      0  0EEC0   ",
+        "         0C0    0C0 0C00",
+        "         0C0    0C00CC0",
+        "         0C000000C04C00",
+        "         0CC0  0CC04C0",
+        "      00 0CCCCCCCC0400",
+        "    00C0 0CCCCCCCC040C00",
+        "   0CCC00C7CCCCCC7C00CCC0",
+        "  0C99940C79CCCC97C04999C0",
+        " 0C999940CC0CCCC0CC049999C0",
+        " 0C9999940CCCCCCCC0499999C0",
+        "0CC99999904CCCCCC40999999CC0",
+        "0C9999990404CCCC4040999999C0",
+        "000999990C40444404C099999000",
+        "    99 0CC04000040CC0  99   ",
+        "       0700C4444C0070",
+        "      04040CCCCCC04040",
+        "      04440CCEECC04440",
+        "      0CCC0CEEEEC0CCC0",
+        "       0CCC0EEEE04CC0",
+        "       07C70000007C70",
+        "        000      000",
+    };
+    for (int i = 0; i <= 25; i++)
+    {
+        DrawLine(poke[i], 40, x, y);
+        y++;
+    }
 }

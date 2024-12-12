@@ -34,8 +34,28 @@ void drawPinkBox(int x, int y);
 void drawPauseBox(int x, int y);
 void drawESC(int x, int y);
 void DrawMenuOption(int x, int y, const char* text, int color);
+void drawExit(int x, int y);
+void drawY(int x, int y  	);
+void drawE(int x, int y  );
 
+void drawS(int x, int y  );
 
+void drawYes(int x, int y  );
+
+void drawtrueY(int x, int y);
+
+void drawtrueE(int x, int y);
+
+void drawtrueS(int x, int y);
+
+void drawtrueYes(int x, int y);
+
+void drawNo(int x, int y);
+
+void drawtrueno(int x, int y);
+
+void drawNo(int x, int y, int choose);
+void cha(int x, int y);
 
 void PauseMenu();
 void PauseSelection(int option);

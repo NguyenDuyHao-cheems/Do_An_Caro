@@ -883,7 +883,7 @@ void loadOrDeleteMenu()
 void LoadGameSelection()
 {
     numSaveFile = getNumSaveFile(savefiles);
-    int x = menu1_x - 15, y = menu1_y - 15;
+    int x = menu1_x +10, y = menu1_y - 5;
     int move, kt = 1;
     optionSF = 1;
     while (kt == 1)
@@ -927,40 +927,48 @@ void LoadGameSelection()
     }
 }
 void LoadGame()
-{
-    if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
-    int x = menu1_x - 15, y = menu1_y - 15, w = 50, h = 18;
-    numSaveFile = getNumSaveFile(savefiles);
-    DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
-    DrawFull(x, y, w, h, 195, 197);
-    DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
 
-    GotoXY(x + 16, y + 2);
-    cout << "Choose a Save File:";
-    GotoXY(x + 5, y + 16);
-    cout << "Press Esc to turn back to the main Menu...";
-    if (numSaveFile == 0)
     {
-        GotoXY(x + 16, y + 5); 
-        txtColor(112);
-        cout << "No save file yet.";
-        txtColor(116);
-        while (char command = _getch())
+        system("cls");
+        system("color F0");
+        if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
+        drawPinkBox2(5, 2);
+        load(10, 6);
+        des(46, 20);
+        muiten(5, 37);
+
+        int x = menu1_x + 14, y = menu1_y - 5, w = 50, h = 18;
+        numSaveFile = getNumSaveFile(savefiles);
+        DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+        DrawFull(x, y, w, h, 195, 197);
+        DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+
+        GotoXY(x + 16, y + 2);
+        cout << "Choose a Save File:";
+        GotoXY(x + 5, y + 16);
+        cout << "Press Esc to turn back to the main Menu...";
+        if (numSaveFile == 0)
         {
-            if (command == 27) printMenu();
-        }
-    }
-    else
-    {
-        for (int i = 0; i < numSaveFile; i++)
-        {
-            GotoXY(x + 16, y + 5 + i);
+            GotoXY(x + 16, y + 5);
             txtColor(112);
-            cout << savefiles[i];
+            cout << "No save file yet.";
             txtColor(116);
+            while (char command = _getch())
+            {
+                if (command == 27) printMenu();
+            }
         }
-    }
-    LoadGameSelection();
+        else
+        {
+            for (int i = 0; i < numSaveFile; i++)
+            {
+                GotoXY(x + 16, y + 5 + i);
+                txtColor(112);
+                cout << savefiles[i];
+                txtColor(116);
+            }
+        }
+        LoadGameSelection();
 }
 // play with bot
 int evaluatePosition(int row, int col, int player) {

@@ -1,4 +1,4 @@
 ﻿  menu.cpp
-D:\Do_an_caro_local_repos\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\menu.cpp(628,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Do_an_caro_local_repos\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\menu.cpp(644,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-  Manage code nộp l2.vcxproj -> D:\Do_an_caro_local_repos\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\x64\Debug\Manage code nộp l2.exe
+C:\Users\Phong\source\repos\local_repos_caro\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\menu.cpp(659,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Phong\source\repos\local_repos_caro\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\menu.cpp(675,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Manage code nộp l2.vcxproj -> C:\Users\Phong\source\repos\local_repos_caro\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\x64\Debug\Manage code nộp l2.exe

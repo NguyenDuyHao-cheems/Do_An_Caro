@@ -72,5 +72,8 @@
     <Text Include="TimeManage.txt">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="Stats.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

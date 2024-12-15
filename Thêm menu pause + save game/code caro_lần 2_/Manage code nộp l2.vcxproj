@@ -149,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="allSaveFiles.txt" />
+    <Text Include="Stats.txt" />
     <Text Include="Temporary.txt" />
     <Text Include="TimeManage.txt" />
   </ItemGroup>

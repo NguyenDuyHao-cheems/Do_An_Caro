@@ -32,8 +32,17 @@ typedef struct {
     int minute;
     int second;
 } SystemTime;
-
-
+typedef struct {
+    char nameP1[15];
+    char nameP2[15];
+    int isTurnP1;
+    int numP1;
+    int numP2;
+    int winP1;
+    int winP2;
+    int sumSeconds;
+    int sumMinutes;
+} Stats;
 extern int win_x;
 
 extern int win_y;
@@ -43,3 +52,4 @@ extern char name1[13 + 1];
 extern char name2[13 + 1];
 
 extern int newGameOpt;
+extern int h;

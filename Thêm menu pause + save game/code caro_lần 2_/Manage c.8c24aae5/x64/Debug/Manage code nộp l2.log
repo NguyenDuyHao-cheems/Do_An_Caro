@@ -1,3 +1,9 @@
 ﻿  game.cpp
-D:\Do_an_caro_local_repos\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\game.cpp(731,1): warning C4715: 'readSystemTime': not all control paths return a value
+D:\Do_an_caro_local_repos\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\game.cpp(561,9): warning C4101: 'bufferInt': unreferenced local variable
+  menu.cpp
+D:\Do_an_caro_local_repos\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\menu.cpp(633,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\Do_an_caro_local_repos\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\menu.cpp(648,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+D:\Do_an_caro_local_repos\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\game.cpp(519,1): warning C4715: 'readSystemTime': not all control paths return a value
+D:\Do_an_caro_local_repos\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\game.cpp(572,1): warning C4715: 'readSumOfTime': not all control paths return a value
   Manage code nộp l2.vcxproj -> D:\Do_an_caro_local_repos\Do_An_Caro\Thêm menu pause + save game\code caro_lần 2_\x64\Debug\Manage code nộp l2.exe

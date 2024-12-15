@@ -22,7 +22,7 @@ void MoveRight();
 void MoveLeft();
 void MoveDown();
 void MoveUp();
-void StartGame();
+void StartGame(int k);
 
 void hideCursor();
 void showCursor();
@@ -37,7 +37,7 @@ int evaluatePosition(int row, int col, int player);
 void BotMove(int& pX, int& pY);
 
 void PlaywithBot(int k, int& win_x, int& win_y);
-void StartGamewithbot();
+void StartGamewithbot(int k);
 void AskContinuePlaybot();
 
 void nhapnhay(const int winPositions[5][2], char symbol); //hieu ung noi bat chuoi lien tiep
@@ -50,6 +50,11 @@ SystemTime getSystemTime();
 void writeSystemTime();
 SystemTime readSystemTime(int numTimes);
 void TimeMagToArray();
+
+void getStats();
+void writeSumOfTime();
+Stats readSumOfTime(int numTimes);
+void statsToArray();
 
 int getNumSaveFile(char savefiles[][MAX_FILE_LENGTH + 1]);
 bool isValidName(char filename[]);

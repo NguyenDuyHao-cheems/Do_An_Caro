@@ -10,7 +10,7 @@ int newGameOpt;
 _POINT _A[BOARD_SIZE][BOARD_SIZE];
 bool _TURN;
 int _X, _Y;
-
+int h;
 void ResetData() {
     for (int i = 0; i < BOARD_SIZE; i++) {
         for (int j = 0; j < BOARD_SIZE; j++) {

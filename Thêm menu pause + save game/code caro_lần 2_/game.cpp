@@ -28,7 +28,7 @@ Stats TempStat, statsSF[MAX_FILE_SAVE];
 void AskContinue() {
     if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
     int currentOpt = 1;
-    int x = menu1_x, y = menu1_y, w = 50, h = 8;
+    int x = BOARD_SIZE * 5 + 3 + 3 + LEFT, y = TOP + 7, w = 50, h = 8;
     DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
     DrawFull(x, y, w, h, 195, 197);
     DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
@@ -36,26 +36,58 @@ void AskContinue() {
     txtColor(112);
     GotoXY(x + 18, y + 5); cout << "Yes";
     GotoXY(x + 32, y + 5); cout << "No";
-    txtColor(116);
-    GotoXY(x + 18 - 3, y + 5); cout << "->";
-    GotoXY(x + 18 + 4, y + 5); cout << "<-";
+    txtColor((0 << 4) | 15);
+    GotoXY(x + 18, y + 5);
+    cout << "Yes";
     while (1) {
         char c = toupper(_getch());
         if (c == 'D') {
-            GotoXY(x + 18 - 3, y + 5); cout << "  ";
-            GotoXY(x + 18 + 4, y + 5); cout << "  ";
+            if (currentOpt == -1) {
+                txtColor(112);
+                GotoXY(x + 32, y + 5);
+                cout << "No";
+            }
+            else {
+                txtColor(112);
+                GotoXY(x + 18, y + 5);
+                cout << "Yes";
+            }
             currentOpt = -1;
             if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
-            GotoXY(x + 32 - 3, y + 5); cout << "->";
-            GotoXY(x + 32 + 4, y + 5); cout << "<-";
+            if (currentOpt == -1) {
+                txtColor((0 << 4) | 15);
+                GotoXY(x + 32, y + 5);
+                cout << "No";
+            }
+            else {
+                txtColor((0 << 4) | 15);
+                GotoXY(x + 18, y + 5);
+                cout << "Yes";
+            }
         }
         if (c == 'A') {
-            GotoXY(x + 32 - 3, y + 5); cout << "  ";
-            GotoXY(x + 32 + 4, y + 5); cout << "  ";
+            if (currentOpt == -1) {
+                txtColor(112);
+                GotoXY(x + 32, y + 5);
+                cout << "No";
+            }
+            else {
+                txtColor(112);
+                GotoXY(x + 18, y + 5);
+                cout << "Yes";
+            }
             currentOpt = 1;
             if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
-            GotoXY(x + 18 - 3, y + 5); cout << "->";
-            GotoXY(x + 18 + 4, y + 5); cout << "<-";
+            if (currentOpt == -1) {
+                txtColor((0 << 4) | 15);
+                GotoXY(x + 32, y + 5);
+                cout << "No";
+            }
+            else {
+                txtColor((0 << 4) | 15);
+                GotoXY(x + 18, y + 5);
+                cout << "Yes";
+            }
         }
         else if (c == 13) {
             if (currentOpt == 1) {
@@ -72,7 +104,7 @@ void AskContinue() {
 void AskContinuePlaybot() {
     hideCursor();
     if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
-    int x = menu1_x, y = menu1_y, w = 50, h = 8, currentOpt = 1;
+    int x = BOARD_SIZE * 5 + 3 + 3 + LEFT, y = TOP + 7, w = 50, h = 8, currentOpt = 1;
     DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
     DrawFull(x, y, w, h, 195, 197);
     DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
@@ -80,26 +112,57 @@ void AskContinuePlaybot() {
     txtColor(112);
     GotoXY(x + 18, y + 5); cout << "Yes";
     GotoXY(x + 32, y + 5); cout << "No";
-    txtColor(116);
-    GotoXY(x + 18 - 3, y + 5); cout << "->";
-    GotoXY(x + 18 + 4, y + 5); cout << "<-";
+    txtColor((0 << 4) | 15);
+    GotoXY(x + 18, y + 5); cout << "Yes";
     while (1) {
         char c = toupper(_getch());
         if (c == 'D') {
-            GotoXY(x + 18 - 3, y + 5); cout << "  ";
-            GotoXY(x + 18 + 4, y + 5); cout << "  ";
+            if (currentOpt == -1) {
+                txtColor(112);
+                GotoXY(x + 32, y + 5);
+                cout << "No";
+            }
+            else {
+                txtColor(112);
+                GotoXY(x + 18, y + 5);
+                cout << "Yes";
+            }
             currentOpt = -1;
             if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
-            GotoXY(x + 32 - 3, y + 5); cout << "->";
-            GotoXY(x + 32 + 4, y + 5); cout << "<-";
+            if (currentOpt == -1) {
+                txtColor((0 << 4) | 15);
+                GotoXY(x + 32, y + 5);
+                cout << "No";
+            }
+            else {
+                txtColor((0 << 4) | 15);
+                GotoXY(x + 18, y + 5);
+                cout << "Yes";
+            }
         }
         if (c == 'A') {
-            GotoXY(x + 32 - 3, y + 5); cout << "  ";
-            GotoXY(x + 32 + 4, y + 5); cout << "  ";
+            if (currentOpt == -1) {
+                txtColor(112);
+                GotoXY(x + 32, y + 5);
+                cout << "No";
+            }
+            else {
+                txtColor(112);
+                GotoXY(x + 18, y + 5);
+                cout << "Yes";
+            }
             currentOpt = 1;
             if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
-            GotoXY(x + 18 - 3, y + 5); cout << "->";
-            GotoXY(x + 18 + 4, y + 5); cout << "<-";
+            if (currentOpt == -1) {
+                txtColor((0 << 4) | 15);
+                GotoXY(x + 32, y + 5);
+                cout << "No";
+            }
+            else {
+                txtColor((0 << 4) | 15);
+                GotoXY(x + 18, y + 5);
+                cout << "Yes";
+            }
         }
         else if (c == 13) {
             if (currentOpt == 1) {
@@ -154,7 +217,7 @@ void CountTime_XO(TIME& time, int x, int y, int& k) {
         }
         else if (k == 2) {
             time.seconds = 0;
-            PrintAt(x + 3, y, "       ");
+            PrintAt(x + 3, y, "      ");
             break;
         }
         if (k == 3) return;
@@ -203,7 +266,7 @@ void PlayGame(int k, int& win_x, int& win_y) {
     SmallMenu(6, TOP - 2);
     drawSmallCloud(1, 39);
     drawPhuthuy(5, 20);
-    drawStart(75, 4);
+    drawStart(75, 1);
     drawEnd(75, 45);
     int kt = 1, value = 0;
     int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 15;
@@ -1228,7 +1291,7 @@ void PlaywithBot(int k, int& win_x, int& win_y) {
     SmallMenu(6, TOP - 2);
     drawSmallCloud(1, 39);
     drawPhuthuy(5, 20);
-    drawStart(75, 4);
+    drawStart(75, 1);
     drawEnd(75, 45);
     int xUndo, yUndo, kt = 1, value = 0;
     result = 0;

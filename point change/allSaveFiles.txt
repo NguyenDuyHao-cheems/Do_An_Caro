@@ -1,4 +1,0 @@
-thaiPlayer
-p X(9,4) O(9,6) X(13,6) O(13,8) 
-thaiBotIDK
-b X(13,6) O(9,4) 

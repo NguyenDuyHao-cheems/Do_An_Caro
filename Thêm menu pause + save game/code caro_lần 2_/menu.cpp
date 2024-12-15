@@ -471,7 +471,7 @@ void DrawNotX(int x, int y) {
                           "044666666666440",
                           "004466666664400",
                           " 0044EEEEE4400 ",
-                          "  006666666600 ",
+                          "  00666666600F ",
                           "  06666666660  ",
                           " 0666664666660 ",
                           "066666444666660",
@@ -493,7 +493,7 @@ void DrawIsX(int x, int y) {
                           "8CCEEEEEEEEECC8",
                           "88CCEEEEEEECC88",
                           " 88CCCCCCCCC88 ",
-                          "  88EEEEEEEE88 ",
+                          "  88EEEEEEE88F ",
                           "  8EEEEEEEEE8  ",
                           " 8EEEEECEEEEE8 ",
                           "8EEEEECCCEEEEE8",
@@ -559,7 +559,7 @@ void DrawIsO(int x, int y)
 }
 // ve x win hoac o win
 void ve() {
-    int x = BOARD_SIZE * 5 + 3 + LEFT, y = TOP + 3, w = 75, h = 12;
+    int x = BOARD_SIZE * 5 + LEFT - 1, y = TOP - 3, w = 75, h = 21;
     DrawFull(x - 4, y - 2, w, h, 240, 32);
     char win_X[9][35] = {
         "CC     CC    EEE   444 EE 44    EE",
@@ -578,7 +578,7 @@ void ve() {
     }
 }
 void ve2() {
-    int x = BOARD_SIZE * 5 + 3 + LEFT, y = TOP + 3, w = 74, h = 12;
+    int x = BOARD_SIZE * 5 + LEFT - 1, y = TOP - 3, w = 74, h = 21;
     DrawFull(x - 4, y - 2, w, h, 240, 32);
     char win_Y[9][34] = {
         "  111       BBB   111 BB 11    BB",
@@ -597,58 +597,23 @@ void ve2() {
     }
 }
 void ve3() {
-    int x = BOARD_SIZE * 5 + 3 + LEFT, y = TOP + 3, w = 50, h = 15;
-    DrawFull(30, 8, w + 12, 10, 31, 32);
-    for (int j = 10; j < 18; j++) DrawFull(32, j, 1, 0, 255, 32);
-    for (int j1 = 12; j1 < 16; j1++) DrawFull(39, j1, 1, 0, 255, 32);
-    for (int j2 = 32; j2 < 37; j2++) DrawFull(j2, 10, 1, 0, 255, 32);
-    for (int j3 = 32; j3 < 37; j3++) DrawFull(j3, 17, 1, 0, 255, 32);
-    DrawFull(37, 11, 1, 0, 255, 32);
-    DrawFull(37, 16, 1, 0, 255, 32);
-    for (int j4 = 10; j4 < 18; j4++) DrawFull(44, j4, 1, 0, 255, 32);
-    DrawFull(50, 12, 1, 0, 255, 32);
-    for (int j2 = 44; j2 < 48; j2++) DrawFull(j2, 10, 1, 0, 255, 32);
-    for (int j2 = 44; j2 < 48; j2++) DrawFull(j2, 14, 1, 0, 255, 32);
-    DrawFull(48, 11, 1, 0, 255, 32);
-    DrawFull(48, 13, 1, 0, 255, 32);
-    int h4 = 47;
-    for (int j2 = 14; j2 < 18; j2++) {
-        DrawFull(h4, j2, 1, 0, 255, 32);
-        h4 += 1;
+    int x = BOARD_SIZE * 5 + LEFT - 1, y = TOP - 3, w = 75, h = 21;
+    DrawFull(x - 4, y - 2, w, h, 240, 32);
+    char draw[9][35] = {
+        "33333  44444    111   CCC   CCC",
+        "111133 4CCC44  11311  C4     4C",
+        "31  13 4C  C4 113 311 C4     4C",
+        "31  13 4C  C4 13   31 C4  4  4C",
+        "31  13 4CCCC4 13   31 C4 444 4C",
+        "31  13 4C4C4  1333331 C444C444C",
+        "31  13 4C4CC4 1311131 C44C C44C",
+        "111133 4C 4C4 13   31 C4C   C4C",
+        "33333  44  44 11   11 CC     CC"
+    };
+    for (int i = 0; i < 9; i++) {
+        DrawLine(draw[i], 34, x, y);
+        y++;
     }
-    int h5 = 54;
-    for (int j2 = 17; j2 > 9; j2--) {
-        DrawFull(h5, j2, 1, 0, 255, 32);
-        h5 += 1;
-    }
-    for (int j2 = 10; j2 < 18; j2++) {
-        DrawFull(h5, j2, 1, 0, 255, 32);
-        h5 += 1;
-    }
-    for (int j2 = 58; j2 < 65; j2++) {
-        DrawFull(j2, 14, 1, 0, 255, 32);
-    }
-    float i1 = 70;
-    for (int j = 10; j < 18; j++) {
-        DrawFull(i1, j, 1, 0, 255, 32);
-        i1 += 0.5;
-    }
-    int i11 = 74;
-    for (int j = 17; j > 12; j--) {
-        DrawFull(i11, j, 1, 0, 255, 32);
-        i11 += 1;
-    }
-    int h1 = i11;
-    for (int j = 13; j < 18; j++) {
-        DrawFull(h1, j, 1, 0, 255, 32);
-        h1 += 1;
-    }
-    float h2 = 87;
-    for (int j = 11; j < 18; j++) {
-        DrawFull(h2, j, 1, 0, 255, 32);
-        h2 -= 0.5;
-    }
-    DrawFull(87, 10, 1, 0, 255, 32);
 }
 // new game
 void NewGameSelection() {

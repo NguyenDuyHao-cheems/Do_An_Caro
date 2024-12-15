@@ -4,7 +4,7 @@
 
 #define BOARD_SIZE 15 // kich thuoc ban co
 #define LEFT 40
-#define TOP 11
+#define TOP 10
 #define menu1_x 3+41+17+26 // toa do menu
 #define menu1_y 4+12+10
 struct _POINT { //kieu du lieu luu vi tri tren ban co va xac dinh vi tri da duoc danh hay chua

@@ -70,6 +70,60 @@ void load(int x, int y);
 void des(int x, int y);
 void drawPikachu2(int x, int y);
 
+void drawcharG(int x, int y);
+
+void drawcharA(int x, int y);
+
+void drawcharM(int x, int y);
+
+void drawcharE(int x, int y);
+
+void drawcharO(int x, int y);
+
+void drawcharD(int x, int y);
+
+void drawGameMode(int x, int y);
+
+void drawcharN(int x, int y);
+
+void drawcharU(int x, int y);
+
+void drawcharC(int x, int y);
+
+void drawcharT(int x, int y);
+
+void drawcharW(int x, int y);
+
+void drawCountdown(int x, int y);
+
+void drawcharsmallL(int x, int y);
+
+void drawcharsmallA(int x, int y);
+
+void drawcharsmallY(int x, int y);
+
+void drawcharP(int x, int y);
+
+void drawcharsmallV(int x, int y);
+
+void draw15s(int x, int y);
+
+void draw30s(int x, int y);
+
+void drawInf(int x, int y);
+
+void drawmuiten(int x, int y);
+
+void drawPlay(int x, int y);
+
+void drawPvP(int x, int y);
+
+void drawPvE(int x, int y);
+
+void drawNotmuiten(int x, int y);
+
+void drawNot(int x, int y);
+
 void PauseMenu();
 void PauseSelection(int option);
 void SaveGameMenu();

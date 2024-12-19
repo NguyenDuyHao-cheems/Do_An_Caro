@@ -50,6 +50,6 @@ extern int win_y;
 extern char name1[13 + 1];
 
 extern char name2[13 + 1];
-
+extern int pretime;  //luu opt countdow time truoc do
 extern int newGameOpt;
 extern int h;

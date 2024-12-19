@@ -9,7 +9,6 @@
 using namespace std;
 
 int optionGame;
-
 //bool isMusicOn = true;
 void SelectMenu(int k) {
     switch (k) {
@@ -444,22 +443,8 @@ void DrawSquare(int x, int y, int color) {
 // ve turn x o
 void DrawLine(char a[120], int x, int x2, int y2) {
     for (int j = 0; j < x; j++) {
-        if (a[j] == '0') DrawSquare(x2 + 2 * j, y2, 0);
-        else if (a[j] == '1') DrawSquare(x2 + 2 * j, y2, 1);
-        else if (a[j] == '2') DrawSquare(x2 + 2 * j, y2, 2);
-        else if (a[j] == '3') DrawSquare(x2 + 2 * j, y2, 3);
-        else if (a[j] == '4') DrawSquare(x2 + 2 * j, y2, 4);
-        else if (a[j] == '5') DrawSquare(x2 + 2 * j, y2, 5);
-        else if (a[j] == '6') DrawSquare(x2 + 2 * j, y2, 6);
-        else if (a[j] == '7') DrawSquare(x2 + 2 * j, y2, 7);
-        else if (a[j] == '8') DrawSquare(x2 + 2 * j, y2, 8);
-        else if (a[j] == '9') DrawSquare(x2 + 2 * j, y2, 9);
-        else if (a[j] == 'A') DrawSquare(x2 + 2 * j, y2, 10);
-        else if (a[j] == 'B') DrawSquare(x2 + 2 * j, y2, 11);
-        else if (a[j] == 'C') DrawSquare(x2 + 2 * j, y2, 12);
-        else if (a[j] == 'D') DrawSquare(x2 + 2 * j, y2, 13);
-        else if (a[j] == 'E') DrawSquare(x2 + 2 * j, y2, 14);
-        else if (a[j] == 'F') DrawSquare(x2 + 2 * j, y2, 15);
+        if (a[j] >= 48 && a[j] <= 57) DrawSquare(x2 + 2 * j, y2, a[j] - '0');
+        if (a[j] >= 65 && a[j] <= 70) DrawSquare(x2 + 2 * j, y2, a[j] - 55);
     }
 }
 void DrawNotX(int x, int y) {
@@ -617,92 +602,255 @@ void ve3() {
 }
 // new game
 void NewGameSelection() {
-    int x = menu1_x - 15, y = menu1_y - 8, move, kt = 1;
-    optionGame = 1;
-    while (kt == 1) {
-        txtColor((0 << 4) | 15);
-        if (y == menu1_y - 8) {
-            GotoXY(x + 17, menu1_y - 8 + 6); cout << "Player with Player";
-        }
-        else {
-            GotoXY(x + 18, menu1_y - 8 + 8); cout << "Player with Bot";
-        }
-        move = _getch(); move = toupper(move);
-        if (move == 80 || move == 'S') {
-            txtColor(116);
-            if (y == menu1_y - 8) {
-                GotoXY(x + 17, menu1_y - 8 + 6); cout << "Player with Player";
-            }
-            else {
-                GotoXY(x + 18, menu1_y - 8 + 8); cout << "Player with Bot";
-            }
-            if (y == menu1_y - 6) y = menu1_y - 8;
-            else y += 2;
-            if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
-            txtColor((0 << 4) | 15);
-            if (y == menu1_y - 8) {
-                GotoXY(x + 17, menu1_y - 8 + 6); cout << "Player with Player";
-            }
-            else {
-                GotoXY(x + 18, menu1_y - 8 + 8); cout << "Player with Bot";
-            }
-            if (optionGame == 2) optionGame = 1;
-            else optionGame++;
-        }
-        if (move == 72 || move == 'W') {
-            txtColor(116);
-            if (y == menu1_y - 8) {
-                GotoXY(x + 17, menu1_y - 8 + 6); cout << "Player with Player";
-            }
-            else {
-                GotoXY(x + 18, menu1_y - 8 + 8); cout << "Player with Bot";
-            }
-            if (y == menu1_y - 8) y = menu1_y - 6;
-            else y -= 2;
-            if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
-            txtColor((0 << 4) | 15);
-            if (y == menu1_y - 8) {
-                GotoXY(x + 17, menu1_y - 8 + 6); cout << "Player with Player";
-            }
-            else {
-                GotoXY(x + 18, menu1_y - 8 + 8); cout << "Player with Bot";
-            }
-            if (optionGame == 1) optionGame = 2;
-            else optionGame--;
-        }
-        if (move == 13) {
-            switch (y) {
-            case menu1_y - 8:
-                newGameOpt = 1;
-                playerName_withPlayer();
-                hideCursor();
-                StartGame(0);
+    //khai bao bien
+    const int time1 = 15, time2 = 30, time3 = -1;
+    int opt = 1; //opt dau 3, la play
+    int gamemode = 1; // 1pvp 2 pve
+    int cnttime = 1; // 1: 15, -1 la inf
+    int c;
+    while (1)
+    {
+
+        c = toupper(_getch());
+        if (c == 'W' || c == 72) {
+            //xoa vi tri cu
+            switch (opt) {
+            case 1:
+                drawNotmuiten(18, 5);
                 break;
-            case menu1_y - 6:
-                newGameOpt = -1;
-                playerName_withBot();
-                StartGamewithbot(0);
+            case 2:
+                drawNotmuiten(18, 5 + 14);
+                break;
+            case 3:
+                drawNotmuiten(18, 5 + 14 + 16);
                 break;
             }
-            kt = 0;
+            if (opt == 1)
+            {
+                opt = 3;
+            }
+            else {
+                opt--;
+            }
+            switch (opt) {
+            case 1:
+                drawmuiten(18, 5);
+                break;
+            case 2:
+                drawmuiten(18, 5 + 14);
+                break;
+            case 3:
+                drawmuiten(18, 5 + 14 + 16);
+                break;
+            }
         }
-        if (move == 27) {
+        else if (c == 'S' || c == 80)
+        {
+            switch (opt)
+            {
+            case 1:
+                drawNotmuiten(18, 5);
+                break;
+            case 2:
+                drawNotmuiten(18, 5 + 14);
+                break;
+            case 3:
+                drawNotmuiten(18, 5 + 14 + 16);
+                break;
+            }
+
+            if (opt == 3)
+            {
+                opt = 1;
+            }
+            else {
+                opt++;
+            }
+            switch (opt) {
+            case 1:
+                drawmuiten(18, 5);
+                break;
+            case 2:
+                drawmuiten(18, 5 + 14);
+                break;
+            case 3:
+                drawmuiten(18, 5 + 14 + 16);
+                break;
+            }
+        }
+        else if (c == 'A' || c == 75) {
+            switch (opt) {
+            case 1:
+                switch (gamemode) {
+                case 1:
+                    drawNot(140, 8);
+                    break;
+                case 2:
+                    drawNot(140, 8);
+                    break;
+                }
+                if (gamemode == 1) gamemode = 2;
+                else if (gamemode == 2) gamemode--;
+                switch (gamemode) {
+                case 1:
+                    drawPvP(141, 8);
+                    break;
+                case 2:
+                    drawPvE(141, 8);
+                    break;
+                }
+                break;
+            case 2:
+                switch (cnttime) {
+                case 1:
+                    drawNot(139, 22);
+                    break;
+                case 2:
+                    drawNot(139, 22);
+                    break;
+                case 3:
+                    drawNot(141, 22);
+                    break;
+                }
+                if (cnttime > 1) cnttime--;
+                else if (cnttime == 1) cnttime = 3;
+                switch (cnttime) {
+                case 1:
+                    draw15s(139, 22);
+                    break;
+                case 2:
+                    draw30s(139, 22);
+                    break;
+                case 3:
+                    drawInf(143, 22);
+                    break;
+                }
+                break;
+            }
+        }
+        else if (c == 'D' || c == 77) {
+            switch (opt) {
+            case 1:
+                switch (gamemode) {
+                case 1:
+                    drawNot(140, 8);
+                    break;
+                case 2:
+                    drawNot(140, 8);
+                    break;
+                }
+                if (gamemode == 1) gamemode++;
+                else if (gamemode == 2) gamemode = 1;
+                switch (gamemode) {
+                case 1:
+                    drawPvP(141, 8);
+                    break;
+                case 2:
+                    drawPvE(141, 8);
+                    break;
+                }
+                break;
+            case 2:
+                switch (cnttime) {
+                case 1:
+                    drawNot(139, 22);
+                    break;
+                case 2:
+                    drawNot(139, 22);
+                    break;
+                case 3:
+                    drawNot(141, 22);
+                    break;
+                }
+                if (cnttime < 3) cnttime++;
+                else if (cnttime == 3) cnttime = 1;
+                switch (cnttime) {
+                case 1:
+                    draw15s(139, 22);
+                    break;
+                case 2:
+                    draw30s(139, 22);
+                    break;
+                case 3:
+                    drawInf(143, 22);
+                    break;
+                }
+                break;
+            }
+        }
+        else if (c == 13)
+        {
+
+            if (opt == 3)
+            {
+                if (gamemode == 1)
+                {
+                    newGameOpt = 1;
+                    playerName_withPlayer();
+                    hideCursor();
+                    switch (cnttime)
+                    {
+                    case 1:
+                        StartGame(0, time1);
+                        break;
+                    case 2:
+                        StartGame(0, time2);
+                        break;
+                    case 3:
+                        StartGame(0, time3);
+                        break;
+                    }
+
+                }
+                else {
+                    newGameOpt = -1;
+                    playerName_withBot();
+                    switch (cnttime)
+                    {
+                    case 1:
+                        StartGamewithbot(0, time1);
+                        break;
+                    case 2:
+                        StartGamewithbot(0, time2);
+                        break;
+                    case 3:
+                        StartGamewithbot(0, time3);
+                        break;
+                    }
+
+                }
+            }
+        }
+        else if (c == 27)
+        {
             printMenu();
-            kt = 0;
+            break;
         }
     }
 }
 void NewGame() {
+    system("cls");
+    system("color F0");
     if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
-    int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 15;
-    DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
-    DrawFull(x, y, w, h, 195, 197);
-    DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
-    GotoXY(x + 18, y + 2); cout << "Choose Game Mode:";
-    GotoXY(x + 17, y + 6); cout << "Player with Player";
-    GotoXY(x + 18, y + 8); cout << "Player with Bot";
-    GotoXY(x + 7, y + 12); cout << "Press Esc to turn back the main menu...";
+
+    //giao dien
+    drawmuiten(18, 5);
+    DrawFull(36, 6, 88, 8, (11 << 4) | 15, 32);
+    drawGameMode(44, 8);
+    txtColor((15 << 4) | 0);
+    Box(135, 6, 32, 8);
+    Box(137, 7, 28, 6);
+    drawPvP(141, 8);
+    DrawFull(36, 20, 88, 8, (11 << 4) | 15, 32);
+    drawCountdown(38, 22);
+    txtColor((15 << 4) | 0);
+    Box(135, 20, 32, 8);
+    Box(137, 21, 28, 6);
+    draw15s(139, 22);
+    DrawFull(36, 36, 132, 8, (12 << 4) | 15, 32);
+    drawPlay(88, 38);
     NewGameSelection();
+  
 }
 void DrawRoundedBox(int x, int y, int width, int height, int color) {
     GotoXY(x, y); cout << char(201);
@@ -935,8 +1083,8 @@ void PauseSelection(int option) {
         ResumeGame(optionGame);
         break;
     case 2:
-        if (newGameOpt == 1) StartGame(1);
-        else StartGamewithbot(1);
+        if (newGameOpt == 1) StartGame(1, pretime);
+        else StartGamewithbot(1, pretime);
         break;
     case 3:
         SaveGameMenu();
@@ -1640,6 +1788,415 @@ void drawPikachu2(int x, int y) {
     };
     for (int i = 0; i < 20; i++) {
         DrawLine(pika[i], 20, x, y);
+        y++;
+    }
+}
+void drawcharG(int x, int y)
+{
+    char G[5][4] = {
+        "000",
+        "0  ",
+        "0  ",
+        "0 0",
+        "000"
+
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(G[i], 3, x, y);
+        y++;
+    }
+}
+void drawcharA(int x, int y)
+{
+    char A[5][5] = {
+        " 0 ",
+        "0 0",
+        "000",
+        "0 0",
+        "0 0"
+
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(A[i], 3, x, y);
+        y++;
+    }
+}
+void drawcharM(int x, int y)
+{
+    const int r = 5;
+    char M[r][6] = {
+        " 0 0 ",
+        "0 0 0",
+        "0   0",
+        "0   0",
+        "0   0"
+
+    };
+    for (int i = 0; i < r; i++)
+    {
+        DrawLine(M[i], 6, x, y);
+        y++;
+    }
+}
+void drawcharE(int x, int y)
+{
+    const int row = 5;
+    const int col = 3;
+    char E[row][col] = {
+        "00",
+        "0",
+        "00",
+        "0",
+        "00"
+
+
+    };
+    for (int i = 0; i < row; i++)
+    {
+        DrawLine(E[i], col, x, y);
+        y++;
+    }
+}
+void drawcharO(int x, int y)
+{
+    char O[5][5] = {
+        " 00 ",
+        "0  0",
+        "0  0",
+        "0  0",
+        " 00 "
+
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(O[i], 5, x, y);
+        y++;
+    }
+}
+void drawcharD(int x, int y)
+{
+    char Y[5][5] = {
+        "00  ",
+        "0 0 ",
+        "0 0 ",
+        "0 0 ",
+        "00 "
+
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(Y[i], 5, x, y);
+        y++;
+
+    }
+}
+void drawGameMode(int x, int y)
+{
+    drawcharG(x, y);
+    drawcharA(x + 8, y);
+    drawcharM(x + 8 + 8, y);
+    drawcharE(x + 8 + 8 + 12, y);
+    const int xMode = x + 8 + 8 + 12 + 5 + 4;
+    drawcharM(xMode + 2, y);
+    drawcharO(xMode + 2 + 12, y);
+    drawcharD(xMode + 2 + 12 + 10, y);
+    drawcharE(xMode + 2 + 12 + 10 + 8, y);
+}
+
+void drawcharN(int x, int y)
+{
+    char N[5][5] = {
+        "0  0",
+        "00 0",
+        "0 00",
+        "0  0",
+        "0  0"
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(N[i], 5, x, y);
+        y++;
+    }
+}
+void drawcharU(int x, int y)
+{
+    char U[5][5] = {
+        "0  0",
+        "0  0",
+        "0  0",
+        "0  0",
+        "0000"
+
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(U[i], 5, x, y);
+        y++;
+    }
+}
+void drawcharC(int x, int y)
+{
+    char C[5][4] = {
+        " 00",
+        "0",
+        "0",
+        "0",
+        " 00"
+
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(C[i], 4, x, y);
+        y++;
+    }
+}
+void drawcharT(int x, int y)
+{
+    char T[5][5] = {
+        "000",
+        " 0",
+        " 0",
+        " 0",
+        " 0"
+
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(T[i], 4, x, y);
+        y++;
+    }
+}
+void drawcharW(int x, int y)
+{
+    char W[5][6] = {
+        "0   0",
+        "0   0",
+        "0 0 0",
+        "0 0 0",
+        " 0 0 ",
+
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(W[i], 6, x, y);
+        y++;
+    }
+
+}
+
+void drawCountdown(int x, int y) {
+    char count[5][43] = {
+        " 00  00  0  0 0  0 000 00   00  0   0 0  0",
+        "0   0  0 0  0 00 0  0  0 0 0  0 0   0 00 0",
+        "0   0  0 0  0 0 00  0  0 0 0  0 0 0 0 0 00",
+        "0   0  0 0  0 0  0  0  0 0 0  0 0 0 0 0  0",
+        " 00  00  0000 0  0  0  00   00   0 0  0  0"
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(count[i], 42, x, y);
+        y++;
+    }
+}
+
+void drawcharsmallL(int x, int y)
+{
+    char L[5][2] = {
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(L[i], 2, x, y);
+        y++;
+    }
+}
+void drawcharsmallA(int x, int y)
+{
+    char a[5][6] = {
+        "    ",
+        " 0000",
+        "0   0",
+        "0   0",
+        " 0000"
+
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(a[i], 6, x, y);
+        y++;
+    }
+}
+void drawcharsmallY(int x, int y)
+{
+    char smally[7][5] = {
+        "    ",
+        "0  0",
+        "0  0",
+        "0  0",
+        " 000",
+        "   0",
+        " 00"
+
+    };
+    for (int i = 0; i < 7; i++)
+    {
+        DrawLine(smally[i], 5, x, y);
+        y++;
+    }
+}
+
+void drawcharP(int x, int y)
+{
+    char P[5][4] = {
+        "000",
+        "0 0",
+        "000",
+        "0",
+        "0"
+
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(P[i], 4, x, y);
+        y++;
+    }
+}
+void drawcharsmallV(int x, int y)
+{
+    char v[2][4] = {
+        "0 0",
+        " 0"
+    };
+    for (int i = 0; i < 2; i++)
+    {
+        DrawLine(v[i], 4, x, y);
+        y++;
+    }
+}
+
+void draw15s(int x, int y) {
+    char fif[5][13] = {
+        "00 0000     ",
+        " 0 0     000",
+        " 0  000 00  ",
+        " 0    0   00",
+        " 0 000  000 "
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(fif[i], 12, x, y);
+        y++;
+    }
+}
+
+void draw30s(int x, int y) {
+    char ba[5][13] = {
+        "000  0      ",
+        "  0 0 0  000",
+        " 00 0 0 00  ",
+        "  0 0 0   00",
+        "000  0  000 "
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(ba[i], 12, x, y);
+        y++;
+    }
+}
+
+void drawInf(int x, int y) {
+    char inf[5][10] = {
+        " 00   00 ",
+        "0  0 0  0",
+        "0   0   0",
+        "0  0 0  0",
+        " 00   00 "
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(inf[i], 9, x, y);
+        y++;
+    }
+}
+
+void drawmuiten(int x, int y) {
+    char muiten[11][7] = {
+        "0     ",
+        "00    ",
+        "0 0   ",
+        "0  0  ",
+        "0   0 ",
+        "0    0",
+        "0   0 ",
+        "0  0  ",
+        "0 0   ",
+        "00    ",
+        "0     "
+    };
+    for (int i = 0; i < 11; i++)
+    {
+        DrawLine(muiten[i], 6, x, y);
+        y++;
+    }
+}
+void drawPlay(int x, int y) {
+    drawcharP(x, y);
+    drawcharsmallL(x + 7, y);
+    drawcharsmallA(x + 7 + 3, y);
+    drawcharsmallY(x + 7 + +4 + 11, y);
+}
+
+void drawPvP(int x, int y) {
+    drawcharP(x, y);
+    drawcharsmallV(x + 8, y + 3);
+    drawcharP(x + 8 + 8, y);
+}
+
+void drawPvE(int x, int y) {
+    drawcharP(x, y);
+    drawcharsmallV(x + 8, y + 3);
+    drawcharE(x + 8 + 8, y);
+}
+
+void drawNotmuiten(int x, int y) {
+    char notmuiten[11][7] = {
+        "F     ",
+        "FF    ",
+        "F F   ",
+        "F  F  ",
+        "F   F ",
+        "F    F",
+        "F   F ",
+        "F  F  ",
+        "F F   ",
+        "FF    ",
+        "F     "
+    };
+    for (int i = 0; i < 11; i++)
+    {
+        DrawLine(notmuiten[i], 6, x, y);
+        y++;
+    }
+}
+
+void drawNot(int x, int y) {
+    char nott[5][13] = {
+        "FFFFFFFFFFFF",
+        "FFFFFFFFFFFF",
+        "FFFFFFFFFFFF",
+        "FFFFFFFFFFFF",
+        "FFFFFFFFFFFF",
+    };
+    for (int i = 0; i < 5; i++)
+    {
+        DrawLine(nott[i], 13, x, y);
         y++;
     }
 }

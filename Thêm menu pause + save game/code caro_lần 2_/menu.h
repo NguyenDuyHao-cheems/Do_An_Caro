@@ -26,17 +26,103 @@ void DrawNotX(int x, int y);
 void DrawIsX(int x, int y);
 void DrawNotO(int x, int y);
 void DrawIsO(int x, int y);
-void drawPhuthuy(int x, int y);
 void drawpoke(int x, int y);
 void drawpoke2(int x, int y);
 void drawTable(int x, int y);
 void drawHowtoPlay(int x, int y);
 void drawPinkBox(int x, int y);
-void drawPlayername(int x, int y);
-void playerName_withPlayer();
-void playerName_withBot();
+void drawPauseBox(int x, int y);
+void drawESC(int x, int y);
+void DrawMenuOption(int x, int y, const char* text, int color);
+void drawExit(int x, int y);
+void drawY(int x, int y);
+void drawE(int x, int y);
 
+void drawS(int x, int y);
 
+void drawYes(int x, int y);
+
+void drawtrueY(int x, int y);
+
+void drawtrueE(int x, int y);
+
+void drawtrueS(int x, int y);
+
+void drawtrueYes(int x, int y);
+
+void drawNo(int x, int y);
+
+void drawtrueno(int x, int y);
+
+void drawNo(int x, int y, int choose);
+void cha(int x, int y);
+
+void Settingve(int x, int y);
+
+void setg(int x, int y);
+
+void muiten(int x, int y);
+
+void drawPinkBox2(int x, int y);
+
+void load(int x, int y);
+
+void des(int x, int y);
+void drawPikachu2(int x, int y);
+
+void drawcharG(int x, int y);
+
+void drawcharA(int x, int y);
+
+void drawcharM(int x, int y);
+
+void drawcharE(int x, int y);
+
+void drawcharO(int x, int y);
+
+void drawcharD(int x, int y);
+
+void drawGameMode(int x, int y);
+
+void drawcharN(int x, int y);
+
+void drawcharU(int x, int y);
+
+void drawcharC(int x, int y);
+
+void drawcharT(int x, int y);
+
+void drawcharW(int x, int y);
+
+void drawCountdown(int x, int y);
+
+void drawcharsmallL(int x, int y);
+
+void drawcharsmallA(int x, int y);
+
+void drawcharsmallY(int x, int y);
+
+void drawcharP(int x, int y);
+
+void drawcharsmallV(int x, int y);
+
+void draw15s(int x, int y);
+
+void draw30s(int x, int y);
+
+void drawInf(int x, int y);
+
+void drawmuiten(int x, int y);
+
+void drawPlay(int x, int y);
+
+void drawPvP(int x, int y);
+
+void drawPvE(int x, int y);
+
+void drawNotmuiten(int x, int y);
+
+void drawNot(int x, int y);
 
 void PauseMenu();
 void PauseSelection(int option);
@@ -45,7 +131,8 @@ void duplicateNameMenu();
 void SaveSuccessMenu();
 void maxNumSFMenu();
 void SettingPause();
-
+void loadOrDeleteMenu();
+void confirmOverwrite();
 // ham ve hieu ung thang thua hoa
 void ve();
 void ve2();
@@ -53,4 +140,14 @@ void ve3();
 //new game
 void NewGameSelection();
 void NewGame();
+void drawBigCloud(int x, int y);
+void drawMuiten(int x, int y);
+void drawSmallCloud(int x, int y);
 
+void drawInformation(int x, int y);
+
+void playerName_withPlayer();
+
+void playerName_withBot();
+
+void drawPlayername(int x, int y);

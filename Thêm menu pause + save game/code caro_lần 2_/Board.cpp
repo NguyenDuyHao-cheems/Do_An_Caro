@@ -3,13 +3,15 @@
 #include "menu.h"
 
 using namespace std;
-
-_POINT _A[BOARD_SIZE][BOARD_SIZE];
-bool _TURN;
-int _X, _Y;
+int win_x, win_y;
 char name1[14];
 char name2[14];
 int newGameOpt;
+int h;
+_POINT _A[BOARD_SIZE][BOARD_SIZE];
+bool _TURN;
+int _X, _Y;
+
 void ResetData() {
     for (int i = 0; i < BOARD_SIZE; i++) {
         for (int j = 0; j < BOARD_SIZE; j++) {
@@ -42,24 +44,22 @@ void DrawBoard(int pSize) {
             cout << char(186);
         }
     }
-
     int i, j;
-
     j = TOP;
-    i = LEFT + 4 - 30;
-    while (i <= (pSize + 1) * 4) {
-        GotoXY(i + 30, j);
+    i = LEFT + 4;
+    while (i <= (pSize + LEFT / 4) * 4) {
+        GotoXY(i, j);
         cout << char(203);
-        GotoXY(i + 30, j + pSize * 2);
+        GotoXY(i, j + pSize * 2);
         cout << char(202);
         i = i + 4;
     }
-    j = TOP + 2 - 4;
+    j = TOP + 2;
     i = LEFT;
-    while (j <= (pSize + 1) * 2) {
-        GotoXY(i, j + 4);
+    while (j <= (pSize + TOP / 2) * 2) {
+        GotoXY(i, j);
         cout << char(204);
-        GotoXY(i + pSize * 4, j + 4);
+        GotoXY(i + pSize * 4, j);
         cout << char(185);
         j = j + 2;
     }

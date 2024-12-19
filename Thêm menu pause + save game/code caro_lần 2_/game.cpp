@@ -183,7 +183,8 @@ void Count_sumTime(TIME& time, int x, int y, int& k) {
     x = x + 20;
     mutex mtx;
     lock_guard<mutex> lock(mtx);
-    PrintAt(x + 1, y - 3, "00 : 0" + to_string(time.seconds));
+    if (time.seconds < 10) PrintAt(x + 1, y - 3, "00 : 0" + to_string(time.seconds));
+    else PrintAt(x + 1, y - 3, "00 : " + to_string(time.seconds));
     while (true) {
         if (k == 2) {
             time.minutes = 0;
@@ -210,8 +211,9 @@ void CountTime_XO(TIME& time, int x, int y, int& k, int cnttime) {
     x = x + 20;
     mutex mtx;
     lock_guard<mutex> lock(mtx);
+    time.seconds = cnttime;
     if (k != 4) {
-        PrintAt(x + 3, y, to_string(cnttime));
+        PrintAt(x + 3, y, to_string(time.seconds));
         while (true) {
             if (k == 1) {
                 time.seconds = cnttime;
@@ -417,11 +419,6 @@ void PlayGame(int k, int& win_x, int& win_y, int cnttime) {
             GotoXY(_X, _Y);
         }
         else if (_COMMAND == 27) {
-            if (kXO != 4)
-            {
-                kXO = 3;
-
-            }
             value = 3;
             PauseMenu();
             kt = 0;
@@ -1342,7 +1339,7 @@ void PlaywithBot(int k, int& win_x, int& win_y, int cnttime) {
         value = 4;
     }
 
-    thread clock_XO(CountTime_XO, ref(XO), BOARD_SIZE * 5 + LEFT + 7, TOP + 24, ref(kXO), cnttime);
+    thread clock_XO(CountTime_XO, ref(XO), BOARD_SIZE * 5 + LEFT + 7, TOP + 24, ref(value), cnttime);
     clock_XO.detach();
     thread clock_sum(Count_sumTime, ref(sum), BOARD_SIZE * 5 + LEFT + 6, TOP + 23, ref(value));
     clock_sum.detach();
@@ -1448,6 +1445,7 @@ void PlaywithBot(int k, int& win_x, int& win_y, int cnttime) {
                 }
             }
             if (!_TURN) {
+                value = 1;
                 int pX, pY;
                 BotMove(pX, pY);
                 result = CheckBoard(pX, pY);

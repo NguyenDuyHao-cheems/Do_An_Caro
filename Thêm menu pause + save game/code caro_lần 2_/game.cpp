@@ -183,8 +183,10 @@ void Count_sumTime(TIME& time, int x, int y, int& k) {
     x = x + 20;
     mutex mtx;
     lock_guard<mutex> lock(mtx);
-    if (time.seconds < 10) PrintAt(x + 1, y - 3, "00 : 0" + to_string(time.seconds));
-    else PrintAt(x + 1, y - 3, "00 : " + to_string(time.seconds));
+    if (time.seconds < 10) PrintAt(x + 6, y - 3, "0" + to_string(time.seconds));
+    else PrintAt(x + 6, y - 3, to_string(time.seconds));
+    if (time.minutes < 10) PrintAt(x + 1, y - 3, "0" + to_string(time.minutes));
+    else PrintAt(x + 1, y - 3, to_string(time.minutes));
     while (true) {
         if (k == 2) {
             time.minutes = 0;
@@ -207,6 +209,7 @@ void Count_sumTime(TIME& time, int x, int y, int& k) {
         else PrintAt(x + 6, y - 3, to_string(time.seconds));
     }
 }
+
 void CountTime_XO(TIME& time, int x, int y, int& k, int cnttime) {
     x = x + 20;
     mutex mtx;

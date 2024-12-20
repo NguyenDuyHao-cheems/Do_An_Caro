@@ -35,12 +35,12 @@ void drawPauseBox(int x, int y);
 void drawESC(int x, int y);
 void DrawMenuOption(int x, int y, const char* text, int color);
 void drawExit(int x, int y);
-void drawY(int x, int y  	);
-void drawE(int x, int y  );
+void drawY(int x, int y);
+void drawE(int x, int y);
 
-void drawS(int x, int y  );
+void drawS(int x, int y);
 
-void drawYes(int x, int y  );
+void drawYes(int x, int y);
 
 void drawtrueY(int x, int y);
 
@@ -68,6 +68,7 @@ void drawPinkBox2(int x, int y);
 void load(int x, int y);
 
 void des(int x, int y);
+void drawPikachu2(int x, int y);
 
 void PauseMenu();
 void PauseSelection(int option);
@@ -85,4 +86,27 @@ void ve3();
 //new game
 void NewGameSelection();
 void NewGame();
+void drawBigCloud(int x, int y);
+void drawMuiten(int x, int y);
+void drawSmallCloud(int x, int y);
 
+void drawInformation(int x, int y);
+
+void playerName_withPlayer();
+
+void playerName_withBot();
+
+void drawPlayername(int x, int y);
+void huongdan(int x, int y);
+void thoat(int x, int y);
+void khong(int x, int y);
+void khong1(int x, int y);
+void drawkhong(int x, int y, int choose);
+void co(int x, int y);
+void drawco(int x, int y, int choose);
+void co1(int x, int y);
+void caidat(int x, int y);
+void taigame(int x, int y);
+void thongtin(int x, int y);
+void datten(int x, int y);
+void drawPinkBox3(int x, int y);

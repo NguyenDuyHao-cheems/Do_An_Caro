@@ -1852,7 +1852,6 @@ void PlaywithBot(int k, int& win_x, int& win_y) {
                         GotoXY(0, BOARD_SIZE * 2 + 2);
                         if (gameResult == 0) {
                             ve3();
-                            cout << "Hoa nhau";
                         }
                         else {
                             if (gameResult == -1) {
@@ -1981,7 +1980,7 @@ void drawTableResult() {
         GotoXY(N - 1, M + 6);
         cout << "    Luot: ";
         GotoXY(N - 1, M + 8);
-        cout << "    Nuoc di: ";
+        cout << "   Tong: ";
         GotoXY(N - 1, M + 10);
         cout << "    Thang: ";
         txtColor(121);
@@ -1999,12 +1998,12 @@ void drawTableResult() {
             GotoXY(N + 45, M + 1); cout << "May";
         }
         GotoXY(N + 39, M + 6); cout << "    Luot: ";
-        GotoXY(N + 39, M + 8); cout << "    Tong: ";
+        GotoXY(N + 42, M + 8); cout << " Tong: ";
         GotoXY(N + 39, M + 10); cout << "    Thang: ";
         txtColor(15 * 16);
         Box(BOARD_SIZE * 5 + LEFT + 25, TOP + 18, 11, 3);
         GotoXY(BOARD_SIZE * 5 + LEFT + 26, TOP + 19);
-        txtColor(15); cout << "TONG ";
+        txtColor(15); cout << "     TONG ";
         txtColor(15 * 16);
         Box(BOARD_SIZE * 5 + LEFT + 25, TOP + 22, 11, 3);
         GotoXY(BOARD_SIZE * 5 + LEFT + 26, TOP + 23); cout << "CON LAI";

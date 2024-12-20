@@ -8,9 +8,14 @@
 #include "Board.h"
 #include "Console.h"
 extern bool isMusicOn;
+extern int curlang;
 extern int _COMMAND;
 void AskContinue();
-void PlayGame(int k);
+void Count_sumTime(TIME& time, int x, int y, int& k);
+
+void CountTime_XO(TIME& time, int x, int y, int& k);
+
+void PlayGame(int k, int& win_x, int& win_y);
 bool checkWin(int row, int col, int winPositions[5][2]);
 bool isFull(_POINT board[][BOARD_SIZE]);
 int TestBoard(int row, int col, int winPositions[5][2]);
@@ -18,10 +23,11 @@ void MoveRight();
 void MoveLeft();
 void MoveDown();
 void MoveUp();
-void StartGame();
+void StartGame(int k);
 
 void hideCursor();
 void showCursor();
+void cursorBot(int _X, int _Y, int& preX, int& preY);
 void changeColorCursor(bool turn);
 //load
 void loadGameState(char filename[]);
@@ -30,8 +36,9 @@ void LoadGame();
 //play with bot
 int evaluatePosition(int row, int col, int player);
 void BotMove(int& pX, int& pY);
-void PlaywithBot(int k);
-void StartGamewithbot();
+
+void PlaywithBot(int k, int& win_x, int& win_y);
+void StartGamewithbot(int k);
 void AskContinuePlaybot();
 
 void nhapnhay(const int winPositions[5][2], char symbol); //hieu ung noi bat chuoi lien tiep
@@ -39,6 +46,17 @@ void nhapnhay(const int winPositions[5][2], char symbol); //hieu ung noi bat chu
 void ResumeGame(int gameOption);
 void SaveGameName();
 bool checkDuplicate(char filename[]);
+
+SystemTime getSystemTime();
+void writeSystemTime();
+SystemTime readSystemTime(int numTimes);
+void TimeMagToArray();
+
+void getStats();
+void writeSumOfTime();
+Stats readSumOfTime(int numTimes);
+void statsToArray();
+
 int getNumSaveFile(char savefiles[][MAX_FILE_LENGTH + 1]);
 bool isValidName(char filename[]);
 void writeTempToSF();
@@ -48,4 +66,11 @@ void overwriteSF();
 
 void TableResult(int& win_x, int& win_y, int& run_x, int& run_y);
 void drawTableResult();
+void drawPhuthuy(int x, int y);
 
+void drawStart(int x, int y);
+
+void drawEnd(int x, int y);
+
+void SmallMenu(int x, int y);
+void drawPikachu(int x, int y);

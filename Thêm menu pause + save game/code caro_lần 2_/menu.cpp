@@ -2392,13 +2392,13 @@ void playerName_withBot() {
         DrawIsX(x, y + 23);
         DrawIsO(x + 34, y + 23);
         txtColor(15 * 16 + 4);
-        GotoXY(x + 8, y + 17); cout << "PLAYER NAME X";
+        GotoXY(x + 8, y + 17); cout << "Ten nguoi choi X";
         Box(x + 4, y + 18, 20, 2);
         GotoXY(x + 40, y + 17);
-        txtColor(15 * 16 + 1); cout << "PLAYER NAME O";
+        txtColor(15 * 16 + 1); cout << "Ten may O";
         Box(x + 36, y + 18, 20, 2);
         txtColor(15 * 16);
-        GotoXY(x + 16, y + 21); cout << "    ( <=  13 characters )";
+        GotoXY(x + 16, y + 21); cout << "    ( <=  13 ky tu )";
         inputname(x + 6, y + 19, name1);
         strcpy(name2, "Robot");
     }

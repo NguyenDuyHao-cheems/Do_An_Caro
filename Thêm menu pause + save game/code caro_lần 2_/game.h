@@ -8,14 +8,14 @@
 #include "Board.h"
 #include "Console.h"
 extern bool isMusicOn;
-extern int curlang;
 extern int _COMMAND;
+extern int curlang;
 void AskContinue();
 void Count_sumTime(TIME& time, int x, int y, int& k);
 
-void CountTime_XO(TIME& time, int x, int y, int& k);
+void CountTime_XO(TIME& time, int x, int y, int& k, int cnttime);
 
-void PlayGame(int k, int& win_x, int& win_y);
+void PlayGame(int k, int& win_x, int& win_y, int cnttime);
 bool checkWin(int row, int col, int winPositions[5][2]);
 bool isFull(_POINT board[][BOARD_SIZE]);
 int TestBoard(int row, int col, int winPositions[5][2]);
@@ -23,12 +23,13 @@ void MoveRight();
 void MoveLeft();
 void MoveDown();
 void MoveUp();
-void StartGame(int k);
+void StartGame(int k, int  cnttime);
 
 void hideCursor();
 void showCursor();
 void cursorBot(int _X, int _Y, int& preX, int& preY);
 void changeColorCursor(bool turn);
+void LoadingEffect(int Lx, int Ly, int duration);
 //load
 void loadGameState(char filename[]);
 void LoadGameSelection();
@@ -37,8 +38,8 @@ void LoadGame();
 int evaluatePosition(int row, int col, int player);
 void BotMove(int& pX, int& pY);
 
-void PlaywithBot(int k, int& win_x, int& win_y);
-void StartGamewithbot(int k);
+void PlaywithBot(int k, int& win_x, int& win_y, int cnttime);
+void StartGamewithbot(int k, int cnttime);
 void AskContinuePlaybot();
 
 void nhapnhay(const int winPositions[5][2], char symbol); //hieu ung noi bat chuoi lien tiep

@@ -23,8 +23,11 @@ FILE* tempFile;
 FILE* allSaveFiles;
 int optionSF = 1;
 int newGame = -1;
+int pretime;
 Stats TempStat, statsSF[MAX_FILE_SAVE];
-//int curlang = 0;
+int value = 0; //ref cua sumtime
+int kXO = 0; //ref cua counttime XO
+
 void AskContinue() {
     if (curlang == 0) {
         if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
@@ -95,7 +98,7 @@ void AskContinue() {
                     tempFile = fopen("Temporary.txt", "w");
                     fprintf(tempFile, "p ");
                     fclose(tempFile);
-                    StartGame(1);
+                    StartGame(1, pretime);
                 }
                 else if (currentOpt == -1) printMenu();
                 break;
@@ -171,14 +174,14 @@ void AskContinue() {
                     tempFile = fopen("Temporary.txt", "w");
                     fprintf(tempFile, "p ");
                     fclose(tempFile);
-                    StartGame(1);
+                    StartGame(1, pretime);
                 }
                 else if (currentOpt == -1) printMenu();
                 break;
             }
         }
     }
-   
+
 }
 void AskContinuePlaybot() {
     if (curlang == 0) {
@@ -249,7 +252,7 @@ void AskContinuePlaybot() {
                     tempFile = fopen("Temporary.txt", "w");
                     fprintf(tempFile, "b ");
                     fclose(tempFile);
-                    StartGamewithbot(1);
+                    StartGamewithbot(1, pretime);
                 }
                 else printMenu();
                 break;
@@ -324,14 +327,14 @@ void AskContinuePlaybot() {
                     tempFile = fopen("Temporary.txt", "w");
                     fprintf(tempFile, "b ");
                     fclose(tempFile);
-                    StartGamewithbot(1);
+                    StartGamewithbot(1, pretime);
                 }
                 else printMenu();
                 break;
             }
         }
     }
-   
+
 }
 void Count_sumTime(TIME& time, int x, int y, int& k) {
     x = x + 20;
@@ -360,12 +363,17 @@ void Count_sumTime(TIME& time, int x, int y, int& k) {
         else PrintAt(x + 6, y - 3, to_string(time.seconds));
     }
 }
-void CountTime_XO(TIME& time, int x, int y, int& k) {
+void CountTime_XO(TIME& time, int x, int y, int& k, int cnttime) {
     x = x + 20;
     mutex mtx;
     lock_guard<mutex> lock(mtx);
-    time.seconds = 15;
-    PrintAt(x + 3, y, to_string(time.seconds));
+    if (k != 4) { //k = 4 khi cnttime = -1 tuc inf
+        time.seconds = cnttime;
+        PrintAt(x + 3, y, to_string(time.seconds));
+    }
+    else {
+        PrintAt(x + 3, y, "INF");
+    }
     while (true) {
         if (k == 1) {
             time.seconds = 15;
@@ -378,6 +386,10 @@ void CountTime_XO(TIME& time, int x, int y, int& k) {
             break;
         }
         if (k == 3) return;
+        if (k == 4) {
+
+            return;
+        }
         Sleep(1000);
         time.seconds--;
         if (time.seconds == -1) {
@@ -418,14 +430,15 @@ void changeColorCursor(bool turn) {
     GotoXY(_X + 1, _Y);
     cout << "]";
 }
-void PlayGame(int k, int& win_x, int& win_y) {
+void PlayGame(int k, int& win_x, int& win_y, int cnttime) {
     if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
     SmallMenu(6, TOP - 2);
     drawSmallCloud(1, 39);
     drawPhuthuy(5, 20);
     drawStart(75, 1);
     drawEnd(75, 45);
-    int kt = 1, value = 0;
+    int kt = 1;
+    value = 0;
     int x = menu1_x - 15, y = menu1_y - 8, w = 50, h = 15;
     if (k == 0) {
         tempFile = fopen("Temporary.txt", "w");
@@ -451,10 +464,21 @@ void PlayGame(int k, int& win_x, int& win_y) {
             return;
         }
     }
-   
+    
+    pretime = cnttime;
+
+    if (cnttime == -1)
+    {
+        kXO = 4;
+    }
+    else if (cnttime == 15 || cnttime == 30)
+    {
+        kXO = 0;
+    }
+
     thread clock_sum(Count_sumTime, ref(sum), BOARD_SIZE * 5 + LEFT + 6, TOP + 23, ref(value));
     clock_sum.detach();
-    thread clock_XO(CountTime_XO, ref(XO), BOARD_SIZE * 5 + LEFT + 7, TOP + 24, ref(value));
+    thread clock_XO(CountTime_XO, ref(XO), BOARD_SIZE * 5 + LEFT + 7, TOP + 24, ref(kXO), cnttime);
     clock_XO.detach();
     drawTableResult();
     TableResult(win_x, win_y, run_x, run_y);
@@ -567,6 +591,11 @@ void PlayGame(int k, int& win_x, int& win_y) {
             GotoXY(_X, _Y);
         }
         else if (_COMMAND == 27) {
+            if (kXO != 4)
+            {
+                kXO = 3;
+
+            }
             value = 3;
             PauseMenu();
             kt = 0;
@@ -583,29 +612,15 @@ void ResumeGame(int gameOption) {
     char playMode, posXO;
     int posX = 0, posY = 0;
     FILE* tempFileRead = fopen("Temporary.txt", "rt");
-    if (curlang == 0) {
-        if (!tempFileRead) {
-            cerr << "Error opening temporary save files!";
-            return;
-        }
-        if (fscanf(tempFileRead, "%c ", &playMode) != 1) {
-            fclose(tempFileRead);
-            cerr << "Error reading play mode!";
-            return;
-        }
+    if (!tempFileRead) {
+        cerr << "Error opening temporary save files!";
+        return;
     }
-    else {
-        if (!tempFileRead) {
-            cerr << "Loi mo file luu tam thoi!";
-            return;
-        }
-        if (fscanf(tempFileRead, "%c ", &playMode) != 1) {
-            fclose(tempFileRead);
-            cerr << "Loi doc che do choi!";
-            return;
-        }
+    if (fscanf(tempFileRead, "%c ", &playMode) != 1) {
+        fclose(tempFileRead);
+        cerr << "Error reading play mode!";
+        return;
     }
-   
     int xCount = 0, oCount = 0;
     while (fscanf(tempFileRead, "%c(%d,%d) ", &posXO, &posX, &posY) != EOF) {
         int row = (posY - TOP - 1) / 2, col = (posX - LEFT - 2) / 4;
@@ -630,10 +645,10 @@ void ResumeGame(int gameOption) {
     }
     fclose(tempFileRead);
     _TURN = (xCount > oCount) ? false : true;
-    if (playMode == 'p') PlayGame(1, win_x, win_y);
-    else if (playMode == 'b') PlaywithBot(1, win_x, win_y);
-    else if (gameOption == 1) PlayGame(0, win_x, win_y);
-    else if (gameOption == 2) PlaywithBot(0, win_x, win_y);
+    if (playMode == 'p') PlayGame(1, win_x, win_y, pretime);
+    else if (playMode == 'b') PlaywithBot(1, win_x, win_y, pretime);
+    else if (gameOption == 1) PlayGame(0, win_x, win_y, pretime);
+    else if (gameOption == 2) PlaywithBot(0, win_x, win_y, pretime);
 }
 void SaveGameName() {
     int x = menu1_x - 5, y = menu1_y - 7, i = 0;
@@ -662,25 +677,13 @@ void SaveGameName() {
             }
         }
     }
-    if (curlang == 0) {
-        if (!isValidName(filename)) {
-            GotoXY(x + 9, y + 8);
-            cout << "Invalid input!";
-            GotoXY(x + 7, y + 6);
-            cout << string(MAX_FILE_LENGTH, ' ');
-            return;
-        }
+    if (!isValidName(filename)) {
+        GotoXY(x + 9, y + 8);
+        cout << "Invalid input!";
+        GotoXY(x + 7, y + 6);
+        cout << string(MAX_FILE_LENGTH, ' ');
+        return;
     }
-    else {
-        if (!isValidName(filename)) {
-            GotoXY(x + 9, y + 8);
-            cout << "Dau vao khong hop le!";
-            GotoXY(x + 7, y + 6);
-            cout << string(MAX_FILE_LENGTH, ' ');
-            return;
-        }
-    }
-    
     if (checkDuplicate(filename)) {
         duplicateNameMenu();
         while (true) {
@@ -800,19 +803,10 @@ void getStats() {
 }
 void writeSumOfTime() {
     FILE* stats = fopen("Stats.txt", "a");
-    if (curlang == 0) {
-        if (!stats) {
-            cerr << "Error opening file.";
-            return;
-        }
+    if (!stats) {
+        cerr << "Error opening file.";
+        return;
     }
-    else {
-        if (!stats) {
-            cerr << "Loi mo file.";
-            return;
-        }
-    }
-   
     getStats();
     fprintf(stats, "%s %s %d, %d, %d, %d, %d, %d, %d\n", TempStat.nameP1, TempStat.nameP2, TempStat.isTurnP1,
         TempStat.numP1, TempStat.numP2, TempStat.winP1, TempStat.winP2, TempStat.sumSeconds, TempStat.sumMinutes);
@@ -914,7 +908,7 @@ void SaveGameMenu() {
         }
         else confirmOverwrite();
     }
-   
+
 }
 void confirmOverwrite() {
     if (curlang == 0) {
@@ -995,26 +989,17 @@ void confirmOverwrite() {
             }
         }
     }
-   
+
 }
 void overwriteSF() {
     strcpy(filename, savefiles[optionSF - 1]);
     writeTempToSF();
     char buffer[2000];
     tempFile = fopen("Temporary.txt", "r");
-    if (curlang == 0) {
-        if (!tempFile) {
-            cerr << "Error opening file.";
-            return;
-        }
+    if (!tempFile) {
+        cerr << "Error opening file.";
+        return;
     }
-    else {
-        if (!tempFile) {
-            cerr << "Loi mo file.";
-            return;
-        }
-    }
-    
     fgets(buffer, 2000, tempFile);
     fclose(tempFile);
     deleteSaveFile(savefiles[optionSF - 1]);
@@ -1115,7 +1100,7 @@ void MoveUp() {
         GotoXY(_X, _Y);
     }
 }
-void StartGame(int k) {
+void StartGame(int k, int cnttime) {
     system("cls");
     run_x = 0;
     run_y = 0;
@@ -1123,16 +1108,16 @@ void StartGame(int k) {
     ResetData();
     DrawBoard(BOARD_SIZE);
     newGame = true;
-    PlayGame(k, win_x, win_y);
+    PlayGame(k, win_x, win_y, cnttime);
 }
-void StartGamewithbot(int k) {
+void StartGamewithbot(int k, int cnttime) {
     system("cls");
     ResetData();
     run_x = 0;
     run_y = 0;
     DrawBoard(BOARD_SIZE);
     newGame = true;
-    PlaywithBot(k, win_x, win_y);
+    PlaywithBot(k, win_x, win_y, cnttime);
 }
 // hide, unhide cursor
 void hideCursor() {
@@ -1220,8 +1205,8 @@ void loadGameState(char filename[]) {
     strcpy(name1, statsSF[optionSF - 1].nameP1);
     strcpy(name2, statsSF[optionSF - 1].nameP2);
 
-    if (gameMode == 'p') PlayGame(1, win_x, win_y);
-    else if (gameMode == 'b') PlaywithBot(1, win_x, win_y);
+    if (gameMode == 'p') PlayGame(1, win_x, win_y, pretime);
+    else if (gameMode == 'b') PlaywithBot(1, win_x, win_y, pretime);
 }
 void deleteSaveFile(char* filename) {
     tempFile = fopen("Temporary.txt", "w");
@@ -1420,7 +1405,7 @@ void confirmMenu() {
             }
         }
     }
-   
+
 }
 void loadOrDeleteMenu() {
     if (curlang == 0) {
@@ -1537,7 +1522,7 @@ void loadOrDeleteMenu() {
             }
         }
     }
-  
+
 }
 void LoadGameSelection() {
     numSaveFile = getNumSaveFile(savefiles);
@@ -1581,7 +1566,7 @@ void LoadGame() {
     system("color F0");
     if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
     drawPinkBox2(5, 2);
-   
+
     drawPikachu2(40, 20);
     muiten(5, 37);
     if (curlang == 0) {
@@ -1630,7 +1615,7 @@ void LoadGame() {
         }
         LoadGameSelection();
     }
-    
+
 }
 // play with bot
 int evaluatePosition(int row, int col, int player) {
@@ -1701,7 +1686,26 @@ void cursorBot(int _X, int _Y, int& preX, int& preY) {
     preY = _Y;
     GotoXY(_X, _Y);
 }
-void PlaywithBot(int k, int& win_x, int& win_y) {
+void LoadingEffect(int Lx, int Ly, int duration) {
+    txtColor((15 << 4) | 1);
+    GotoXY(Lx, Ly - 1);
+    cout << "Loading...";
+    for (int i = 0; i < duration; ++i) {
+        GotoXY(Lx + i, Ly);
+        cout << char(219);
+        Sleep(100);
+    }
+    GotoXY(Lx, Ly);
+    for (int i = 0; i < duration; i++)
+    {
+        cout << " ";
+    }
+    GotoXY(Lx, Ly - 1);
+    cout << "          ";
+    txtColor(7);
+}
+
+void PlaywithBot(int k, int& win_x, int& win_y, int cnttime) {
     if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
     hideCursor();
     SmallMenu(6, TOP - 2);
@@ -1709,7 +1713,8 @@ void PlaywithBot(int k, int& win_x, int& win_y) {
     drawPhuthuy(5, 20);
     drawStart(75, 1);
     drawEnd(75, 45);
-    int xUndo, yUndo, kt = 1, value = 0;
+    int xUndo, yUndo, kt = 1;
+    value = 0;
     result = 0;
     bool validEnter = true;
 
@@ -1730,18 +1735,32 @@ void PlaywithBot(int k, int& win_x, int& win_y) {
         tempFile = fopen("Temporary.txt", "a");
         newGame = false;
     }
-    thread clock_XO(CountTime_XO, ref(XO), BOARD_SIZE * 5 + LEFT + 7, TOP + 24, ref(value));
+    pretime = cnttime;
+    if (cnttime == -1)
+    {
+        kXO = 4;
+    }
+    else if (cnttime == 15 || cnttime == 30)
+    {
+        kXO = 0;
+    }
+
+    thread clock_XO(CountTime_XO, ref(XO), BOARD_SIZE * 5 + LEFT + 7, TOP + 24, ref(kXO), cnttime);
     clock_XO.detach();
     thread clock_sum(Count_sumTime, ref(sum), BOARD_SIZE * 5 + LEFT + 6, TOP + 23, ref(value));
     clock_sum.detach();
     drawTableResult();
     TableResult(win_x, win_y, run_x, run_y);
-    DrawNotX(BOARD_SIZE * 5 + LEFT, TOP - 1);
-    DrawIsO(BOARD_SIZE * 5 + 37 + LEFT, TOP - 1);
+    DrawIsX(BOARD_SIZE * 5 + LEFT, TOP - 1);
+    DrawNotO(BOARD_SIZE * 5 + 37 + LEFT, TOP - 1);
     while (kt == 1) {
         while (_TURN == true) {
             _COMMAND = toupper(_getch());
             if (_COMMAND == 27) {
+                if (kXO != 4)
+                {
+                    kXO = 3;
+                }
                 value = 3;
                 PauseMenu();
                 kt = 0;
@@ -1766,8 +1785,8 @@ void PlaywithBot(int k, int& win_x, int& win_y) {
                 if (isMusicOn) PlayMove("move.wav", L"move_sound");
                 value = 1;
                 run_x++;
-                DrawIsX(BOARD_SIZE * 5 + LEFT, TOP - 1);
-                DrawNotO(BOARD_SIZE * 5 + 37 + LEFT, TOP - 1);
+                DrawNotX(BOARD_SIZE * 5 + LEFT, TOP - 1);
+                DrawIsO(BOARD_SIZE * 5 + 37 + LEFT, TOP - 1);
                 result = CheckBoard(_X, _Y);
                 if (result != 0) {
                     GotoXY(_X, _Y);
@@ -1832,11 +1851,12 @@ void PlaywithBot(int k, int& win_x, int& win_y) {
                 }
             }
             if (!_TURN) {
+                LoadingEffect(100, 5, 10);
                 int pX, pY;
                 BotMove(pX, pY);
                 result = CheckBoard(pX, pY);
-                DrawNotX(BOARD_SIZE * 5 + LEFT, TOP - 1);
-                DrawIsO(BOARD_SIZE * 5 + 37 + LEFT, TOP - 1);
+                DrawIsX(BOARD_SIZE * 5 + LEFT, TOP - 1);
+                DrawNotO(BOARD_SIZE * 5 + 37 + LEFT, TOP - 1);
                 if (result != 0) {
                     run_y++;
                     GotoXY(pX, pY);
@@ -2008,7 +2028,7 @@ void drawTableResult() {
         Box(BOARD_SIZE * 5 + LEFT + 25, TOP + 22, 11, 3);
         GotoXY(BOARD_SIZE * 5 + LEFT + 26, TOP + 23); cout << "CON LAI";
     }
-    
+
 }
 void drawPhuthuy(int x, int y) {
     char phuthuy[22][16] = {
@@ -2091,7 +2111,7 @@ void SmallMenu(int x, int y) {
         GotoXY(x, y + 6); cout << "ESC : THEM LUA CHON\n";
         GotoXY(x, y + 7); cout << "ENTER : CHON\n";
     }
-   
+
 }
 void drawMuiten(int x, int y) {
     char muiten[10][13] = {

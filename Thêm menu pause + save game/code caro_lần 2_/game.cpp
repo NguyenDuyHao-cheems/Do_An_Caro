@@ -1314,6 +1314,25 @@ void cursorBot(int _X, int _Y, int& preX, int& preY) {
     preY = _Y;
     GotoXY(_X, _Y);
 }
+void LoadingEffect(int Lx, int Ly, int duration) {
+    txtColor((15 << 4) | 1);
+    GotoXY(Lx, Ly - 1);
+    cout << "Loading...";
+    for (int i = 0; i < duration; ++i) {
+        GotoXY(Lx+i, Ly);
+        cout << char(219);
+        Sleep(100);
+    }
+    GotoXY(Lx, Ly);
+    for (int i = 0; i < duration; i++)
+    {
+        cout << " ";
+    }
+    GotoXY(Lx, Ly - 1);
+    cout << "          ";
+    txtColor(7);
+}
+
 void PlaywithBot(int k, int& win_x, int& win_y, int cnttime) {
     if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
     hideCursor();
@@ -1460,6 +1479,7 @@ void PlaywithBot(int k, int& win_x, int& win_y, int cnttime) {
                 }
             }
             if (!_TURN) {
+                LoadingEffect(100, 5, 10);
                 int pX, pY;
                 BotMove(pX, pY);
                 result = CheckBoard(pX, pY);

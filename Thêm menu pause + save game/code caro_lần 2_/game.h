@@ -28,6 +28,7 @@ void hideCursor();
 void showCursor();
 void cursorBot(int _X, int _Y, int& preX, int& preY);
 void changeColorCursor(bool turn);
+void LoadingEffect(int Lx, int Ly, int duration);
 //load
 void loadGameState(char filename[]);
 void LoadGameSelection();

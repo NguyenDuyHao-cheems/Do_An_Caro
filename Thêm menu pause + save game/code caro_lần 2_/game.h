@@ -2,8 +2,16 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 #define MAX_FILE_LENGTH 15
-#define MAX_FILE_SAVE 10
 
+/* OLD
+#define MAX_FILE_SAVE 10
+*/
+
+// NEW
+#define MAX_FILE_SAVE 100
+#define MAX_PAGE 10
+#define MAX_SAVE_PER_PAGE 10
+// NEW
 
 #include "Board.h"
 #include "Console.h"
@@ -32,7 +40,15 @@ void changeColorCursor(bool turn);
 void LoadingEffect(int Lx, int Ly, int duration);
 //load
 void loadGameState(char filename[]);
+
+/* OLD
 void LoadGameSelection();
+*/
+
+// NEW
+void LoadGameSelection(bool isNew);
+// NEW
+
 void LoadGame();
 //play with bot
 int evaluatePosition(int row, int col, int player);

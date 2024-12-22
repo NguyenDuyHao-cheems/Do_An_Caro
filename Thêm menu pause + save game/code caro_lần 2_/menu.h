@@ -167,3 +167,7 @@ void drawPinkBox3(int x, int y);
 void demnguoc(int x, int y);
 void tv(int x, int y);
 void choi(int x, int y);
+
+// NEW
+void loadMenuPlus();
+// NEW

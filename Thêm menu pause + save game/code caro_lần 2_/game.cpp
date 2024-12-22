@@ -183,7 +183,15 @@ void Count_sumTime(TIME& time, int x, int y, int& k) {
     x = x + 20;
     mutex mtx;
     lock_guard<mutex> lock(mtx);
-    PrintAt(x + 1, y - 3, "00 : " + to_string(time.seconds));
+    PrintAt(x + 4, y - 3, ":");
+    if (time.seconds < 10)
+        PrintAt(x + 6, y - 3, "0" + to_string(time.seconds));
+    else
+        PrintAt(x + 6, y - 3, to_string(time.seconds));
+    if (time.minutes < 10)
+        PrintAt(x + 1, y - 3, "0" + to_string(time.minutes));
+    else
+        PrintAt(x + 1, y - 3, to_string(time.minutes));
     while (true) {
         if (k == 2) {
             time.minutes = 0;
@@ -210,61 +218,59 @@ void CountTime_XO(TIME& time, int x, int y, int& k, int cnttime) {
     x = x + 20;
     mutex mtx;
     lock_guard<mutex> lock(mtx);
+    time.seconds = cnttime;
     if (k != 4) { //k = 4 khi cnttime = -1 tuc inf
-        time.seconds = cnttime;
         PrintAt(x + 3, y, to_string(time.seconds));
+        while (true) {
+            if (k == 1) {
+                time.seconds = cnttime;
+                PrintAt(x + 3, y, to_string(time.seconds));
+                k = 0;
+            }
+            else if (k == 2) {
+                time.seconds = 0;
+                PrintAt(x + 3, y, "      ");
+                break;
+            }
+            if (k == 3) return;
+            Sleep(1000);
+            time.seconds--;
+            if (time.seconds == -1) {
+                _TURN = !_TURN;
+                time.seconds = cnttime;
+                PrintAt(x + 3, y, to_string(time.seconds));
+                if (!_TURN)
+                {
+                    turn_x = 0, turn_y = 1;
+                    GotoXY(N + 9, M + 6);
+                    txtColor(116);
+                    cout << turn_x;
+                    GotoXY(N + 49, M + 6);
+                    txtColor(121);
+                    cout << turn_y;
+                    DrawNotX(BOARD_SIZE * 5 + LEFT, TOP - 1);
+                    DrawIsO(BOARD_SIZE * 5 + 37 + LEFT, TOP - 1);
+                }
+                else {
+                    turn_y = 1, turn_x = 0;
+                    GotoXY(N + 9, M + 6);
+                    txtColor(116);
+                    cout << turn_x;
+                    GotoXY(N + 49, M + 6);
+                    txtColor(121);
+                    cout << turn_y;
+                    DrawIsX(BOARD_SIZE * 5 + LEFT, TOP - 1);
+                    DrawNotO(BOARD_SIZE * 5 + 37 + LEFT, TOP - 1);
+                }
+            }
+            if (time.seconds < 10) PrintAt(x + 3, y, "0" + to_string(time.seconds));
+            else PrintAt(x + 3, y, to_string(time.seconds));
+        }
     }
     else {
         PrintAt(x + 3, y, "INF");
-    }
-    while (true) {
-        if (k == 1) {
-            time.seconds = 15;
-            PrintAt(x + 3, y, to_string(time.seconds));
-            k = 0;
-        }
-        else if (k == 2) {
-            time.seconds = 0;
-            PrintAt(x + 3, y, "      ");
-            break;
-        }
-        if (k == 3) return;
-        if (k == 4) {
-            
-            return;
-       }
-        Sleep(1000);
-        time.seconds--;
-        if (time.seconds == -1) {
-            _TURN = !_TURN;
-            time.seconds = 15;
-            PrintAt(x + 3, y, to_string(time.seconds));
-            if (!_TURN)
-            {
-                turn_x = 0, turn_y = 1;
-                GotoXY(N + 9, M + 6);
-                txtColor(116);
-                cout << turn_x;
-                GotoXY(N + 49, M + 6);
-                txtColor(121);
-                cout << turn_y;
-                DrawNotX(BOARD_SIZE * 5 + LEFT, TOP - 1);
-                DrawIsO(BOARD_SIZE * 5 + 37 + LEFT, TOP - 1);
-            }
-            else {
-                turn_y = 1, turn_x = 0;
-                GotoXY(N + 9, M + 6);
-                txtColor(116);
-                cout << turn_x;
-                GotoXY(N + 49, M + 6);
-                txtColor(121);
-                cout << turn_y;
-                DrawIsX(BOARD_SIZE * 5 + LEFT, TOP - 1);
-                DrawNotO(BOARD_SIZE * 5 + 37 + LEFT, TOP - 1);
-            }
-        }
-        if (time.seconds < 10) PrintAt(x + 3, y, "0" + to_string(time.seconds));
-        else PrintAt(x + 3, y, to_string(time.seconds));
+        k = 0;
+        return;
     }
 }
 void changeColorCursor(bool turn) {
@@ -303,16 +309,12 @@ void PlayGame(int k, int& win_x, int& win_y, int cnttime) {
 
     if (cnttime == -1)
     {
-        kXO = 4;
-    }
-    else if (cnttime == 15 || cnttime == 30)
-    {
-        kXO = 0;
+        value = 4;
     }
     
     thread clock_sum(Count_sumTime, ref(sum), BOARD_SIZE * 5 + LEFT + 6, TOP + 23, ref(value));
     clock_sum.detach();
-    thread clock_XO(CountTime_XO, ref(XO), BOARD_SIZE * 5 + LEFT + 7, TOP + 24, ref(kXO),cnttime);
+    thread clock_XO(CountTime_XO, ref(XO), BOARD_SIZE * 5 + LEFT + 7, TOP + 24, ref(value),cnttime);
     clock_XO.detach();
     drawTableResult();
     TableResult(win_x, win_y, run_x, run_y);
@@ -425,11 +427,7 @@ void PlayGame(int k, int& win_x, int& win_y, int cnttime) {
             GotoXY(_X, _Y);
         }
         else if (_COMMAND == 27) {
-            if (kXO != 4)
-            {
-                kXO = 3;
-
-            }
+            
             value = 3;
             PauseMenu();
             kt = 0;
@@ -1366,14 +1364,11 @@ void PlaywithBot(int k, int& win_x, int& win_y, int cnttime) {
     pretime = cnttime;
     if (cnttime == -1)
     {
-        kXO = 4;
+        value = 4;
     }
-    else if (cnttime == 15 || cnttime == 30)
-    {
-        kXO = 0;
-    }
+    
 
-    thread clock_XO(CountTime_XO, ref(XO), BOARD_SIZE * 5 + LEFT + 7, TOP + 24, ref(kXO), cnttime);
+    thread clock_XO(CountTime_XO, ref(XO), BOARD_SIZE * 5 + LEFT + 7, TOP + 24, ref(value), cnttime);
     clock_XO.detach();
     thread clock_sum(Count_sumTime, ref(sum), BOARD_SIZE * 5 + LEFT + 6, TOP + 23, ref(value));
     clock_sum.detach();
@@ -1479,6 +1474,7 @@ void PlaywithBot(int k, int& win_x, int& win_y, int cnttime) {
                 }
             }
             if (!_TURN) {
+                value = 1;
                 LoadingEffect(100, 5, 10);
                 int pX, pY;
                 BotMove(pX, pY);

@@ -35,12 +35,12 @@ void drawPauseBox(int x, int y);
 void drawESC(int x, int y);
 void DrawMenuOption(int x, int y, const char* text, int color);
 void drawExit(int x, int y);
-void drawY(int x, int y  	);
-void drawE(int x, int y  );
+void drawY(int x, int y);
+void drawE(int x, int y);
 
-void drawS(int x, int y  );
+void drawS(int x, int y);
 
-void drawYes(int x, int y  );
+void drawYes(int x, int y);
 
 void drawtrueY(int x, int y);
 

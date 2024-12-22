@@ -1083,6 +1083,8 @@ void PauseSelection(int option) {
         ResumeGame(optionGame);
         break;
     case 2:
+        sum.seconds = 0;
+        sum.minutes = 0;
         if (newGameOpt == 1) StartGame(1, pretime);
         else StartGamewithbot(1, pretime);
         break;

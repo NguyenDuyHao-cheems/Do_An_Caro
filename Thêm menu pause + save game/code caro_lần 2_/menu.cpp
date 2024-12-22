@@ -2944,3 +2944,21 @@ void choi(int x, int y) {
     }
 }
 
+// NEW
+void loadMenuPlus() {
+    int x = menu1_x + 14, y = menu1_y - 9, w = 28, h = 4;
+    DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+    DrawFull(x, y, w, h, 195, 197);
+    DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+    GotoXY(x + 3, y + 2); cout << "FIND: ";
+    txtColor(112);
+    GotoXY(x + 9, y + 2); cout << "Press F to find";
+    txtColor(116);
+    DrawFull(x + 33, y + 1, w + 2, h, 136, 32);
+    DrawFull(x + 31, y, w + 1, h, 195, 197);
+    DrawFull(x + 33, y + 1, w - 3, h - 2, 119, 32);
+    txtColor(112);
+    GotoXY(x + 34, y + 2); cout << "Number of Save Files: ";
+    txtColor(116);
+}
+// NEW

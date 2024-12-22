@@ -28,6 +28,11 @@ Stats TempStat, statsSF[MAX_FILE_SAVE];
 int value = 0; //ref cua sumtime
 int kXO = 0; //ref cua counttime XO
 
+// NEW
+int pageMax = 1;
+int pageNumber = 1;
+// NEW
+
 void AskContinue() {
     if (curlang == 0) {
         if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
@@ -731,6 +736,11 @@ int getNumSaveFile(char savefiles[][MAX_FILE_LENGTH + 1]) {
         playModeGame[count - 1] = buffer[0];
     }
     fclose(allSaveFiles);
+
+    // NEW
+    pageMax = (count - 1) / 10 + 1;
+    // NEW
+    
     return count;
 }
 bool checkDuplicate(char filename[]) {
@@ -842,10 +852,6 @@ void statsToArray() {
     }
     fclose(a);
 }
-
-
-
-
 bool isValidName(char filename[]) {
     if (filename[0] == '\0') return false;
     for (int i = 0; filename[i] != '\0'; i++) {
@@ -1524,6 +1530,7 @@ void loadOrDeleteMenu() {
     }
 
 }
+/* OLD
 void LoadGameSelection() {
     numSaveFile = getNumSaveFile(savefiles);
     int x = menu1_x + 16, y = menu1_y + 15, move, kt = 1;
@@ -1561,6 +1568,121 @@ void LoadGameSelection() {
         }
     }
 }
+*/
+
+// NEW
+void LoadGameSelection(bool isNew) {
+    int findSF[MAX_FILE_SAVE] = {};
+    numSaveFile = getNumSaveFile(savefiles);
+    int x = menu1_x + 16, y = menu1_y + 18, w = 60, h = 19, move, kt = 1;
+    int numFindSF = numSaveFile;
+    GotoXY(x + 54, y - 25); printf("%2d", numFindSF);
+    if (isNew) {
+        pageNumber = 1;
+        optionSF = 1;
+        for (int i = 0; i < MAX_FILE_SAVE; i++) findSF[i] = 0;
+    }
+    while (kt == 1) {  
+        int savePerPage = (numSaveFile > 10 * pageNumber) ? 10 * pageNumber : numSaveFile;
+        int startPrint = 1;
+        for (int i = 1 + (pageNumber - 1) * 10; i <= savePerPage; i++) {
+            if (i == 11 + (pageNumber - 1) * 10) break;
+            GotoXY(x + 2, y - 15 + startPrint);
+            if (i == optionSF) txtColor((0 << 4) | 14);
+            else if (findSF[i - 1] == 1) txtColor((0 << 4) | 15);
+            else txtColor((7 << 4) | 0);
+            char ch[5];
+            if (playModeGame[i - 1] == 'p') strcpy(ch, "PvP");
+            else strcpy(ch, "PvE");
+            printf("%-21s %-10s %02d/%02d/%04d %02d:%02d:%02d",
+                savefiles[i - 1],
+                ch,
+                systemtime[i - 1].day,
+                systemtime[i - 1].month,
+                systemtime[i - 1].year,
+                systemtime[i - 1].hour,
+                systemtime[i - 1].minute,
+                systemtime[i - 1].second);
+            startPrint++;
+        }
+        move = _getch(); move = toupper(move);
+        if (move == 80 || move == 'S') optionSF = (optionSF == savePerPage) ? (pageNumber - 1) * 10 + 1 : optionSF + 1;
+        else if (move == 72 || move == 'W') optionSF = (optionSF == (pageNumber - 1) * 10 + 1) ? savePerPage : optionSF - 1;
+        else if ((move == 77 || move == 'D') && pageNumber != pageMax) {
+            optionSF = pageNumber * 10 + 1;
+            pageNumber++;
+            DrawFull(x, y - 19, w + 1, h, 136, 32);
+            DrawFull(x - 2, y - 20, w, h, 195, 197);
+            DrawFull(x, y - 19, w - 4, h - 2, 119, 32);
+            GotoXY(x + 25, y - 18); cout << "Page " << pageNumber;
+            GotoXY(x + 9, y - 3); cout << "Press Esc to turn back to the main Menu...";
+            GotoXY(x + 6, y - 16); printf("%s%20s%16s", "NAME", "GAME MODE", "TIME");
+        }
+        else if ((move == 75 || move == 'A') && pageNumber != 1) {
+            pageNumber--;
+            optionSF = (pageNumber - 1) * 10 + 1;
+            DrawFull(x, y - 19, w + 1, h, 136, 32);
+            DrawFull(x - 2, y - 20, w, h, 195, 197);
+            DrawFull(x, y - 19, w - 4, h - 2, 119, 32);
+            GotoXY(x + 25, y - 18); cout << "Page " << pageNumber;
+            GotoXY(x + 9, y - 3); cout << "Press Esc to turn back to the main Menu...";
+            GotoXY(x + 6, y - 16); printf("%s%20s%16s", "NAME", "GAME MODE", "TIME");
+        }
+        else if (move == 13) {
+            if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
+            loadOrDeleteMenu();
+            kt = 0;
+        }
+        else if (move == 27) {
+            if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
+            printMenu();
+            kt = 0;
+        }
+        else if (move == 'F' || move == 70) {
+            numFindSF = 0;
+            char findName[MAX_FILE_LENGTH + 1];
+            int i = 0;
+            txtColor(116);
+            GotoXY(x + 7, y - 25); cout << "               ";
+            GotoXY(x + 7, y - 25);
+            while (true) {
+                if (_kbhit()) {
+                    char key = _getch();
+                    if (key == 27) {
+                        LoadGame();
+                        return;
+                    }
+                    if (key == '\r') {
+                        findName[i] = '\0';
+                        break;
+                    }
+                    if (key == '\b' && i > 0) {
+                        i--;
+                        cout << "\b \b";
+                        continue;
+                    }
+                    if (i < MAX_FILE_LENGTH - 1 && key != '\b') {
+                        txtColor(14);
+                        cout << key;
+                        txtColor(116);
+                        findName[i++] = key;
+                    }
+                }
+            }
+            for (int i = 0; i < numSaveFile; i++) {
+                if (strstr(savefiles[i], findName) != nullptr) {
+                    findSF[i] = 1;
+                    numFindSF++;
+                }
+                else findSF[i] = 0;
+            }
+            GotoXY(x + 54, y - 25); printf("%2d", numFindSF);
+        }
+    }
+}
+// NEW
+
+/* OLD
 void LoadGame() {
     system("cls");
     system("color F0");
@@ -1617,6 +1739,41 @@ void LoadGame() {
     }
 
 }
+*/
+
+// NEW
+void LoadGame() {
+    system("cls");
+    system("color F0");
+    if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
+    drawPinkBox2(5, 2);
+    load(10, 6);
+    drawPikachu2(40, 20);
+    muiten(5, 37);
+    int x = menu1_x + 14, y = menu1_y - 2, w = 60, h = 19;
+    numSaveFile = getNumSaveFile(savefiles);
+    DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+    DrawFull(x, y, w, h, 195, 197);
+    DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+    GotoXY(x + 27, y + 2); cout << "Page 1";
+    GotoXY(x + 11, y + 17); cout << "Press Esc to turn back to the main Menu...";
+    if (numSaveFile == 0) {
+        txtColor(112);
+        GotoXY(x + 16, y + 5); cout << "No save file yet.";
+        txtColor(116);
+        while (char command = _getch()) {
+            if (command == 27) printMenu();
+        }
+    }
+    else {
+        TimeMagToArray();
+        GotoXY(x + 8, y + 4); printf("%s%20s%16s", "NAME", "GAME MODE", "TIME");
+    }
+    loadMenuPlus();
+    LoadGameSelection(true);
+}
+// NEW
+
 // play with bot
 int evaluatePosition(int row, int col, int player) {
     int score = 0, dx[] = { 0, 1, 1, 1 }, dy[] = { 1, 0, 1, -1 };
@@ -1704,6 +1861,202 @@ void LoadingEffect(int Lx, int Ly, int duration) {
     cout << "          ";
     txtColor(7);
 }
+
+/* CHUA THAY DOI THONG SO NEN ONG NAO DIFFCHECK GIUP
+void PlaywithBot(int k, int& win_x, int& win_y) {
+    if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
+    hideCursor();
+    SmallMenu(6, TOP - 2);
+    drawSmallCloud(1, 39);
+    drawPhuthuy(5, 20);
+    drawStart(75, 1);
+    drawEnd(75, 45);
+    int xUndo, yUndo, kt = 1, value = 0;
+    result = 0;
+    bool validEnter = true;
+
+    int preX = _X, preY = _Y;
+    txtColor((15 << 4) | 4);
+    GotoXY(_X - 1, _Y); cout << "[";
+    GotoXY(_X + 1, _Y); cout << "]";
+    if (k == 0) {
+        tempFile = fopen("Temporary.txt", "w");
+        fprintf(tempFile, "b ");
+        fflush(tempFile);
+        win_x = 0; win_y = 0;
+        sum.minutes = 0;
+        sum.seconds = 0;
+    }
+    else {
+        tempFile = fopen("Temporary.txt", "a");
+        newGame = false;
+    }
+    thread clock_XO(CountTime_XO, ref(XO), BOARD_SIZE * 5 + LEFT + 7, TOP + 24, ref(value));
+    clock_XO.detach();
+    thread clock_sum(Count_sumTime, ref(sum), BOARD_SIZE * 5 + LEFT + 6, TOP + 23, ref(value));
+    clock_sum.detach();
+    drawTableResult();
+    TableResult(win_x, win_y, run_x, run_y);
+    DrawNotX(BOARD_SIZE * 5 + LEFT, TOP - 1);
+    DrawIsO(BOARD_SIZE * 5 + 37 + LEFT, TOP - 1);
+    int shortSecs = 0;
+    int delayMiliSecs = 15000;
+    while (kt == 1) {
+        while (_TURN) {
+            shortSecs = 0;
+            while (shortSecs < delayMiliSecs) {
+                Sleep(100);
+                shortSecs += 100;
+                if (_kbhit()) {
+                    _COMMAND = toupper(_getch());
+                    if (_COMMAND == 27) {
+                        value = 3;
+                        PauseMenu();
+                        kt = 0;
+                    }
+                    else if (_COMMAND == 'A' || _COMMAND == 75) {
+                        MoveLeft();
+                        cursorBot(_X, _Y, preX, preY);
+                    }
+                    else if (_COMMAND == 'D' || _COMMAND == 77) {
+                        MoveRight();
+                        cursorBot(_X, _Y, preX, preY);
+                    }
+                    else if (_COMMAND == 'W' || _COMMAND == 72) {
+                        MoveUp();
+                        cursorBot(_X, _Y, preX, preY);
+                    }
+                    else if (_COMMAND == 'S' || _COMMAND == 80) {
+                        MoveDown();
+                        cursorBot(_X, _Y, preX, preY);
+                    }
+                    else if (_COMMAND == 13) {
+                        if (isMusicOn) PlayMove("move.wav", L"move_sound");
+                        value = 1;
+                        run_x++;
+                        DrawIsX(BOARD_SIZE * 5 + LEFT, TOP - 1);
+                        DrawNotO(BOARD_SIZE * 5 + 37 + LEFT, TOP - 1);
+                        result = CheckBoard(_X, _Y);
+                        if (result != 0) {
+                            GotoXY(_X, _Y);
+                            txtColor((15 << 4) | 4); cout << 'X';
+                            fprintf(tempFile, "X(%d,%d) ", _X, _Y);
+                            fflush(tempFile);
+                            xUndo = _X;
+                            yUndo = _Y;
+                            int row = (_Y - TOP - 1) / 2, col = (_X - LEFT - 2) / 4;
+                            int winPositions[5][2], gameResult = TestBoard(row, col, winPositions);
+                            if (gameResult != 2) {
+                                value = 2;
+                                GotoXY(0, BOARD_SIZE * 2 + 2);
+                                if (gameResult == 0) ve3();
+                                else {
+                                    if (gameResult == -1) {
+                                        if (isMusicOn) PlayWin("win.wav", L"win_sound");
+                                        win_x++;
+                                        TableResult(win_x, win_y, run_x, run_y);
+                                        nhapnhay(winPositions, 'X');
+                                        ve();
+                                    }
+                                    else {
+                                        if (isMusicOn) PlayWin("win.wav", L"win_sound");
+                                        win_y++;
+                                        TableResult(win_x, win_y, run_x, run_y);
+                                        nhapnhay(winPositions, 'O');
+                                        ve2();
+                                    }
+                                }
+                                AskContinuePlaybot();
+                            }
+                            _TURN = !_TURN;
+                        }
+                        break;
+                    }
+                }
+            }
+            if (_TURN) _TURN = !_TURN;
+            TableResult(win_x, win_y, run_x, run_y);
+            while (!_TURN) {
+                int delayMiliSecsBot = 2000;
+                shortSecs = 0;
+                while (shortSecs < delayMiliSecsBot) {
+                    Sleep(100);
+                    shortSecs += 100;
+                    if (_kbhit()) {
+                        _COMMAND = toupper(_getch());
+                        if (_COMMAND == 'R') {
+                            if (result == -1 || result == 1) {
+                                run_x--;
+                                GotoXY(xUndo, yUndo);
+                                std::cout << " ";
+                                int row = (yUndo - TOP - 1) / 2;
+                                int col = (xUndo - LEFT - 2) / 4;
+                                _A[row][col].c = 0;
+                                result = 0;
+                                fprintf(tempFile, "U(%d,%d) ", xUndo, yUndo);
+                                fflush(tempFile);
+                            }
+                            GotoXY(_X, _Y);
+                            _TURN = !_TURN;
+                            break;
+                        }
+                    }
+                }
+                if (_TURN) _TURN = !_TURN;
+                if (!_TURN) {
+                    GotoXY(10, 0); cout << "Check";
+                    int pX, pY;
+                    BotMove(pX, pY);
+                    result = CheckBoard(pX, pY);
+                    DrawNotX(BOARD_SIZE * 5 + LEFT, TOP - 1);
+                    DrawIsO(BOARD_SIZE * 5 + 37 + LEFT, TOP - 1);
+                    if (result != 0) {
+                        run_y++;
+                        GotoXY(pX, pY);
+                        txtColor((15 << 4) | 1);
+                        if (isMusicOn) PlayMove("move.wav", L"move_sound");
+                        cout << 'O';
+                        fprintf(tempFile, "O(%d,%d) ", pX, pY);
+                        fflush(tempFile);
+                        int row = (pY - TOP - 1) / 2, col = (pX - LEFT - 2) / 4;
+                        int winPositions[5][2], gameResult = TestBoard(row, col, winPositions);
+                        if (gameResult != 2) {
+                            value = 2;
+                            GotoXY(0, BOARD_SIZE * 2 + 2);
+                            if (gameResult == 0) {
+                                ve3();
+                                cout << "Hoa nhau";
+                            }
+                            else {
+                                if (gameResult == -1) {
+                                    win_x++;
+                                    TableResult(win_x, win_y, run_x, run_y);
+                                    if (isMusicOn) PlayWin("win.wav", L"win_sound");
+                                    nhapnhay(winPositions, 'X');
+                                    ve();
+                                }
+                                else {
+                                    if (isMusicOn) PlayWin("win.wav", L"win_sound");
+                                    win_y++;
+                                    TableResult(win_x, win_y, run_x, run_y);
+                                    nhapnhay(winPositions, 'O');
+                                    ve2();
+                                }
+                            }
+                            AskContinuePlaybot();
+                        }
+                        _TURN = !_TURN;
+                        delayMiliSecs = 13500;
+                    }
+                }
+            }
+            TableResult(win_x, win_y, run_x, run_y);
+        }
+        fclose(tempFile);
+    }
+}
+*/ 
+
 
 void PlaywithBot(int k, int& win_x, int& win_y, int cnttime) {
     if (isMusicOn) PlayMo("mo.wav", L"mo_sound");

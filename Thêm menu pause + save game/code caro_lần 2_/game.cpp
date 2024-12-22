@@ -1781,7 +1781,7 @@ void PlaywithBot(int k, int& win_x, int& win_y, int cnttime) {
     {
         value = 4;
     }
-    
+
 
     thread clock_XO(CountTime_XO, ref(XO), BOARD_SIZE * 5 + LEFT + 7, TOP + 24, ref(value), cnttime);
     clock_XO.detach();
@@ -1791,151 +1791,166 @@ void PlaywithBot(int k, int& win_x, int& win_y, int cnttime) {
     TableResult(win_x, win_y, run_x, run_y);
     DrawIsX(BOARD_SIZE * 5 + LEFT, TOP - 1);
     DrawNotO(BOARD_SIZE * 5 + 37 + LEFT, TOP - 1);
+    int shortSecs = 0;
+    int delayMiliSecs = 15000;
     while (kt == 1) {
         while (_TURN == true) {
-            _COMMAND = toupper(_getch());
-            if (_COMMAND == 27) {
-               
-                value = 3;
-                PauseMenu();
-                kt = 0;
-            }
-            else if (_COMMAND == 'A' || _COMMAND == 75) {
-                MoveLeft();
-                cursorBot(_X, _Y, preX, preY);
-            }
-            else if (_COMMAND == 'D' || _COMMAND == 77) {
-                MoveRight();
-                cursorBot(_X, _Y, preX, preY);
-            }
-            else if (_COMMAND == 'W' || _COMMAND == 72) {
-                MoveUp();
-                cursorBot(_X, _Y, preX, preY);
-            }
-            else if (_COMMAND == 'S' || _COMMAND == 80) {
-                MoveDown();
-                cursorBot(_X, _Y, preX, preY);
-            }
-            else if (_COMMAND == 13) {
-                if (isMusicOn) PlayMove("move.wav", L"move_sound");
-                value = 1;
-                run_x++;
-                DrawNotX(BOARD_SIZE * 5 + LEFT, TOP - 1);
-                DrawIsO(BOARD_SIZE * 5 + 37 + LEFT, TOP - 1);
-                result = CheckBoard(_X, _Y);
-                if (result != 0) {
-                    GotoXY(_X, _Y);
-                    txtColor((15 << 4) | 4); cout << 'X';
-                    fprintf(tempFile, "X(%d,%d) ", _X, _Y);
-                    fflush(tempFile);
-                    xUndo = _X;
-                    yUndo = _Y;
-                    int row = (_Y - TOP - 1) / 2, col = (_X - LEFT - 2) / 4;
-                    int winPositions[5][2], gameResult = TestBoard(row, col, winPositions);
-                    if (gameResult != 2) {
-                        value = 2;
-                        GotoXY(0, BOARD_SIZE * 2 + 2);
-                        if (gameResult == 0) ve3();
-                        else {
-                            if (gameResult == -1) {
-                                if (isMusicOn) PlayWin("win.wav", L"win_sound");
-                                win_x++;
-                                TableResult(win_x, win_y, run_x, run_y);
-                                nhapnhay(winPositions, 'X');
-                                ve();
-                            }
-                            else {
-                                if (isMusicOn) PlayWin("win.wav", L"win_sound");
-                                win_y++;
-                                TableResult(win_x, win_y, run_x, run_y);
-                                nhapnhay(winPositions, 'O');
-                                ve2();
-                            }
-                        }
-                        AskContinuePlaybot();
-                    }
-                    _TURN = !_TURN;
-                }
-            }
-        }
-        TableResult(win_x, win_y, run_x, run_y);
-        while (!_TURN) {
-            int delayMiliSecs = 2000;
-            int shortSecs = 0;
+            shortSecs = 0;
             while (shortSecs < delayMiliSecs) {
                 Sleep(100);
                 shortSecs += 100;
                 if (_kbhit()) {
                     _COMMAND = toupper(_getch());
-                    if (_COMMAND == 'R') {
-                        if (result == -1 || result == 1) {
-                            run_x--;
-                            GotoXY(xUndo, yUndo);
-                            std::cout << " ";
-                            int row = (yUndo - TOP - 1) / 2;
-                            int col = (xUndo - LEFT - 2) / 4;
-                            _A[row][col].c = 0;
-                            result = 0;
-                            fprintf(tempFile, "U(%d,%d) ", xUndo, yUndo);
+                    if (_COMMAND == 27) {
+                        value = 3;
+                        PauseMenu();
+                        kt = 0;
+                    }
+                    else if (_COMMAND == 'A' || _COMMAND == 75) {
+                        MoveLeft();
+                        cursorBot(_X, _Y, preX, preY);
+                    }
+                    else if (_COMMAND == 'D' || _COMMAND == 77) {
+                        MoveRight();
+                        cursorBot(_X, _Y, preX, preY);
+                    }
+                    else if (_COMMAND == 'W' || _COMMAND == 72) {
+                        MoveUp();
+                        cursorBot(_X, _Y, preX, preY);
+                    }
+                    else if (_COMMAND == 'S' || _COMMAND == 80) {
+                        MoveDown();
+                        cursorBot(_X, _Y, preX, preY);
+                    }
+                    else if (_COMMAND == 13) {
+                        if (isMusicOn) PlayMove("move.wav", L"move_sound");
+                        value = 1;
+                        run_x++;
+                        DrawIsX(BOARD_SIZE * 5 + LEFT, TOP - 1);
+                        DrawNotO(BOARD_SIZE * 5 + 37 + LEFT, TOP - 1);
+                        result = CheckBoard(_X, _Y);
+                        if (result != 0) {
+                            GotoXY(_X, _Y);
+                            txtColor((15 << 4) | 4); cout << 'X';
+                            fprintf(tempFile, "X(%d,%d) ", _X, _Y);
                             fflush(tempFile);
+                            xUndo = _X;
+                            yUndo = _Y;
+                            int row = (_Y - TOP - 1) / 2, col = (_X - LEFT - 2) / 4;
+                            int winPositions[5][2], gameResult = TestBoard(row, col, winPositions);
+                            if (gameResult != 2) {
+                                value = 2;
+                                GotoXY(0, BOARD_SIZE * 2 + 2);
+                                if (gameResult == 0) ve3();
+                                else {
+                                    if (gameResult == -1) {
+                                        if (isMusicOn) PlayWin("win.wav", L"win_sound");
+                                        win_x++;
+                                        TableResult(win_x, win_y, run_x, run_y);
+                                        nhapnhay(winPositions, 'X');
+                                        ve();
+                                    }
+                                    else {
+                                        if (isMusicOn) PlayWin("win.wav", L"win_sound");
+                                        win_y++;
+                                        TableResult(win_x, win_y, run_x, run_y);
+                                        nhapnhay(winPositions, 'O');
+                                        ve2();
+                                    }
+                                }
+                                AskContinuePlaybot();
+                            }
+                            _TURN = !_TURN;
                         }
-                        GotoXY(_X, _Y);
-                        _TURN = !_TURN;
                         break;
                     }
                 }
             }
-            if (!_TURN) {
-                value = 1;
-                int loadPosX = 100;
-                int loadPosY = 6;
-                LoadingEffect(loadPosX, loadPosY, 10);
-                int pX, pY;
-                BotMove(pX, pY);
-                result = CheckBoard(pX, pY);
-                DrawIsX(BOARD_SIZE * 5 + LEFT, TOP - 1);
-                DrawNotO(BOARD_SIZE * 5 + 37 + LEFT, TOP - 1);
-                if (result != 0) {
-                    run_y++;
-                    GotoXY(pX, pY);
-                    txtColor((15 << 4) | 1);
-                    if (isMusicOn) PlayMove("move.wav", L"move_sound");
-                    cout << 'O';
-                    fprintf(tempFile, "O(%d,%d) ", pX, pY);
-                    fflush(tempFile);
-                    int row = (pY - TOP - 1) / 2, col = (pX - LEFT - 2) / 4;
-                    int winPositions[5][2], gameResult = TestBoard(row, col, winPositions);
-                    if (gameResult != 2) {
-                        value = 2;
-                        GotoXY(0, BOARD_SIZE * 2 + 2);
-                        if (gameResult == 0) {
-                            ve3();
+            if (_TURN) _TURN = !_TURN;
+            TableResult(win_x, win_y, run_x, run_y);
+
+            while (!_TURN) {
+                int delayMiliSecsBot = 2000;
+
+                 shortSecs = 0;
+                while (shortSecs < delayMiliSecsBot) {
+                    Sleep(100);
+                    shortSecs += 100;
+                    if (_kbhit()) {
+                        _COMMAND = toupper(_getch());
+                        if (_COMMAND == 'R') {
+                            if (result == -1 || result == 1) {
+                                run_x--;
+                                GotoXY(xUndo, yUndo);
+                                std::cout << " ";
+                                int row = (yUndo - TOP - 1) / 2;
+                                int col = (xUndo - LEFT - 2) / 4;
+                                _A[row][col].c = 0;
+                                result = 0;
+                                fprintf(tempFile, "U(%d,%d) ", xUndo, yUndo);
+                                fflush(tempFile);
+                            }
+                            GotoXY(_X, _Y);
+                            _TURN = !_TURN;
+                            break;
                         }
-                        else {
-                            if (gameResult == -1) {
-                                win_x++;
-                                TableResult(win_x, win_y, run_x, run_y);
-                                if (isMusicOn) PlayWin("win.wav", L"win_sound");
-                                nhapnhay(winPositions, 'X');
-                                ve();
+                    }
+                }
+                if (_TURN) _TURN = !_TURN;
+                if (!_TURN) {
+                    value = 1;
+                    int loadPosX = 100;
+                    int loadPosY = 6;
+                    LoadingEffect(loadPosX, loadPosY, 10);
+                    int pX, pY;
+                    BotMove(pX, pY);
+                    result = CheckBoard(pX, pY);
+                    DrawIsX(BOARD_SIZE * 5 + LEFT, TOP - 1);
+                    DrawNotO(BOARD_SIZE * 5 + 37 + LEFT, TOP - 1);
+                    if (result != 0) {
+                        run_y++;
+                        GotoXY(pX, pY);
+                        txtColor((15 << 4) | 1);
+                        if (isMusicOn) PlayMove("move.wav", L"move_sound");
+                        cout << 'O';
+                        fprintf(tempFile, "O(%d,%d) ", pX, pY);
+                        fflush(tempFile);
+                        int row = (pY - TOP - 1) / 2, col = (pX - LEFT - 2) / 4;
+                        int winPositions[5][2], gameResult = TestBoard(row, col, winPositions);
+                        if (gameResult != 2) {
+                            value = 2;
+                            GotoXY(0, BOARD_SIZE * 2 + 2);
+                            if (gameResult == 0) {
+                                ve3();
                             }
                             else {
-                                if (isMusicOn) PlayWin("win.wav", L"win_sound");
-                                win_y++;
-                                TableResult(win_x, win_y, run_x, run_y);
-                                nhapnhay(winPositions, 'O');
-                                ve2();
+                                if (gameResult == -1) {
+                                    win_x++;
+                                    TableResult(win_x, win_y, run_x, run_y);
+                                    if (isMusicOn) PlayWin("win.wav", L"win_sound");
+                                    nhapnhay(winPositions, 'X');
+                                    ve();
+                                }
+                                else {
+                                    if (isMusicOn) PlayWin("win.wav", L"win_sound");
+                                    win_y++;
+                                    TableResult(win_x, win_y, run_x, run_y);
+                                    nhapnhay(winPositions, 'O');
+                                    ve2();
+                                }
                             }
+                            AskContinuePlaybot();
                         }
-                        AskContinuePlaybot();
+                        _TURN = !_TURN;
+                        delayMiliSecs = 13500;
+
                     }
-                    _TURN = !_TURN;
                 }
             }
+            TableResult(win_x, win_y, run_x, run_y);
         }
-        TableResult(win_x, win_y, run_x, run_y);
+        fclose(tempFile);
     }
-    fclose(tempFile);
 }
 // hieu ung noi bat chuoi x hoac o
 void nhapnhay(const int winPositions[5][2], char symbol) {

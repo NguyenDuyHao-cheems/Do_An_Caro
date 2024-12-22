@@ -1795,10 +1795,7 @@ void PlaywithBot(int k, int& win_x, int& win_y, int cnttime) {
         while (_TURN == true) {
             _COMMAND = toupper(_getch());
             if (_COMMAND == 27) {
-                if (kXO != 4)
-                {
-                    kXO = 3;
-                }
+               
                 value = 3;
                 PauseMenu();
                 kt = 0;
@@ -1890,7 +1887,7 @@ void PlaywithBot(int k, int& win_x, int& win_y, int cnttime) {
             }
             if (!_TURN) {
                 value = 1;
-                LoadingEffect(100, 5, 10);
+                LoadingEffect(100, 6, 10);
                 int pX, pY;
                 BotMove(pX, pY);
                 result = CheckBoard(pX, pY);

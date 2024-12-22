@@ -2,13 +2,15 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 #define MAX_FILE_LENGTH 15
-#define MAX_FILE_SAVE 10
-
+#define MAX_FILE_SAVE 100
+#define MAX_PAGE 10
+#define MAX_SAVE_PER_PAGE 10
 
 #include "Board.h"
 #include "Console.h"
 extern bool isMusicOn;
 extern int _COMMAND;
+extern int curlang;
 void AskContinue();
 void Count_sumTime(TIME& time, int x, int y, int& k);
 
@@ -31,7 +33,9 @@ void changeColorCursor(bool turn);
 void LoadingEffect(int Lx, int Ly, int duration);
 //load
 void loadGameState(char filename[]);
-void LoadGameSelection();
+//void LoadGameSelection();
+void LoadGameSelection(bool isNew);
+
 void LoadGame();
 //play with bot
 int evaluatePosition(int row, int col, int player);

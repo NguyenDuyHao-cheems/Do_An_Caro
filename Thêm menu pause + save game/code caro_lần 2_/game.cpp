@@ -27,155 +27,312 @@ int pretime;
 Stats TempStat, statsSF[MAX_FILE_SAVE];
 int value = 0; //ref cua sumtime
 int kXO = 0; //ref cua counttime XO
+int pageMax = 1;
+int pageNumber = 1;
 
 void AskContinue() {
-    if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
-    int currentOpt = 1;
-    int x = BOARD_SIZE * 5 + 3 + 3 + LEFT, y = TOP + 7, w = 50, h = 8;
-    DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
-    DrawFull(x, y, w, h, 195, 197);
-    DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
-    GotoXY(x + 15, y + 2); cout << "Do you want to play again?";
-    txtColor(112);
-    GotoXY(x + 18, y + 5); cout << "Yes";
-    GotoXY(x + 32, y + 5); cout << "No";
-    txtColor((0 << 4) | 15);
-    GotoXY(x + 18, y + 5);
-    cout << "Yes";
-    while (1) {
-        char c = toupper(_getch());
-        if (c == 'D') {
-            if (currentOpt == -1) {
-                txtColor(112);
-                GotoXY(x + 32, y + 5);
-                cout << "No";
+    if (curlang == 0) {
+        if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
+        int currentOpt = 1;
+        int x = BOARD_SIZE * 5 + 3 + 3 + LEFT, y = TOP + 7, w = 50, h = 8;
+        DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+        DrawFull(x, y, w, h, 195, 197);
+        DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+        GotoXY(x + 15, y + 2); cout << "Do you want to play again?";
+        txtColor(112);
+        GotoXY(x + 18, y + 5); cout << "Yes";
+        GotoXY(x + 32, y + 5); cout << "No";
+        txtColor((0 << 4) | 15);
+        GotoXY(x + 18, y + 5);
+        cout << "Yes";
+        while (1) {
+            char c = toupper(_getch());
+            if (c == 'D') {
+                if (currentOpt == -1) {
+                    txtColor(112);
+                    GotoXY(x + 32, y + 5);
+                    cout << "No";
+                }
+                else {
+                    txtColor(112);
+                    GotoXY(x + 18, y + 5);
+                    cout << "Yes";
+                }
+                currentOpt = -1;
+                if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
+                if (currentOpt == -1) {
+                    txtColor((0 << 4) | 15);
+                    GotoXY(x + 32, y + 5);
+                    cout << "No";
+                }
+                else {
+                    txtColor((0 << 4) | 15);
+                    GotoXY(x + 18, y + 5);
+                    cout << "Yes";
+                }
             }
-            else {
-                txtColor(112);
-                GotoXY(x + 18, y + 5);
-                cout << "Yes";
+            if (c == 'A') {
+                if (currentOpt == -1) {
+                    txtColor(112);
+                    GotoXY(x + 32, y + 5);
+                    cout << "No";
+                }
+                else {
+                    txtColor(112);
+                    GotoXY(x + 18, y + 5);
+                    cout << "Yes";
+                }
+                currentOpt = 1;
+                if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
+                if (currentOpt == -1) {
+                    txtColor((0 << 4) | 15);
+                    GotoXY(x + 32, y + 5);
+                    cout << "No";
+                }
+                else {
+                    txtColor((0 << 4) | 15);
+                    GotoXY(x + 18, y + 5);
+                    cout << "Yes";
+                }
             }
-            currentOpt = -1;
-            if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
-            if (currentOpt == -1) {
-                txtColor((0 << 4) | 15);
-                GotoXY(x + 32, y + 5);
-                cout << "No";
-            }
-            else {
-                txtColor((0 << 4) | 15);
-                GotoXY(x + 18, y + 5);
-                cout << "Yes";
+            else if (c == 13) {
+                if (currentOpt == 1) {
+                    tempFile = fopen("Temporary.txt", "w");
+                    fprintf(tempFile, "p ");
+                    fclose(tempFile);
+                    StartGame(1, pretime);
+                }
+                else if (currentOpt == -1) printMenu();
+                break;
             }
         }
-        if (c == 'A') {
-            if (currentOpt == -1) {
-                txtColor(112);
-                GotoXY(x + 32, y + 5);
-                cout << "No";
+    }
+    else {
+        if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
+        int currentOpt = 1;
+        int x = BOARD_SIZE * 5 + 3 + 3 + LEFT, y = TOP + 7, w = 50, h = 8;
+        DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+        DrawFull(x, y, w, h, 195, 197);
+        DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+        GotoXY(x + 15, y + 2); cout << "Ban co muon choi lai?";
+        txtColor(112);
+        GotoXY(x + 18, y + 5); cout << "Co";
+        GotoXY(x + 32, y + 5); cout << "Khong";
+        txtColor((0 << 4) | 15);
+        GotoXY(x + 18, y + 5);
+        cout << "Co";
+        while (1) {
+            char c = toupper(_getch());
+            if (c == 'D') {
+                if (currentOpt == -1) {
+                    txtColor(112);
+                    GotoXY(x + 32, y + 5);
+                    cout << "Khong";
+                }
+                else {
+                    txtColor(112);
+                    GotoXY(x + 18, y + 5);
+                    cout << "Co";
+                }
+                currentOpt = -1;
+                if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
+                if (currentOpt == -1) {
+                    txtColor((0 << 4) | 15);
+                    GotoXY(x + 32, y + 5);
+                    cout << "Khong";
+                }
+                else {
+                    txtColor((0 << 4) | 15);
+                    GotoXY(x + 18, y + 5);
+                    cout << "Co";
+                }
             }
-            else {
-                txtColor(112);
-                GotoXY(x + 18, y + 5);
-                cout << "Yes";
+            if (c == 'A') {
+                if (currentOpt == -1) {
+                    txtColor(112);
+                    GotoXY(x + 32, y + 5);
+                    cout << "No";
+                }
+                else {
+                    txtColor(112);
+                    GotoXY(x + 18, y + 5);
+                    cout << "Yes";
+                }
+                currentOpt = 1;
+                if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
+                if (currentOpt == -1) {
+                    txtColor((0 << 4) | 15);
+                    GotoXY(x + 32, y + 5);
+                    cout << "Khong";
+                }
+                else {
+                    txtColor((0 << 4) | 15);
+                    GotoXY(x + 18, y + 5);
+                    cout << "Co";
+                }
             }
-            currentOpt = 1;
-            if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
-            if (currentOpt == -1) {
-                txtColor((0 << 4) | 15);
-                GotoXY(x + 32, y + 5);
-                cout << "No";
+            else if (c == 13) {
+                if (currentOpt == 1) {
+                    tempFile = fopen("Temporary.txt", "w");
+                    fprintf(tempFile, "p ");
+                    fclose(tempFile);
+                    StartGame(1, pretime);
+                }
+                else if (currentOpt == -1) printMenu();
+                break;
             }
-            else {
-                txtColor((0 << 4) | 15);
-                GotoXY(x + 18, y + 5);
-                cout << "Yes";
-            }
-        }
-        else if (c == 13) {
-            if (currentOpt == 1) {
-                tempFile = fopen("Temporary.txt", "w");
-                fprintf(tempFile, "p ");
-                fclose(tempFile);
-                StartGame(1, pretime);
-            }
-            else if (currentOpt == -1) printMenu();
-            break;
         }
     }
 }
 void AskContinuePlaybot() {
-    hideCursor();
-    if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
-    int x = BOARD_SIZE * 5 + 3 + 3 + LEFT, y = TOP + 7, w = 50, h = 8, currentOpt = 1;
-    DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
-    DrawFull(x, y, w, h, 195, 197);
-    DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
-    GotoXY(x + 15, y + 2); cout << "Do you want to play again?";
-    txtColor(112);
-    GotoXY(x + 18, y + 5); cout << "Yes";
-    GotoXY(x + 32, y + 5); cout << "No";
-    txtColor((0 << 4) | 15);
-    GotoXY(x + 18, y + 5); cout << "Yes";
-    while (1) {
-        char c = toupper(_getch());
-        if (c == 'D') {
-            if (currentOpt == -1) {
-                txtColor(112);
-                GotoXY(x + 32, y + 5);
-                cout << "No";
+    if (curlang == 0) {
+        hideCursor();
+        if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
+        int x = BOARD_SIZE * 5 + 3 + 3 + LEFT, y = TOP + 7, w = 50, h = 8, currentOpt = 1;
+        DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+        DrawFull(x, y, w, h, 195, 197);
+        DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+        GotoXY(x + 15, y + 2); cout << "Do you want to play again?";
+        txtColor(112);
+        GotoXY(x + 18, y + 5); cout << "Yes";
+        GotoXY(x + 32, y + 5); cout << "No";
+        txtColor((0 << 4) | 15);
+        GotoXY(x + 18, y + 5); cout << "Yes";
+        while (1) {
+            char c = toupper(_getch());
+            if (c == 'D') {
+                if (currentOpt == -1) {
+                    txtColor(112);
+                    GotoXY(x + 32, y + 5);
+                    cout << "No";
+                }
+                else {
+                    txtColor(112);
+                    GotoXY(x + 18, y + 5);
+                    cout << "Yes";
+                }
+                currentOpt = -1;
+                if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
+                if (currentOpt == -1) {
+                    txtColor((0 << 4) | 15);
+                    GotoXY(x + 32, y + 5);
+                    cout << "No";
+                }
+                else {
+                    txtColor((0 << 4) | 15);
+                    GotoXY(x + 18, y + 5);
+                    cout << "Yes";
+                }
             }
-            else {
-                txtColor(112);
-                GotoXY(x + 18, y + 5);
-                cout << "Yes";
+            if (c == 'A') {
+                if (currentOpt == -1) {
+                    txtColor(112);
+                    GotoXY(x + 32, y + 5);
+                    cout << "No";
+                }
+                else {
+                    txtColor(112);
+                    GotoXY(x + 18, y + 5);
+                    cout << "Yes";
+                }
+                currentOpt = 1;
+                if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
+                if (currentOpt == -1) {
+                    txtColor((0 << 4) | 15);
+                    GotoXY(x + 32, y + 5);
+                    cout << "No";
+                }
+                else {
+                    txtColor((0 << 4) | 15);
+                    GotoXY(x + 18, y + 5);
+                    cout << "Yes";
+                }
             }
-            currentOpt = -1;
-            if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
-            if (currentOpt == -1) {
-                txtColor((0 << 4) | 15);
-                GotoXY(x + 32, y + 5);
-                cout << "No";
-            }
-            else {
-                txtColor((0 << 4) | 15);
-                GotoXY(x + 18, y + 5);
-                cout << "Yes";
+            else if (c == 13) {
+                if (currentOpt == 1) {
+                    tempFile = fopen("Temporary.txt", "w");
+                    fprintf(tempFile, "b ");
+                    fclose(tempFile);
+                    StartGamewithbot(1, pretime);
+                }
+                else printMenu();
+                break;
             }
         }
-        if (c == 'A') {
-            if (currentOpt == -1) {
-                txtColor(112);
-                GotoXY(x + 32, y + 5);
-                cout << "No";
+    }
+    else {
+        hideCursor();
+        if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
+        int x = BOARD_SIZE * 5 + 3 + 3 + LEFT, y = TOP + 7, w = 50, h = 8, currentOpt = 1;
+        DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+        DrawFull(x, y, w, h, 195, 197);
+        DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+        GotoXY(x + 15, y + 2); cout << "Ban co muon choi lai khong?";
+        txtColor(112);
+        GotoXY(x + 18, y + 5); cout << "Co";
+        GotoXY(x + 32, y + 5); cout << "Khong";
+        txtColor((0 << 4) | 15);
+        GotoXY(x + 18, y + 5); cout << "Co";
+        while (1) {
+            char c = toupper(_getch());
+            if (c == 'D') {
+                if (currentOpt == -1) {
+                    txtColor(112);
+                    GotoXY(x + 32, y + 5);
+                    cout << "Khong";
+                }
+                else {
+                    txtColor(112);
+                    GotoXY(x + 18, y + 5);
+                    cout << "Co";
+                }
+                currentOpt = -1;
+                if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
+                if (currentOpt == -1) {
+                    txtColor((0 << 4) | 15);
+                    GotoXY(x + 32, y + 5);
+                    cout << "Khong";
+                }
+                else {
+                    txtColor((0 << 4) | 15);
+                    GotoXY(x + 18, y + 5);
+                    cout << "Co";
+                }
             }
-            else {
-                txtColor(112);
-                GotoXY(x + 18, y + 5);
-                cout << "Yes";
+            if (c == 'A') {
+                if (currentOpt == -1) {
+                    txtColor(112);
+                    GotoXY(x + 32, y + 5);
+                    cout << "Khong";
+                }
+                else {
+                    txtColor(112);
+                    GotoXY(x + 18, y + 5);
+                    cout << "Co";
+                }
+                currentOpt = 1;
+                if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
+                if (currentOpt == -1) {
+                    txtColor((0 << 4) | 15);
+                    GotoXY(x + 32, y + 5);
+                    cout << "Khong";
+                }
+                else {
+                    txtColor((0 << 4) | 15);
+                    GotoXY(x + 18, y + 5);
+                    cout << "Co";
+                }
             }
-            currentOpt = 1;
-            if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
-            if (currentOpt == -1) {
-                txtColor((0 << 4) | 15);
-                GotoXY(x + 32, y + 5);
-                cout << "No";
+            else if (c == 13) {
+                if (currentOpt == 1) {
+                    tempFile = fopen("Temporary.txt", "w");
+                    fprintf(tempFile, "b ");
+                    fclose(tempFile);
+                    StartGamewithbot(1, pretime);
+                }
+                else printMenu();
+                break;
             }
-            else {
-                txtColor((0 << 4) | 15);
-                GotoXY(x + 18, y + 5);
-                cout << "Yes";
-            }
-        }
-        else if (c == 13) {
-            if (currentOpt == 1) {
-                tempFile = fopen("Temporary.txt", "w");
-                fprintf(tempFile, "b ");
-                fclose(tempFile);
-                StartGamewithbot(1, pretime);
-            }
-            else printMenu();
-            break;
         }
     }
 }
@@ -301,9 +458,17 @@ void PlayGame(int k, int& win_x, int& win_y, int cnttime) {
         tempFile = fopen("Temporary.txt", "a");
         newGame = false;
     }
-    if (!tempFile) {
-        cerr << "Error opening file.";
-        return;
+    if (curlang == 0) {
+        if (!tempFile) {
+            cerr << "Error opening file.";
+            return;
+        }
+    }
+    else {
+        if (!tempFile) {
+            cerr << "Loi mo file.";
+            return;
+        }
     }
     pretime = cnttime;
 
@@ -563,6 +728,8 @@ int getNumSaveFile(char savefiles[][MAX_FILE_LENGTH + 1]) {
         playModeGame[count - 1] = buffer[0];
     }
     fclose(allSaveFiles);
+    pageMax = (count - 1) / 10 + 1;
+
     return count;
 }
 bool checkDuplicate(char filename[]) {
@@ -710,55 +877,113 @@ void SaveGameMenu() {
     DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
     DrawFull(x, y, w, h, 195, 197);
     DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
-    if (newGame) {
-        GotoXY(x + 6, y + 2); cout << "NAME YOUR SAVE FILE:";
-        txtColor(112);
-        GotoXY(x + 6, y + 3); cout << "( <= 14 characters )";
-        GotoXY(x + 5, y + 9); cout << "Press Esc to go back.";
-        txtColor(116);
-        DrawRoundedBox(x + 3, y + 5, 25, 3, 0);
-        while (true) {
-            SaveGameName();
-            if (toupper(_getch()) == 27) break;
+    if (curlang == 0) {
+        if (newGame) {
+            GotoXY(x + 6, y + 2); cout << "NAME YOUR SAVE FILE:";
+            txtColor(112);
+            GotoXY(x + 6, y + 3); cout << "( <= 14 characters )";
+            GotoXY(x + 5, y + 9); cout << "Press Esc to go back.";
+            txtColor(116);
+            DrawRoundedBox(x + 3, y + 5, 25, 3, 0);
+            while (true) {
+                SaveGameName();
+                if (toupper(_getch()) == 27) break;
+            }
         }
+        else confirmOverwrite();
     }
-    else confirmOverwrite();
+    else {
+        if (newGame) {
+            GotoXY(x + 6, y + 2); cout << "Nhap Ten File:";
+            txtColor(112);
+            GotoXY(x + 6, y + 3); cout << "( <= 14 ky tu )";
+            GotoXY(x + 5, y + 9); cout << "Nhan ESC de quay tro lai.";
+            txtColor(116);
+            DrawRoundedBox(x + 3, y + 5, 25, 3, 0);
+            while (true) {
+                SaveGameName();
+                if (toupper(_getch()) == 27) break;
+            }
+        }
+        else confirmOverwrite();
+    }
 }
 void confirmOverwrite() {
-    int x = menu1_x - 7, y = menu1_y - 8, w = 35, h = 7, kt = 1;
-    txtColor(112);
-    GotoXY(x + 8, y + 8); cout << "Yes";
-    GotoXY(x + 24, y + 8); cout << "No";
-    GotoXY(x + 10, y + 4); cout << "THIS ACTION IS";
-    GotoXY(x + 11, y + 5); cout << "IRREVERSIBLE!";
-    txtColor(116);
-    GotoXY(x + 13, y + 3); cout << "WARNINGS:";
-    GotoXY(x + 5, y + 8); cout << "->";
-    GotoXY(x + 13, y + 8); cout << "<-";
-    while (kt == 1) {
-        char c = toupper(_getch());
-        if (c == 'A' || c == 'D' || c == 75 || c == 77) {
-            GotoXY(x + 5, y + 8); cout << "  ";
-            GotoXY(x + 13, y + 8); cout << "  ";
-            if (x == menu1_x - 7) x = menu1_x + 8;
-            else if (x == menu1_x + 8) x = menu1_x - 7;
-            if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
-            GotoXY(x + 5, y + 8); cout << "->";
-            GotoXY(x + 13, y + 8); cout << "<-";
-        }
-        else if (c == 27) {
-            PauseMenu();
-            kt = 0;
-        }
-        else if (c == 13) {
-            if (x == menu1_x - 7) {
-                overwriteSF();
-                PauseMenu();
-                break;
+    if (curlang == 0) {
+        int x = menu1_x - 7, y = menu1_y - 8, w = 35, h = 7, kt = 1;
+        txtColor(112);
+        GotoXY(x + 8, y + 8); cout << "Yes";
+        GotoXY(x + 24, y + 8); cout << "No";
+        GotoXY(x + 10, y + 4); cout << "THIS ACTION IS";
+        GotoXY(x + 11, y + 5); cout << "IRREVERSIBLE!";
+        txtColor(116);
+        GotoXY(x + 13, y + 3); cout << "WARNINGS:";
+        GotoXY(x + 5, y + 8); cout << "->";
+        GotoXY(x + 13, y + 8); cout << "<-";
+        while (kt == 1) {
+            char c = toupper(_getch());
+            if (c == 'A' || c == 'D' || c == 75 || c == 77) {
+                GotoXY(x + 5, y + 8); cout << "  ";
+                GotoXY(x + 13, y + 8); cout << "  ";
+                if (x == menu1_x - 7) x = menu1_x + 8;
+                else if (x == menu1_x + 8) x = menu1_x - 7;
+                if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
+                GotoXY(x + 5, y + 8); cout << "->";
+                GotoXY(x + 13, y + 8); cout << "<-";
             }
-            else if (x == menu1_x + 8) {
+            else if (c == 27) {
                 PauseMenu();
-                break;
+                kt = 0;
+            }
+            else if (c == 13) {
+                if (x == menu1_x - 7) {
+                    overwriteSF();
+                    PauseMenu();
+                    break;
+                }
+                else if (x == menu1_x + 8) {
+                    PauseMenu();
+                    break;
+                }
+            }
+        }
+    }
+    else {
+        int x = menu1_x - 7, y = menu1_y - 8, w = 35, h = 7, kt = 1;
+        txtColor(112);
+        GotoXY(x + 8, y + 8); cout << "Co";
+        GotoXY(x + 24, y + 8); cout << "Khong";
+        GotoXY(x + 10, y + 4); cout << "HANH DONG NAY";
+        GotoXY(x + 11, y + 5); cout << "KHONG THE HOAN TAC!";
+        txtColor(116);
+        GotoXY(x + 13, y + 3); cout << "CANH BAO:";
+        GotoXY(x + 5, y + 8); cout << "->";
+        GotoXY(x + 13, y + 8); cout << "<-";
+        while (kt == 1) {
+            char c = toupper(_getch());
+            if (c == 'A' || c == 'D' || c == 75 || c == 77) {
+                GotoXY(x + 5, y + 8); cout << "  ";
+                GotoXY(x + 13, y + 8); cout << "  ";
+                if (x == menu1_x - 7) x = menu1_x + 8;
+                else if (x == menu1_x + 8) x = menu1_x - 7;
+                if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
+                GotoXY(x + 5, y + 8); cout << "->";
+                GotoXY(x + 13, y + 8); cout << "<-";
+            }
+            else if (c == 27) {
+                PauseMenu();
+                kt = 0;
+            }
+            else if (c == 13) {
+                if (x == menu1_x - 7) {
+                    overwriteSF();
+                    PauseMenu();
+                    break;
+                }
+                else if (x == menu1_x + 8) {
+                    PauseMenu();
+                    break;
+                }
             }
         }
     }
@@ -1065,126 +1290,254 @@ void deleteSaveFile(char* filename) {
     fclose(tempFile);
 }
 void confirmMenu() {
-    int x = menu1_x - 7, y = menu1_y - 8, w = 35, h = 7, kt = 1;
-    DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
-    DrawFull(x, y, w, h, 195, 197);
-    DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
-    txtColor(112);
-    GotoXY(x + 7, y + 5); cout << "Yes";
-    GotoXY(x + 25, y + 5); cout << "No";
-    GotoXY(x + 4, y + 3); cout << "THIS ACTION IS IRREVERSIBLE!";
-    txtColor(116);
-    GotoXY(x + 13, y + 2); cout << "WARNINGS:";
-    txtColor((0 << 4) | 15);
-    if (x == menu1_x - 7) {
-        GotoXY(menu1_x - 7 + 7, y + 5); cout << "Yes";
+    if (curlang == 0) {
+        int x = menu1_x - 7, y = menu1_y - 8, w = 35, h = 7, kt = 1;
+        DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+        DrawFull(x, y, w, h, 195, 197);
+        DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+        txtColor(112);
+        GotoXY(x + 7, y + 5); cout << "Yes";
+        GotoXY(x + 25, y + 5); cout << "No";
+        GotoXY(x + 4, y + 3); cout << "THIS ACTION IS IRREVERSIBLE!";
+        txtColor(116);
+        GotoXY(x + 13, y + 2); cout << "WARNINGS:";
+        txtColor((0 << 4) | 15);
+        if (x == menu1_x - 7) {
+            GotoXY(menu1_x - 7 + 7, y + 5); cout << "Yes";
+        }
+        else {
+            GotoXY(menu1_x - 7 + 25, y + 5); cout << "No";
+        }
+        while (kt == 1) {
+            char c = toupper(_getch());
+            if (c == 'A' || c == 'D' || c == 75 || c == 77) {
+                txtColor(112);
+                if (x == menu1_x - 7) {
+                    GotoXY(menu1_x - 7 + 7, y + 5); cout << "Yes";
+                }
+                else {
+                    GotoXY(menu1_x - 7 + 25, y + 5); cout << "No";
+                }
+                if (x == menu1_x - 7) x = menu1_x + 11;
+                else if (x == menu1_x + 11) x = menu1_x - 7;
+                if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
+                txtColor((0 << 4) | 15);
+                if (x == menu1_x - 7) {
+                    GotoXY(menu1_x - 7 + 7, y + 5); cout << "Yes";
+                }
+                else {
+                    GotoXY(menu1_x - 7 + 25, y + 5); cout << "No";
+                }
+            }
+            else if (c == 27) {
+                loadOrDeleteMenu();
+                kt = 0;
+            }
+            else if (c == 13) {
+                if (x == menu1_x - 7) {
+                    deleteSaveFile(savefiles[optionSF - 1]);
+                    LoadGame();
+                    break;
+                }
+                else if (x == menu1_x + 11) {
+                    loadOrDeleteMenu();
+                    break;
+                }
+            }
+        }
     }
     else {
-        GotoXY(menu1_x - 7 + 25, y + 5); cout << "No";
-    }
-    while (kt == 1) {
-        char c = toupper(_getch());
-        if (c == 'A' || c == 'D' || c == 75 || c == 77) {
-            txtColor(112);
-            if (x == menu1_x - 7) {
-                GotoXY(menu1_x - 7 + 7, y + 5); cout << "Yes";
-            }
-            else {
-                GotoXY(menu1_x - 7 + 25, y + 5); cout << "No";
-            }
-            if (x == menu1_x - 7) x = menu1_x + 11;
-            else if (x == menu1_x + 11) x = menu1_x - 7;
-            if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
-            txtColor((0 << 4) | 15);
-            if (x == menu1_x - 7) {
-                GotoXY(menu1_x - 7 + 7, y + 5); cout << "Yes";
-            }
-            else {
-                GotoXY(menu1_x - 7 + 25, y + 5); cout << "No";
-            }
+        int x = menu1_x - 7, y = menu1_y - 8, w = 35, h = 7, kt = 1;
+        DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+        DrawFull(x, y, w, h, 195, 197);
+        DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+        txtColor(112);
+        GotoXY(x + 7, y + 5); cout << "Co";
+        GotoXY(x + 25, y + 5); cout << "Khong";
+        GotoXY(x + 4, y + 3); cout << "HANH DONG NAY KHONG THE HOAN TAC!";
+        txtColor(116);
+        GotoXY(x + 13, y + 2); cout << "CANH BAO:";
+        txtColor((0 << 4) | 15);
+        if (x == menu1_x - 7) {
+            GotoXY(menu1_x - 7 + 7, y + 5); cout << "Co";
         }
-        else if (c == 27) {
-            loadOrDeleteMenu();
-            kt = 0;
+        else {
+            GotoXY(menu1_x - 7 + 25, y + 5); cout << "Khong";
         }
-        else if (c == 13) {
-            if (x == menu1_x - 7) {
-                deleteSaveFile(savefiles[optionSF - 1]);
-                LoadGame();
-                break;
+        while (kt == 1) {
+            char c = toupper(_getch());
+            if (c == 'A' || c == 'D' || c == 75 || c == 77) {
+                txtColor(112);
+                if (x == menu1_x - 7) {
+                    GotoXY(menu1_x - 7 + 7, y + 5); cout << "Co";
+                }
+                else {
+                    GotoXY(menu1_x - 7 + 25, y + 5); cout << "Khong";
+                }
+                if (x == menu1_x - 7) x = menu1_x + 11;
+                else if (x == menu1_x + 11) x = menu1_x - 7;
+                if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
+                txtColor((0 << 4) | 15);
+                if (x == menu1_x - 7) {
+                    GotoXY(menu1_x - 7 + 7, y + 5); cout << "Co";
+                }
+                else {
+                    GotoXY(menu1_x - 7 + 25, y + 5); cout << "Khong";
+                }
             }
-            else if (x == menu1_x + 11) {
+            else if (c == 27) {
                 loadOrDeleteMenu();
-                break;
+                kt = 0;
+            }
+            else if (c == 13) {
+                if (x == menu1_x - 7) {
+                    deleteSaveFile(savefiles[optionSF - 1]);
+                    LoadGame();
+                    break;
+                }
+                else if (x == menu1_x + 11) {
+                    loadOrDeleteMenu();
+                    break;
+                }
             }
         }
     }
 }
 void loadOrDeleteMenu() {
-    int x = menu1_x - 7, y = menu1_y - 8, w = 35, h = 7, kt = 1;
-    DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
-    DrawFull(x, y, w, h, 195, 197);
-    DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
-    txtColor(112);
-    GotoXY(x + 8, y + 3); cout << "Load";
-    GotoXY(x + 22, y + 3); cout << "Delete";
-    txtColor(116);
-    GotoXY(x + 8, y + 5); cout << "Press Esc to go back.";
-    txtColor((0 << 4) | 15);
-    if (x == menu1_x - 7) {
-        GotoXY(menu1_x - 7 + 8, y + 3); cout << "Load";
+    if (curlang == 0) {
+        int x = menu1_x - 7, y = menu1_y - 8, w = 35, h = 7, kt = 1;
+        DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+        DrawFull(x, y, w, h, 195, 197);
+        DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+        txtColor(112);
+        GotoXY(x + 8, y + 3); cout << "Load";
+        GotoXY(x + 22, y + 3); cout << "Delete";
+        txtColor(116);
+        GotoXY(x + 8, y + 5); cout << "Press Esc to go back.";
+        txtColor((0 << 4) | 15);
+        if (x == menu1_x - 7) {
+            GotoXY(menu1_x - 7 + 8, y + 3); cout << "Load";
+        }
+        else {
+            GotoXY(menu1_x - 7 + 22, y + 3); cout << "Delete";
+        }
+        while (kt == 1) {
+            char c = toupper(_getch());
+            if (c == 'A' || c == 'D' || c == 75 || c == 77) {
+                txtColor((7 << 4) | 0);
+                if (x == menu1_x - 7) {
+                    GotoXY(menu1_x - 7 + 8, y + 3); cout << "Load";
+                }
+                else {
+                    GotoXY(menu1_x - 7 + 22, y + 3); cout << "Delete";
+                }
+                if (x == menu1_x - 7) x = menu1_x + 8;
+                else if (x == menu1_x + 8) x = menu1_x - 7;
+                if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
+                txtColor((0 << 4) | 15);
+                if (x == menu1_x - 7) {
+                    GotoXY(menu1_x - 7 + 8, y + 3); cout << "Load";
+                }
+                else {
+                    GotoXY(menu1_x - 7 + 22, y + 3); cout << "Delete";
+                }
+            }
+            else if (c == 27) {
+                if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
+                LoadGame();
+                kt = 0;
+            }
+            else if (c == 13) {
+                if (x == menu1_x - 7) {
+                    if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
+                    loadGameState(savefiles[optionSF - 1]);
+                    break;
+                }
+                else if (x == menu1_x + 8) {
+                    if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
+                    confirmMenu();
+                    break;
+                }
+            }
+        }
     }
     else {
-        GotoXY(menu1_x - 7 + 22, y + 3); cout << "Delete";
-    }
-    while (kt == 1) {
-        char c = toupper(_getch());
-        if (c == 'A' || c == 'D' || c == 75 || c == 77) {
-            txtColor((7 << 4) | 0);
-            if (x == menu1_x - 7) {
-                GotoXY(menu1_x - 7 + 8, y + 3); cout << "Load";
-            }
-            else {
-                GotoXY(menu1_x - 7 + 22, y + 3); cout << "Delete";
-            }
-            if (x == menu1_x - 7) x = menu1_x + 8;
-            else if (x == menu1_x + 8) x = menu1_x - 7;
-            if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
-            txtColor((0 << 4) | 15);
-            if (x == menu1_x - 7) {
-                GotoXY(menu1_x - 7 + 8, y + 3); cout << "Load";
-            }
-            else {
-                GotoXY(menu1_x - 7 + 22, y + 3); cout << "Delete";
-            }
+        int x = menu1_x - 7, y = menu1_y - 8, w = 35, h = 7, kt = 1;
+        DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+        DrawFull(x, y, w, h, 195, 197);
+        DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+        txtColor(112);
+        GotoXY(x + 8, y + 3); cout << "Tai";
+        GotoXY(x + 22, y + 3); cout << "Xoa";
+        txtColor(116);
+        GotoXY(x + 8, y + 5); cout << "Nhan ESC de quay tro lai.";
+        txtColor((0 << 4) | 15);
+        if (x == menu1_x - 7) {
+            GotoXY(menu1_x - 7 + 8, y + 3); cout << "Tai";
         }
-        else if (c == 27) {
-            if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
-            LoadGame();
-            kt = 0;
+        else {
+            GotoXY(menu1_x - 7 + 22, y + 3); cout << "Xoa";
         }
-        else if (c == 13) {
-            if (x == menu1_x - 7) {
-                if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
-                loadGameState(savefiles[optionSF - 1]);
-                break;
+        while (kt == 1) {
+            char c = toupper(_getch());
+            if (c == 'A' || c == 'D' || c == 75 || c == 77) {
+                txtColor((7 << 4) | 0);
+                if (x == menu1_x - 7) {
+                    GotoXY(menu1_x - 7 + 8, y + 3); cout << "Tai";
+                }
+                else {
+                    GotoXY(menu1_x - 7 + 22, y + 3); cout << "Xoa";
+                }
+                if (x == menu1_x - 7) x = menu1_x + 8;
+                else if (x == menu1_x + 8) x = menu1_x - 7;
+                if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
+                txtColor((0 << 4) | 15);
+                if (x == menu1_x - 7) {
+                    GotoXY(menu1_x - 7 + 8, y + 3); cout << "Tai";
+                }
+                else {
+                    GotoXY(menu1_x - 7 + 22, y + 3); cout << "Xoa";
+                }
             }
-            else if (x == menu1_x + 8) {
+            else if (c == 27) {
                 if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
-                confirmMenu();
-                break;
+                LoadGame();
+                kt = 0;
+            }
+            else if (c == 13) {
+                if (x == menu1_x - 7) {
+                    if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
+                    loadGameState(savefiles[optionSF - 1]);
+                    break;
+                }
+                else if (x == menu1_x + 8) {
+                    if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
+                    confirmMenu();
+                    break;
+                }
             }
         }
     }
 }
-void LoadGameSelection() {
+void LoadGameSelection(bool isNew) {
+    int findSF[MAX_FILE_SAVE] = {};
     numSaveFile = getNumSaveFile(savefiles);
-    int x = menu1_x + 16, y = menu1_y + 15, move, kt = 1;
-    optionSF = 1;
+    int x = menu1_x + 16, y = menu1_y + 18, w = 60, h = 19, move, kt = 1;
+    int numFindSF = numSaveFile;
+    GotoXY(x + 54, y - 25); printf("%2d", numFindSF);
+    if (isNew) {
+        pageNumber = 1;
+        optionSF = 1;
+        for (int i = 0; i < MAX_FILE_SAVE; i++) findSF[i] = 0;
+    }
     while (kt == 1) {
-        for (int i = 1; i <= numSaveFile; i++) {
-            GotoXY(x + 2, y - 15 + i);
+        int savePerPage = (numSaveFile > 10 * pageNumber) ? 10 * pageNumber : numSaveFile;
+        int startPrint = 1;
+        for (int i = 1 + (pageNumber - 1) * 10; i <= savePerPage; i++) {
+            if (i == 11 + (pageNumber - 1) * 10) break;
+            GotoXY(x + 2, y - 15 + startPrint);
             if (i == optionSF) txtColor((0 << 4) | 14);
+            else if (findSF[i - 1] == 1) txtColor((0 << 4) | 15);
             else txtColor((7 << 4) | 0);
             char ch[5];
             if (playModeGame[i - 1] == 'p') strcpy(ch, "PvP");
@@ -1198,10 +1551,31 @@ void LoadGameSelection() {
                 systemtime[i - 1].hour,
                 systemtime[i - 1].minute,
                 systemtime[i - 1].second);
+            startPrint++;
         }
         move = _getch(); move = toupper(move);
-        if (move == 80 || move == 'S') optionSF = (optionSF == numSaveFile) ? 1 : optionSF + 1;
-        else if (move == 72 || move == 'W') optionSF = (optionSF == 1) ? numSaveFile : optionSF - 1;
+        if (move == 80 || move == 'S') optionSF = (optionSF == savePerPage) ? (pageNumber - 1) * 10 + 1 : optionSF + 1;
+        else if (move == 72 || move == 'W') optionSF = (optionSF == (pageNumber - 1) * 10 + 1) ? savePerPage : optionSF - 1;
+        else if ((move == 77 || move == 'D') && pageNumber != pageMax) {
+            optionSF = pageNumber * 10 + 1;
+            pageNumber++;
+            DrawFull(x, y - 19, w + 1, h, 136, 32);
+            DrawFull(x - 2, y - 20, w, h, 195, 197);
+            DrawFull(x, y - 19, w - 4, h - 2, 119, 32);
+            GotoXY(x + 25, y - 18); cout << "Page " << pageNumber;
+            GotoXY(x + 9, y - 3); cout << "Press Esc to turn back to the main Menu...";
+            GotoXY(x + 6, y - 16); printf("%s%20s%16s", "NAME", "GAME MODE", "TIME");
+        }
+        else if ((move == 75 || move == 'A') && pageNumber != 1) {
+            pageNumber--;
+            optionSF = (pageNumber - 1) * 10 + 1;
+            DrawFull(x, y - 19, w + 1, h, 136, 32);
+            DrawFull(x - 2, y - 20, w, h, 195, 197);
+            DrawFull(x, y - 19, w - 4, h - 2, 119, 32);
+            GotoXY(x + 25, y - 18); cout << "Page " << pageNumber;
+            GotoXY(x + 9, y - 3); cout << "Press Esc to turn back to the main Menu...";
+            GotoXY(x + 6, y - 16); printf("%s%20s%16s", "NAME", "GAME MODE", "TIME");
+        }
         else if (move == 13) {
             if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
             loadOrDeleteMenu();
@@ -1211,6 +1585,46 @@ void LoadGameSelection() {
             if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
             printMenu();
             kt = 0;
+        }
+        else if (move == 'F' || move == 70) {
+            numFindSF = 0;
+            char findName[MAX_FILE_LENGTH + 1];
+            int i = 0;
+            txtColor(116);
+            GotoXY(x + 7, y - 25); cout << "               ";
+            GotoXY(x + 7, y - 25);
+            while (true) {
+                if (_kbhit()) {
+                    char key = _getch();
+                    if (key == 27) {
+                        LoadGame();
+                        return;
+                    }
+                    if (key == '\r') {
+                        findName[i] = '\0';
+                        break;
+                    }
+                    if (key == '\b' && i > 0) {
+                        i--;
+                        cout << "\b \b";
+                        continue;
+                    }
+                    if (i < MAX_FILE_LENGTH - 1 && key != '\b') {
+                        txtColor(14);
+                        cout << key;
+                        txtColor(116);
+                        findName[i++] = key;
+                    }
+                }
+            }
+            for (int i = 0; i < numSaveFile; i++) {
+                if (strstr(savefiles[i], findName) != nullptr) {
+                    findSF[i] = 1;
+                    numFindSF++;
+                }
+                else findSF[i] = 0;
+            }
+            GotoXY(x + 54, y - 25); printf("%2d", numFindSF);
         }
     }
 }
@@ -1222,12 +1636,12 @@ void LoadGame() {
     load(10, 6);
     drawPikachu2(40, 20);
     muiten(5, 37);
-    int x = menu1_x + 14, y = menu1_y - 5, w = 60, h = 19;
+    int x = menu1_x + 14, y = menu1_y - 2, w = 60, h = 19;
     numSaveFile = getNumSaveFile(savefiles);
     DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
     DrawFull(x, y, w, h, 195, 197);
     DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
-    GotoXY(x + 21, y + 2); cout << "Choose a Save File:";
+    GotoXY(x + 27, y + 2); cout << "Page 1";
     GotoXY(x + 11, y + 17); cout << "Press Esc to turn back to the main Menu...";
     if (numSaveFile == 0) {
         txtColor(112);
@@ -1241,7 +1655,8 @@ void LoadGame() {
         TimeMagToArray();
         GotoXY(x + 8, y + 4); printf("%s%20s%16s", "NAME", "GAME MODE", "TIME");
     }
-    LoadGameSelection();
+    loadMenuPlus();
+    LoadGameSelection(true);
 }
 // play with bot
 int evaluatePosition(int row, int col, int player) {
@@ -1496,7 +1911,6 @@ void PlaywithBot(int k, int& win_x, int& win_y, int cnttime) {
                         GotoXY(0, BOARD_SIZE * 2 + 2);
                         if (gameResult == 0) {
                             ve3();
-                            cout << "Hoa nhau";
                         }
                         else {
                             if (gameResult == -1) {
@@ -1577,42 +1991,82 @@ void drawTableResult() {
     }
     txtColor(116);
     int w = 20, h = 13;
-    DrawFull(N - 2, M, 20, 13, 135, 32);
-    DrawFull(N - 4, M - 1, 20, 13, 68, 32);
-    DrawFull(N - 2, M, 20 - 4, 13 - 2, 121, 32);
-    GotoXY(N, M + 1); cout << "   Player";
-    GotoXY(N, M + 3); cout << name1;
-    Box(N - 1, M + 2, 14, 2);
-    GotoXY(N - 1, M + 6);
-    cout << "    Turn: ";
-    GotoXY(N - 1, M + 8);
-    cout << "    Run: ";
-    GotoXY(N - 1, M + 10);
-    cout << "    Win: ";
-    txtColor(121);
-    DrawFull(N + 38, M, w, h, 136, 32);
-    DrawFull(N + 36, M - 1, w, h, 151, 32);
-    DrawFull(N + 38, M, w - 4, h - 2, 119, 32);
-    txtColor(121);
-    Box(N + 39, M + 2, 14, 2);
-    GotoXY(N + 42, M + 1);
-    if (newGameOpt == 1) {
-        cout << " Player";
-        GotoXY(N + 40, M + 3); cout << name2;
+    if (curlang == 0) {
+        DrawFull(N - 2, M, 20, 13, 135, 32);
+        DrawFull(N - 4, M - 1, 20, 13, 68, 32);
+        DrawFull(N - 2, M, 20 - 4, 13 - 2, 121, 32);
+        GotoXY(N, M + 1); cout << "   Player";
+        GotoXY(N, M + 3); cout << name1;
+        Box(N - 1, M + 2, 14, 2);
+        GotoXY(N - 1, M + 6);
+        cout << "    Turn: ";
+        GotoXY(N - 1, M + 8);
+        cout << "    Run: ";
+        GotoXY(N - 1, M + 10);
+        cout << "    Win: ";
+        txtColor(121);
+        DrawFull(N + 38, M, w, h, 136, 32);
+        DrawFull(N + 36, M - 1, w, h, 151, 32);
+        DrawFull(N + 38, M, w - 4, h - 2, 119, 32);
+        txtColor(121);
+        Box(N + 39, M + 2, 14, 2);
+        GotoXY(N + 42, M + 1);
+        if (newGameOpt == 1) {
+            cout << " Player";
+            GotoXY(N + 40, M + 3); cout << name2;
+        }
+        else {
+            GotoXY(N + 45, M + 1); cout << "Bot";
+        }
+        GotoXY(N + 39, M + 6); cout << "    Turn: ";
+        GotoXY(N + 39, M + 8); cout << "    Run: ";
+        GotoXY(N + 39, M + 10); cout << "    Win: ";
+        txtColor(15 * 16);
+        Box(BOARD_SIZE * 5 + LEFT + 25, TOP + 18, 11, 3);
+        GotoXY(BOARD_SIZE * 5 + LEFT + 26, TOP + 19);
+        txtColor(15); cout << "TOTAL TIME";
+        txtColor(15 * 16);
+        Box(BOARD_SIZE * 5 + LEFT + 25, TOP + 22, 11, 3);
+        GotoXY(BOARD_SIZE * 5 + LEFT + 26, TOP + 23); cout << "COUNTDOWN";
     }
     else {
-        GotoXY(N + 45, M + 1); cout << "Bot";
+        DrawFull(N - 2, M, 20, 13, 135, 32);
+        DrawFull(N - 4, M - 1, 20, 13, 68, 32);
+        DrawFull(N - 2, M, 20 - 4, 13 - 2, 121, 32);
+        GotoXY(N, M + 1); cout << "   Nguoi choi";
+        GotoXY(N, M + 3); cout << name1;
+        Box(N - 1, M + 2, 14, 2);
+        GotoXY(N - 1, M + 6);
+        cout << "    Luot: ";
+        GotoXY(N - 1, M + 8);
+        cout << "   Tong: ";
+        GotoXY(N - 1, M + 10);
+        cout << "    Thang: ";
+        txtColor(121);
+        DrawFull(N + 38, M, w, h, 136, 32);
+        DrawFull(N + 36, M - 1, w, h, 151, 32);
+        DrawFull(N + 38, M, w - 4, h - 2, 119, 32);
+        txtColor(121);
+        Box(N + 39, M + 2, 14, 2);
+        GotoXY(N + 42, M + 1);
+        if (newGameOpt == 1) {
+            cout << " Nguoi choi:";
+            GotoXY(N + 40, M + 3); cout << name2;
+        }
+        else {
+            GotoXY(N + 45, M + 1); cout << "May";
+        }
+        GotoXY(N + 39, M + 6); cout << "    Luot: ";
+        GotoXY(N + 42, M + 8); cout << " Tong: ";
+        GotoXY(N + 39, M + 10); cout << "    Thang: ";
+        txtColor(15 * 16);
+        Box(BOARD_SIZE * 5 + LEFT + 25, TOP + 18, 11, 3);
+        GotoXY(BOARD_SIZE * 5 + LEFT + 26, TOP + 19);
+        txtColor(15); cout << "     TONG ";
+        txtColor(15 * 16);
+        Box(BOARD_SIZE * 5 + LEFT + 25, TOP + 22, 11, 3);
+        GotoXY(BOARD_SIZE * 5 + LEFT + 26, TOP + 23); cout << "CON LAI";
     }
-    GotoXY(N + 39, M + 6); cout << "    Turn: ";
-    GotoXY(N + 39, M + 8); cout << "    Run: ";
-    GotoXY(N + 39, M + 10); cout << "    Win: ";
-    txtColor(15 * 16);
-    Box(BOARD_SIZE * 5 + LEFT + 25, TOP + 18, 11, 3);
-    GotoXY(BOARD_SIZE * 5 + LEFT + 26, TOP + 19);
-    txtColor(15); cout << "TOTAL TIME";
-    txtColor(15 * 16);
-    Box(BOARD_SIZE * 5 + LEFT + 25, TOP + 22, 11, 3);
-    GotoXY(BOARD_SIZE * 5 + LEFT + 26, TOP + 23); cout << "COUNTDOWN";
 }
 void drawPhuthuy(int x, int y) {
     char phuthuy[22][16] = {
@@ -1669,17 +2123,32 @@ void drawEnd(int x, int y) {
     }
 }
 void SmallMenu(int x, int y) {
-    txtColor(15);
-    Box(x - 2, y - 2, 23, 11);
-    GotoXY(x, y); cout << "HOW TO PLAY :\n";
-    txtColor(240);
-    GotoXY(x, y + 1); cout << "R : UNDO\n";
-    GotoXY(x, y + 2); cout << "W : UP\n";
-    GotoXY(x, y + 3); cout << "A : LEFT\n";
-    GotoXY(x, y + 4); cout << "S : DOWN\n";
-    GotoXY(x, y + 5); cout << "D : RIGHT\n";
-    GotoXY(x, y + 6); cout << "ESC : MORE OPTION\n";
-    GotoXY(x, y + 7); cout << "ENTER : CHOOSE\n";
+    if (curlang == 0) {
+        txtColor(15);
+        Box(x - 2, y - 2, 23, 11);
+        GotoXY(x, y); cout << "HOW TO PLAY :\n";
+        txtColor(240);
+        GotoXY(x, y + 1); cout << "R : UNDO\n";
+        GotoXY(x, y + 2); cout << "W : UP\n";
+        GotoXY(x, y + 3); cout << "A : LEFT\n";
+        GotoXY(x, y + 4); cout << "S : DOWN\n";
+        GotoXY(x, y + 5); cout << "D : RIGHT\n";
+        GotoXY(x, y + 6); cout << "ESC : MORE OPTION\n";
+        GotoXY(x, y + 7); cout << "ENTER : CHOOSE\n";
+    }
+    else {
+        txtColor(15);
+        Box(x - 2, y - 2, 23, 11);
+        GotoXY(x, y); cout << "CACH CHOI :\n";
+        txtColor(240);
+        GotoXY(x, y + 1); cout << "R : QUAY LAI\n";
+        GotoXY(x, y + 2); cout << "W : LEN\n";
+        GotoXY(x, y + 3); cout << "A : TRAI\n";
+        GotoXY(x, y + 4); cout << "S : XUONG\n";
+        GotoXY(x, y + 5); cout << "D : PHAI\n";
+        GotoXY(x, y + 6); cout << "ESC : THEM LUA CHON\n";
+        GotoXY(x, y + 7); cout << "ENTER : CHON\n";
+    }
 }
 void drawMuiten(int x, int y) {
     char muiten[10][13] = {

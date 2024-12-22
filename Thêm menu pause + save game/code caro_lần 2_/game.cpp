@@ -1887,7 +1887,9 @@ void PlaywithBot(int k, int& win_x, int& win_y, int cnttime) {
             }
             if (!_TURN) {
                 value = 1;
-                LoadingEffect(100, 6, 10);
+                int loadPosX = 100;
+                int loadPosY = 6;
+                LoadingEffect(loadPosX, loadPosY, 10);
                 int pX, pY;
                 BotMove(pX, pY);
                 result = CheckBoard(pX, pY);

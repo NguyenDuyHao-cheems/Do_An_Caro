@@ -442,8 +442,8 @@ void Exit() {
         drawPinkBox(30, 8);
         cha(1, 22);
         thoat(65, 12);
-        DrawFull(52, 30, 40, 12, 0, 219);
-        Box(52, 30, 40, 12);
+        DrawFull(52, 28, 40, 12, 0, 219);
+        Box(52, 28, 40, 12);
         co1(60, 30);
         drawkhong(110, 30, 0);
         int opt = 1;
@@ -451,11 +451,11 @@ void Exit() {
             char c = toupper(_getch());
             if (c == 'D' || c == 77) {
                 if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
-                DrawFull(52, 30, 40, 12, 15, 219);
+                DrawFull(52, 28, 40, 12, 15, 219);
                 txtColor((15 << 4) | 15);
-                Box(52, 30, 40, 12);
-                DrawFull(102, 30, 40, 12, 0, 219);
-                Box(102, 30, 40, 12);
+                Box(52, 28, 40, 12);
+                DrawFull(102, 28, 61, 12, 0, 219);
+                Box(102, 28, 61, 12);
                 drawkhong(110, 30, 1);
                 co(60, 30);
                 txtColor(7);
@@ -464,12 +464,12 @@ void Exit() {
             else if (c == 'A' || c == 75) {
                 if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
                 opt = 1;
-                DrawFull(102, 30, 40, 12, 15, 219);
+                DrawFull(102, 28,61, 12, 15, 219);
                 txtColor((15 << 4) | 15);
-                Box(102, 30, 40, 12);
+                Box(102, 28,61, 12);
                 txtColor(7);
-                DrawFull(52, 30, 40, 12, 0, 219);
-                Box(52, 30, 40, 12);
+                DrawFull(52, 28, 40, 12, 0, 219);
+                Box(52, 28, 40, 12);
                 drawkhong(110, 30, 0);
                 co1(60, 30);
             }

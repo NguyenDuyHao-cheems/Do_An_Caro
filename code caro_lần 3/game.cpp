@@ -835,6 +835,7 @@ void getStats() {
     TempStat.winP2 = win_y;
     TempStat.sumSeconds = sum.seconds;
     TempStat.sumMinutes = sum.minutes;
+    TempStat.countdown = cnttime;
 }
 void writeSumOfTime() {
     FILE* stats = fopen("Stats.txt", "a");
@@ -846,8 +847,7 @@ void writeSumOfTime() {
         return;
     }
     getStats();
-    fprintf(stats, "%s %s %d, %d, %d, %d, %d, %d, %d\n", TempStat.nameP1, TempStat.nameP2, TempStat.isTurnP1,
-        TempStat.numP1, TempStat.numP2, TempStat.winP1, TempStat.winP2, TempStat.sumSeconds, TempStat.sumMinutes);
+    fprintf(stats, "%s %s %d, %d, %d, %d, %d, %d, %d %d\n", TempStat.nameP1, TempStat.nameP2, TempStat.isTurnP1, TempStat.numP1, TempStat.numP2, TempStat.winP1, TempStat.winP2, TempStat.sumSeconds, TempStat.sumMinutes, TempStat.countdown);
     fclose(stats);
 }
 Stats readSumOfTime(int numTimes) {
@@ -864,8 +864,7 @@ Stats readSumOfTime(int numTimes) {
     }
     else {
         for (int i = 0; i < numTimes; i++) fgets(bufferChar, 100, stats);
-        if (fscanf(stats, "%s %s %d, %d, %d, %d, %d, %d, %d\n", &a.nameP1, &a.nameP2, &a.isTurnP1,
-            &a.numP1, &a.numP2, &a.winP1, &a.winP2, &a.sumSeconds, &a.sumMinutes) != 9)
+        if (fscanf(stats, "%s %s %d, %d, %d, %d, %d, %d, %d %d\n", &a.nameP1, &a.nameP2, &a.isTurnP1, &a.numP1, &a.numP2, &a.winP1, &a.winP2, &a.sumSeconds, &a.sumMinutes, &a.countdown) != 10)
             if (curlang == 0) {
                 cerr << "Error opening file.";
             }
@@ -885,16 +884,11 @@ void statsToArray() {
         else cerr << "Loi mo file!";
         return;
     }
-    while (fscanf(a, "%s %s %d, %d, %d, %d, %d, %d, %d\n", &save.nameP1, &save.nameP2, &save.isTurnP1,
-        &save.numP1, &save.numP2, &save.winP1, &save.winP2, &save.sumSeconds, &save.sumMinutes) == 9) {
-        statsSF[i++] = save;
+   while (fscanf(a, "%s %s %d, %d, %d, %d, %d, %d, %d %d\n", &save.nameP1, &save.nameP2, &save.isTurnP1, &save.numP1, &save.numP2, &save.winP1, &save.winP2, &save.sumSeconds, &save.sumMinutes, &save.countdown) == 10) {
+           statsSF[i++] = save;
     }
     fclose(a);
 }
-
-
-
-
 bool isValidName(char filename[]) {
     if (filename[0] == '\0') return false;
     for (int i = 0; filename[i] != '\0'; i++) {
@@ -1259,7 +1253,17 @@ void loadGameState(char filename[]) {
     sum.seconds = statsSF[optionSF - 1].sumSeconds;
     strcpy(name1, statsSF[optionSF - 1].nameP1);
     strcpy(name2, statsSF[optionSF - 1].nameP2);
-
+    switch (statsSF[optionSF - 1].countdown) {
+    case 1:
+        pretime = 15;
+        break;
+    case 2:
+        pretime = 30;
+        break;
+    case 3:
+        pretime = -1;
+        break;
+    }
     if (gameMode == 'p') PlayGame(1, win_x, win_y, pretime);
     else if (gameMode == 'b') PlaywithBot(1, win_x, win_y, pretime);
 }
@@ -1909,13 +1913,15 @@ void PlaywithBot(int k, int& win_x, int& win_y, int cnttime) {
     DrawIsX(BOARD_SIZE * 5 + LEFT, TOP - 1);
     DrawNotO(BOARD_SIZE * 5 + 37 + LEFT, TOP - 1);
     int shortSecs = 0;
-    int delayMiliSecs = 15000;
+    int delayMiliSecs = cnttime * 1000;    
     while (kt == 1) {
         while (_TURN == true) {
             shortSecs = 0;
-            while (shortSecs < delayMiliSecs) {
-                Sleep(100);
-                shortSecs += 100;
+            while (shortSecs < delayMiliSecs || cnttime == -1) {
+                if (cnttime != -1) {
+                    Sleep(100);
+                    shortSecs += 100;
+                }
                 if (_kbhit()) {
                     _COMMAND = toupper(_getch());
                     if (_COMMAND == 27) {
@@ -2059,8 +2065,7 @@ void PlaywithBot(int k, int& win_x, int& win_y, int cnttime) {
                             AskContinuePlaybot();
                         }
                         _TURN = !_TURN;
-                        delayMiliSecs = 13500;
-
+                        if (cnttime != -1) delayMiliSecs = (cnttime - 2) * 27000 / 26;
                     }
                 }
             }

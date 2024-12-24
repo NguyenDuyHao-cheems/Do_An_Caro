@@ -42,6 +42,7 @@ typedef struct {
     int winP2;
     int sumSeconds;
     int sumMinutes;
+    int countdown;
 } Stats;
 extern int win_x;
 

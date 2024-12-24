@@ -1,4 +1,4 @@
-﻿#include "menu.h"
+#include "menu.h"
 #include "game.h"
 #include "board.h"
 #include <iostream>
@@ -151,12 +151,12 @@ void AskContinue() {
                 if (currentOpt == -1) {
                     txtColor(112);
                     GotoXY(x + 32, y + 5);
-                    cout << "No";
+                    cout << "Khong";
                 }
                 else {
                     txtColor(112);
                     GotoXY(x + 18, y + 5);
-                    cout << "Yes";
+                    cout << "Co";
                 }
                 currentOpt = 1;
                 if (isMusicOn) PlayTick("tick.wav", L"tick_sound");
@@ -476,10 +476,10 @@ void PlayGame(int k, int& win_x, int& win_y, int cnttime) {
     {
         value = 4;
     }
-    
+
     thread clock_sum(Count_sumTime, ref(sum), BOARD_SIZE * 5 + LEFT + 6, TOP + 23, ref(value));
     clock_sum.detach();
-    thread clock_XO(CountTime_XO, ref(XO), BOARD_SIZE * 5 + LEFT + 7, TOP + 24, ref(value),cnttime);
+    thread clock_XO(CountTime_XO, ref(XO), BOARD_SIZE * 5 + LEFT + 7, TOP + 24, ref(value), cnttime);
     clock_XO.detach();
     drawTableResult();
     TableResult(win_x, win_y, run_x, run_y);
@@ -592,7 +592,7 @@ void PlayGame(int k, int& win_x, int& win_y, int cnttime) {
             GotoXY(_X, _Y);
         }
         else if (_COMMAND == 27) {
-            
+
             value = 3;
             PauseMenu();
             kt = 0;
@@ -609,15 +609,29 @@ void ResumeGame(int gameOption) {
     char playMode, posXO;
     int posX = 0, posY = 0;
     FILE* tempFileRead = fopen("Temporary.txt", "rt");
-    if (!tempFileRead) {
-        cerr << "Error opening temporary save files!";
-        return;
+    if (curlang == 0) {
+        if (!tempFileRead) {
+            cerr << "Error opening temporary save files!";
+            return;
+        }
+        if (fscanf(tempFileRead, "%c ", &playMode) != 1) {
+            fclose(tempFileRead);
+            cerr << "Error reading play mode!";
+            return;
+        }
     }
-    if (fscanf(tempFileRead, "%c ", &playMode) != 1) {
-        fclose(tempFileRead);
-        cerr << "Error reading play mode!";
-        return;
+    else {
+        if (!tempFileRead) {
+            cerr << "Loi mo file luu tam thoi!";
+            return;
+        }
+        if (fscanf(tempFileRead, "%c ", &playMode) != 1) {
+            fclose(tempFileRead);
+            cerr << "Loi doc file che do choi!";
+            return;
+        }
     }
+   
     int xCount = 0, oCount = 0;
     while (fscanf(tempFileRead, "%c(%d,%d) ", &posXO, &posX, &posY) != EOF) {
         int row = (posY - TOP - 1) / 2, col = (posX - LEFT - 2) / 4;
@@ -676,7 +690,13 @@ void SaveGameName() {
     }
     if (!isValidName(filename)) {
         GotoXY(x + 9, y + 8);
-        cout << "Invalid input!";
+        if (curlang == 0) {
+            cout << "Invalid input!";
+        }
+        else {
+            cout << "Dau vao khong hop le!";
+        }
+       
         GotoXY(x + 7, y + 6);
         cout << string(MAX_FILE_LENGTH, ' ');
         return;
@@ -983,7 +1003,7 @@ void confirmOverwrite() {
         txtColor(112);
         GotoXY(x + 8, y + 8); cout << "Co";
         GotoXY(x + 24, y + 8); cout << "Khong";
-        GotoXY(x + 10, y + 4); cout << "HANH DONG NAY";
+        GotoXY(x + 10, y + 4); cout << " HANH DONG NAY";
         GotoXY(x + 11, y + 5); cout << "KHONG THE HOAN TAC!";
         txtColor(116);
         GotoXY(x + 13, y + 3); cout << "CANH BAO:";
@@ -1410,7 +1430,7 @@ void confirmMenu() {
         txtColor(112);
         GotoXY(x + 7, y + 5); cout << "Co";
         GotoXY(x + 25, y + 5); cout << "Khong";
-        GotoXY(x + 4, y + 3); cout << "HANH DONG NAY KHONG THE HOAN TAC!";
+        GotoXY(x + 4, y + 3); cout << "Hanh dong khong the hoan tac!";
         txtColor(116);
         GotoXY(x + 13, y + 2); cout << "CANH BAO:";
         txtColor((0 << 4) | 15);
@@ -1829,7 +1849,7 @@ void LoadingEffect(int Lx, int Ly, int duration) {
     GotoXY(Lx, Ly - 1);
     cout << "Loading...";
     for (int i = 0; i < duration; ++i) {
-        GotoXY(Lx+i, Ly);
+        GotoXY(Lx + i, Ly);
         cout << char(219);
         Sleep(100);
     }
@@ -1969,7 +1989,7 @@ void PlaywithBot(int k, int& win_x, int& win_y, int cnttime) {
             while (!_TURN) {
                 int delayMiliSecsBot = 2000;
 
-                 shortSecs = 0;
+                shortSecs = 0;
                 while (shortSecs < delayMiliSecsBot) {
                     Sleep(100);
                     shortSecs += 100;

@@ -694,7 +694,7 @@ void SaveGameName() {
             cout << "Invalid input!";
         }
         else {
-            cout << "Dau vao khong hop le!";
+            cout << "Nhap khong hop le";
         }
        
         GotoXY(x + 7, y + 6);
@@ -941,7 +941,7 @@ void SaveGameMenu() {
             GotoXY(x + 6, y + 2); cout << "Nhap Ten File:";
             txtColor(112);
             GotoXY(x + 6, y + 3); cout << "( <= 14 ky tu )";
-            GotoXY(x + 5, y + 9); cout << "Nhan ESC de quay tro lai.";
+            GotoXY(x + 5, y + 9); cout << "Nhan ESC de tro lai.";
             txtColor(116);
             DrawRoundedBox(x + 3, y + 5, 25, 3, 0);
             while (true) {
@@ -996,7 +996,7 @@ void confirmOverwrite() {
         int x = menu1_x - 7, y = menu1_y - 8, w = 35, h = 7, kt = 1;
         txtColor(112);
         GotoXY(x + 8, y + 8); cout << "Co";
-        GotoXY(x + 24, y + 8); cout << "Khong";
+        GotoXY(x + 23, y + 8); cout << "Khong";
         GotoXY(x + 10, y + 4); cout << " HANH DONG NAY";
         GotoXY(x + 11, y + 5); cout << "KHONG THE HOAN TAC!";
         txtColor(116);

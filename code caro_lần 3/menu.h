@@ -1,5 +1,6 @@
 #pragma once 
 #include "game.h"
+extern int cnttime;
 void DrawRoundedBox(int x, int y, int width, int height, int color);
 void CharToWChar(const char* charArray, wchar_t* wcharArray, int size);
 void PlayMusic(const char* filePath, const wchar_t* alias);

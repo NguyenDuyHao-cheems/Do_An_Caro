@@ -9,6 +9,8 @@
 using namespace std;
 int curlang = 0;
 int optionGame;
+const int time1 = 15, time2 = 30, time3 = -1;
+int cnttime;
 //bool isMusicOn = true;
 void SelectMenu(int k) {
     switch (k) {
@@ -875,7 +877,7 @@ void NewGameSelection() {
     const int time1 = 15, time2 = 30, time3 = -1;
     int opt = 1; //opt dau 3, la play
     int gamemode = 1; // 1pvp 2 pve
-    int cnttime = 1; // 1: 15, -1 la inf
+    cnttime = 1; // 1: 15, -1 la inf
     int c;
     while (1)
     {

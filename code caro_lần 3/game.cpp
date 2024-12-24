@@ -29,7 +29,7 @@ int value = 0; //ref cua sumtime
 int kXO = 0; //ref cua counttime XO
 int pageMax = 1;
 int pageNumber = 1;
-
+string currentSaveFile = "";
 void AskContinue() {
     if (curlang == 0) {
         if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
@@ -922,7 +922,11 @@ void SaveGameMenu() {
     DrawFull(x, y, w, h, 195, 197);
     DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
     if (curlang == 0) {
-        if (newGame) {
+        if (!currentSaveFile.empty()) {
+            confirmOverwrite();
+            
+        }
+        else {
             GotoXY(x + 6, y + 2); cout << "NAME YOUR SAVE FILE:";
             txtColor(112);
             GotoXY(x + 6, y + 3); cout << "( <= 14 characters )";
@@ -933,11 +937,14 @@ void SaveGameMenu() {
                 SaveGameName();
                 if (toupper(_getch()) == 27) break;
             }
-        }
-        else confirmOverwrite();
+        };
     }
     else {
-        if (newGame) {
+        if (!currentSaveFile.empty()) {
+            confirmOverwrite();
+            
+        }
+        else {
             GotoXY(x + 6, y + 2); cout << "Nhap Ten File:";
             txtColor(112);
             GotoXY(x + 6, y + 3); cout << "( <= 14 ky tu )";
@@ -949,7 +956,6 @@ void SaveGameMenu() {
                 if (toupper(_getch()) == 27) break;
             }
         }
-        else confirmOverwrite();
     }
 }
 void confirmOverwrite() {
@@ -997,8 +1003,8 @@ void confirmOverwrite() {
         txtColor(112);
         GotoXY(x + 8, y + 8); cout << "Co";
         GotoXY(x + 23, y + 8); cout << "Khong";
-        GotoXY(x + 10, y + 4); cout << " HANH DONG NAY";
-        GotoXY(x + 11, y + 5); cout << "KHONG THE HOAN TAC!";
+        GotoXY(x + 8, y + 4); cout << " HANH DONG NAY";
+        GotoXY(x + 9, y + 5); cout << "KHONG THE HOAN TAC!";
         txtColor(116);
         GotoXY(x + 13, y + 3); cout << "CANH BAO:";
         GotoXY(x + 5, y + 8); cout << "->";
@@ -1152,6 +1158,7 @@ void StartGame(int k, int cnttime) {
     ResetData();
     DrawBoard(BOARD_SIZE);
     newGame = true;
+    currentSaveFile = "";
     PlayGame(k, win_x, win_y, cnttime);
 }
 void StartGamewithbot(int k, int cnttime) {
@@ -1161,6 +1168,7 @@ void StartGamewithbot(int k, int cnttime) {
     run_y = 0;
     DrawBoard(BOARD_SIZE);
     newGame = true;
+    currentSaveFile = "";
     PlaywithBot(k, win_x, win_y, cnttime);
 }
 // hide, unhide cursor
@@ -1181,6 +1189,7 @@ void showCursor() {
 //------------------
 // load game
 void loadGameState(char filename[]) {
+    currentSaveFile = filename;
     system("cls");
     ResetData();
     DrawBoard(BOARD_SIZE);

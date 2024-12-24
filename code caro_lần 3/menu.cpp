@@ -1,4 +1,4 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 #include "Menu.h"
 #include "Console.h"
 #include <iostream>
@@ -292,7 +292,7 @@ void printMenu() {
         Box(menu1_x + 3, menu1_y + 14, 19, 2);
         GotoXY(menu1_x + 5, menu1_y + 12); cout << "     CAI DAT    " << endl;
         txtColor((0 << 4) | 14);
-        GotoXY(menu1_x +4, menu1_y); cout << "   TRO CHOI MOI   ";
+        GotoXY(menu1_x + 4, menu1_y); cout << "   TRO CHOI MOI   ";
         MenuSelection();
     }
 
@@ -361,7 +361,7 @@ void Help() {
         const int xRule = 50, yRule = 25;
         drawESC(130, 40);
         drawPinkBox(5, 2);
-        huongdan(12+10, 4);
+        huongdan(12 + 10, 4);
         int xTable = -5, yTable = 1;
         drawTable(xTable + 10, yTable + 25);
         DrawFull(x + 2, y - 2, w + 1, h, 136, 32);
@@ -438,7 +438,7 @@ void Exit() {
     }
     else {
         drawPinkBox(30, 8);
-        cha(1, 22+5);
+        cha(1, 22 + 5);
         thoat(63, 10);
         DrawFull(52, 28, 40, 12, 0, 219);
         Box(52, 28, 40, 12);
@@ -548,7 +548,7 @@ void Setting() {
         DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
         if (lang == 0) {
             drawPinkBox(5, 2);
-            Settingve(10+5, 6);
+            Settingve(10 + 5, 6);
             GotoXY(x + 5, y + 2); cout << "MUSIC ";
             GotoXY(x + 5, y + 3); cout << "-----";
             GotoXY(x + 5, y + 5); cout << "F TO OFF MUSIC";
@@ -560,7 +560,7 @@ void Setting() {
         }
         else {
             drawPinkBox(5, 2);
-            caidat(15+13, 4);
+            caidat(15 + 13, 4);
             GotoXY(x + 5, y + 2); cout << "AM NHAC ";
             GotoXY(x + 5, y + 3); cout << "------";
             GotoXY(x + 5, y + 5); cout << "F DE TAT NHAC";
@@ -882,16 +882,17 @@ void NewGameSelection() {
 
         c = toupper(_getch());
         if (c == 'W' || c == 72) {
+            if (isMusicOn) PlayMo("tick.wav", L"tick_sound");
             //xoa vi tri cu
             switch (opt) {
             case 1:
-                drawNotmuiten(18-10, 5);
+                drawNotmuiten(18 - 10, 5);
                 break;
             case 2:
-                drawNotmuiten(18-10, 5 + 14);
+                drawNotmuiten(18 - 10, 5 + 14);
                 break;
             case 3:
-                drawNotmuiten(18-10, 5 + 14 + 16);
+                drawNotmuiten(18 - 10, 5 + 14 + 16);
                 break;
             }
             if (opt == 1)
@@ -903,28 +904,29 @@ void NewGameSelection() {
             }
             switch (opt) {
             case 1:
-                drawmuiten(18-10, 5);
+                drawmuiten(18 - 10, 5);
                 break;
             case 2:
-                drawmuiten(18-10, 5 + 14);
+                drawmuiten(18 - 10, 5 + 14);
                 break;
             case 3:
-                drawmuiten(18-10, 5 + 14 + 16);
+                drawmuiten(18 - 10, 5 + 14 + 16);
                 break;
             }
         }
         else if (c == 'S' || c == 80)
         {
+            if (isMusicOn) PlayMo("tick.wav", L"tick_sound");
             switch (opt)
             {
             case 1:
-                drawNotmuiten(18-10, 5);
+                drawNotmuiten(18 - 10, 5);
                 break;
             case 2:
-                drawNotmuiten(18-10, 5 + 14);
+                drawNotmuiten(18 - 10, 5 + 14);
                 break;
             case 3:
-                drawNotmuiten(18-10, 5 + 14 + 16);
+                drawNotmuiten(18 - 10, 5 + 14 + 16);
                 break;
             }
 
@@ -937,111 +939,113 @@ void NewGameSelection() {
             }
             switch (opt) {
             case 1:
-                drawmuiten(18-10, 5);
+                drawmuiten(18 - 10, 5);
                 break;
             case 2:
-                drawmuiten(18-10, 5 + 14);
+                drawmuiten(18 - 10, 5 + 14);
                 break;
             case 3:
-                drawmuiten(18-10, 5 + 14 + 16);
+                drawmuiten(18 - 10, 5 + 14 + 16);
                 break;
             }
         }
         else if (c == 'A' || c == 75) {
+            if (isMusicOn) PlayMo("tick.wav", L"tick_sound");
             switch (opt) {
             case 1:
                 switch (gamemode) {
                 case 1:
-                    drawNot(140-10, 8);
+                    drawNot(140 - 10, 8);
                     break;
                 case 2:
-                    drawNot(140-10, 8);
+                    drawNot(140 - 10, 8);
                     break;
                 }
                 if (gamemode == 1) gamemode = 2;
                 else if (gamemode == 2) gamemode--;
                 switch (gamemode) {
                 case 1:
-                    drawPvP(141-10, 8);
+                    drawPvP(141 - 10, 8);
                     break;
                 case 2:
-                    drawPvE(141-10, 8);
+                    drawPvE(141 - 10, 8);
                     break;
                 }
                 break;
             case 2:
                 switch (cnttime) {
                 case 1:
-                    drawNot(139-10, 22);
+                    drawNot(139 - 10, 22);
                     break;
                 case 2:
-                    drawNot(139-10, 22);
+                    drawNot(139 - 10, 22);
                     break;
                 case 3:
-                    drawNot(141-10, 22);
+                    drawNot(141 - 10, 22);
                     break;
                 }
                 if (cnttime > 1) cnttime--;
                 else if (cnttime == 1) cnttime = 3;
                 switch (cnttime) {
                 case 1:
-                    draw15s(139-10, 22);
+                    draw15s(139 - 10, 22);
                     break;
                 case 2:
-                    draw30s(139-10, 22);
+                    draw30s(139 - 10, 22);
                     break;
                 case 3:
-                    drawInf(143-10, 22);
+                    drawInf(143 - 10, 22);
                     break;
                 }
                 break;
             }
         }
         else if (c == 'D' || c == 77) {
+            if (isMusicOn) PlayMo("tick.wav", L"tick_sound");
             switch (opt) {
             case 1:
                 switch (gamemode) {
                 case 1:
-                    drawNot(140-10, 8);
+                    drawNot(140 - 10, 8);
                     break;
                 case 2:
-                    drawNot(140-10, 8);
+                    drawNot(140 - 10, 8);
                     break;
                 }
                 if (gamemode == 1) gamemode++;
                 else if (gamemode == 2) gamemode = 1;
                 switch (gamemode) {
                 case 1:
-                    drawPvP(141-10, 8);
+                    drawPvP(141 - 10, 8);
                     break;
                 case 2:
-                    drawPvE(141-10, 8);
+                    drawPvE(141 - 10, 8);
                     break;
                 }
                 break;
             case 2:
                 switch (cnttime) {
                 case 1:
-                    drawNot(139-10, 22);
+                    drawNot(139 - 10, 22);
                     break;
                 case 2:
-                    drawNot(139-10, 22);
+                    drawNot(139 - 10, 22);
                     break;
                 case 3:
-                    drawNot(141-10, 22);
+                    drawNot(141 - 10, 22);
                     break;
                 }
                 if (cnttime < 3) cnttime++;
                 else if (cnttime == 3) cnttime = 1;
                 switch (cnttime) {
                 case 1:
-                    draw15s(139-10, 22);
+                    draw15s(139 - 10, 22);
                     break;
                 case 2:
-                    draw30s(139-10, 22);
+                    draw30s(139 - 10, 22);
                     break;
                 case 3:
-                    drawInf(143-10, 22);
+                    drawInf(143 - 10, 22);
                     break;
                 }
                 break;
@@ -1049,7 +1053,7 @@ void NewGameSelection() {
         }
         else if (c == 13)
         {
-
+            if (isMusicOn) PlayMo("tick.wav", L"tick_sound");
             if (opt == 3)
             {
                 if (gamemode == 1)
@@ -1130,20 +1134,20 @@ void NewGame() {
         drawballS(168, 18);
         drawballC(168, 35);
         drawmuiten(18 - 10, 5);
-        DrawFull(36 - 10, 6-2, 88+7, 8+2, (11 << 4) | 15, 32);
-        demnguoc(44-10+3, 5);
+        DrawFull(36 - 10, 6 - 2, 88 + 7, 8 + 2, (11 << 4) | 15, 32);
+        demnguoc(44 - 10 + 3, 5);
         txtColor((15 << 4) | 0);
         Box(135 - 10, 6, 32, 8);
         Box(137 - 10, 7, 28, 6);
         drawPvP(141 - 10, 8);
-        DrawFull(36 - 10, 19, 88+7, 8+2, (11 << 4) | 15, 32);
-        tv(32-5, 20);
+        DrawFull(36 - 10, 19, 88 + 7, 8 + 2, (11 << 4) | 15, 32);
+        tv(32 - 5, 20);
         txtColor((15 << 4) | 0);
         Box(135 - 10, 20, 32, 8);
         Box(137 - 10, 21, 28, 6);
         draw15s(139 - 10, 22);
-        DrawFull(36 - 10, 36, 132, 8+1, (12 << 4) | 15, 32);
-        choi(88-18, 37);
+        DrawFull(36 - 10, 36, 132, 8 + 1, (12 << 4) | 15, 32);
+        choi(88 - 18, 37);
         NewGameSelection();
 
     }
@@ -1522,34 +1526,72 @@ void PauseSelection(int option) {
 }
 void duplicateNameMenu() {
     if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
-    int x = menu1_x - 15 + 10, y = menu1_y - 12 + 5, w = 30, h = 10;
-    DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
-    DrawFull(x, y, w, h, 195, 197);
-    DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
-    GotoXY(x + 5, y + 4); cout << "NAME'S ALREADY EXISTS!";
-    GotoXY(x + 5, y + 5);
-    txtColor(112); cout << "Press Esc to go back.";
-    txtColor(116);
+    if (curlang == 0) {
+        int x = menu1_x - 15 + 10, y = menu1_y - 12 + 5, w = 30, h = 10;
+        DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+        DrawFull(x, y, w, h, 195, 197);
+        DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+        GotoXY(x + 5, y + 4); cout << "NAME'S ALREADY EXISTS!";
+        GotoXY(x + 5, y + 5);
+        txtColor(112); cout << "Press Esc to go back.";
+        txtColor(116);
+    }
+    else {
+        int x = menu1_x - 15 + 10, y = menu1_y - 12 + 5, w = 30, h = 10;
+        DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+        DrawFull(x, y, w, h, 195, 197);
+        DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+        GotoXY(x + 5, y + 4); cout << "TEN DA TON TAI!";
+        GotoXY(x + 5, y + 5);
+        txtColor(112); cout << "Nhan ESC de quay lai.";
+        txtColor(116);
+    }
+   
 }
 void SaveSuccessMenu() {
     int x = menu1_x - 15 + 10, y = menu1_y - 12 + 5, w = 30, h = 10;
-    DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
-    DrawFull(x, y, w, h, 195, 197);
-    DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
-    GotoXY(x + 5, y + 4); cout << "FILE HAS BEEN SAVED!";
-    GotoXY(x + 5, y + 5);
-    txtColor(112); cout << "Press Esc to go back.";
-    txtColor(116);
+    if (curlang == 0) {
+        DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+        DrawFull(x, y, w, h, 195, 197);
+        DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+        GotoXY(x + 5, y + 4); cout << "FILE HAS BEEN SAVED!";
+        GotoXY(x + 5, y + 5);
+        txtColor(112); cout << "Press Esc to go back.";
+        txtColor(116);
+    }
+    else {
+        DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+        DrawFull(x, y, w, h, 195, 197);
+        DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+        GotoXY(x + 5, y + 4); cout << "FILE da duoc luu!";
+        GotoXY(x + 5, y + 5);
+        txtColor(112); cout << "Nhan Esc de quay lai.";
+        txtColor(116);
+    }
+    
 }
 void maxNumSFMenu() {
-    int x = menu1_x - 15 + 10, y = menu1_y - 12 + 5, w = 30, h = 10;
-    DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
-    DrawFull(x, y, w, h, 195, 197);
-    DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
-    GotoXY(x + 5, y + 4); cout << "MAX SAVE FILES REACH!";
-    GotoXY(x + 5, y + 5);
-    txtColor(112); cout << "Press Esc to go back.";
-    txtColor(116);
+    if (curlang == 0) {
+        int x = menu1_x - 15 + 10, y = menu1_y - 12 + 5, w = 30, h = 10;
+        DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+        DrawFull(x, y, w, h, 195, 197);
+        DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+        GotoXY(x + 5, y + 4); cout << "MAX SAVE FILES REACH!";
+        GotoXY(x + 5, y + 5);
+        txtColor(112); cout << "Press Esc to go back.";
+        txtColor(116);
+    }
+    else {
+        int x = menu1_x - 15 + 10, y = menu1_y - 12 + 5, w = 30, h = 10;
+        DrawFull(x + 2, y + 1, w + 1, h, 136, 32);
+        DrawFull(x, y, w, h, 195, 197);
+        DrawFull(x + 2, y + 1, w - 4, h - 2, 119, 32);
+        GotoXY(x + 5, y + 4); cout << "File luu da toi da!";
+        GotoXY(x + 5, y + 5);
+        txtColor(112); cout << "Nhan Esc de quay lai.";
+        txtColor(116);
+    }
+    
 }
 void SettingPause() {
     if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
@@ -2145,7 +2187,7 @@ void inputname(int x, int y, char name[]) {
     if (!isValidName(name)) {
         i = 0;
         if (curlang == 0) { GotoXY(x - 1, y); cout << "  Invalid input!"; }
-        else GotoXY(x - 1, y); cout << "  Khong hop le";
+        else { GotoXY(x - 1, y); cout << "  Khong hop le"; }
         Sleep(2000);
         GotoXY(x - 1, y); cout << "                ";
         GotoXY(x, y);
@@ -2153,6 +2195,7 @@ void inputname(int x, int y, char name[]) {
     }
 }
 void playerName_withPlayer() {
+    if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
     if (curlang == 0) {
         showCursor();
         int x = menu1_x - 20, y = menu1_y - 20;
@@ -2189,7 +2232,7 @@ void playerName_withPlayer() {
         GotoXY(x + 7, y + 17); cout << "TEN NGUOI CHOI X";
         Box(x + 4, y + 18, 20, 2);
         GotoXY(x + 39, y + 17);
-        txtColor(15 * 16+1); cout << "TEN NGUOI CHOI O";
+        txtColor(15 * 16 + 1); cout << "TEN NGUOI CHOI O";
         Box(x + 36, y + 18, 20, 2);
         txtColor(15 * 16);
         GotoXY(x + 16, y + 21); cout << "    ( <=  13 Ky tu )";
@@ -2199,6 +2242,7 @@ void playerName_withPlayer() {
 
 }
 void playerName_withBot() {
+    if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
     if (curlang == 0) {
         showCursor();
         int x = menu1_x - 20, y = menu1_y - 20;

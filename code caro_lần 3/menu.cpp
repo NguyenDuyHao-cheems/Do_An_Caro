@@ -1109,9 +1109,9 @@ void NewGame() {
     if (isMusicOn) PlayMo("mo.wav", L"mo_sound");
     if (curlang == 0) {
         //giao dien
-        drawballE(168, 1);
-        drawballS(168, 18);
-        drawballC(168, 35);
+        drawballE(165, 1);
+        drawballS(165, 18);
+        drawballC(165, 35);
         drawmuiten(18 - 10, 5);
         DrawFull(36 - 10, 6, 88, 8, (11 << 4) | 15, 32);
         drawGameMode(44 - 10, 8);

@@ -10,12 +10,9 @@
 #include "Console.h"
 extern bool isMusicOn;
 extern int _COMMAND;
-extern int curlang;
-void AskContinue();
-void Count_sumTime(TIME& time, int x, int y, int& k);
-
-void CountTime_XO(TIME& time, int x, int y, int& k, int cnttime);
-
+extern int curlang; //ngon ngu hien tai 0-English
+//xu li van dau
+void StartGame(int k, int  cnttime);
 void PlayGame(int k, int& win_x, int& win_y, int cnttime);
 bool checkWin(int row, int col, int winPositions[5][2]);
 bool isFull(_POINT board[][BOARD_SIZE]);
@@ -24,38 +21,32 @@ void MoveRight();
 void MoveLeft();
 void MoveDown();
 void MoveUp();
-void StartGame(int k,int  cnttime);
+void AskContinue();
 
-void hideCursor();
-void showCursor();
-void cursorBot(int _X, int _Y, int& preX, int& preY);
-void changeColorCursor(bool turn);
-void LoadingEffect(int Lx, int Ly, int duration);
-//load
-void loadGameState(char filename[]);
-//void LoadGameSelection();
-void LoadGameSelection(bool isNew);
-
-void LoadGame();
-//play with bot
-int evaluatePosition(int row, int col, int player);
-void BotMove(int& pX, int& pY);
-
-void PlaywithBot(int k, int& win_x, int& win_y, int cnttime);
-void StartGamewithbot(int k, int cnttime);
-void AskContinuePlaybot();
-
-void nhapnhay(const int winPositions[5][2], char symbol); //hieu ung noi bat chuoi lien tiep
-
-void ResumeGame(int gameOption);
-void SaveGameName();
-bool checkDuplicate(char filename[]);
-
+//thoi gian
+void Count_sumTime(TIME& time, int x, int y, int& k);
+void CountTime_XO(TIME& time, int x, int y, int& k, int cnttime);
 SystemTime getSystemTime();
 void writeSystemTime();
 SystemTime readSystemTime(int numTimes);
 void TimeMagToArray();
 
+//hieu ung tro choi 
+void hideCursor();
+void showCursor();
+void cursorBot(int _X, int _Y, int& preX, int& preY);
+void changeColorCursor(bool turn);
+void LoadingEffect(int Lx, int Ly, int duration);
+void nhapnhay(const int winPositions[5][2], char symbol); //hieu ung noi bat chuoi lien tiep
+void TableResult(int& win_x, int& win_y, int& run_x, int& run_y);
+void drawTableResult();
+
+//load game
+void loadGameState(char filename[]);
+void LoadGameSelection(bool isNew);
+void LoadGame();
+
+//save game
 void getStats();
 void writeSumOfTime();
 Stats readSumOfTime(int numTimes);
@@ -68,14 +59,23 @@ void confirmMenu();
 void deleteSaveFile(char* filename);
 void overwriteSF();
 
-void TableResult(int& win_x, int& win_y, int& run_x, int& run_y);
-void drawTableResult();
-void drawPhuthuy(int x, int y);
+//play with bot
+int evaluatePosition(int row, int col, int player);
+void BotMove(int& pX, int& pY);
+void PlaywithBot(int k, int& win_x, int& win_y, int cnttime);
+void StartGamewithbot(int k, int cnttime);
+void AskContinuePlaybot();
 
-void drawStart(int x, int y);
+//pause game
+void ResumeGame(int gameOption);
+void SaveGameName();
+bool checkDuplicate(char filename[]);
 
-void drawEnd(int x, int y);
 
-void SmallMenu(int x, int y);
-void drawPikachu(int x, int y);
+
+
+
+
+
+
 

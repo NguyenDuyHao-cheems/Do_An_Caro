@@ -5,8 +5,8 @@
 #define BOARD_SIZE 15 // kich thuoc ban co
 #define LEFT 40
 #define TOP 10
-#define menu1_x 3+41+17+26 // toa do menu
-#define menu1_y 4+12+10
+#define menu1_x 87 // toa do menu
+#define menu1_y 26
 struct _POINT { //kieu du lieu luu vi tri tren ban co va xac dinh vi tri da duoc danh hay chua
     int x, y, c;
 };
@@ -43,15 +43,15 @@ typedef struct {
     int sumSeconds;
     int sumMinutes;
     int countdown;
-} Stats;
-extern int win_x;
+} Stats; //thong so nguoi choi 
+extern int win_x; //so tran X thang 
 
-extern int win_y;
+extern int win_y; //so tran Y thang 
 
-extern char name1[13 + 1];
+extern char name1[13 + 1]; //ten nguoi choi 
 
 extern char name2[13 + 1];
 extern int pretime;  //luu opt countdow time truoc do
 extern int newGameOpt;
 extern int h;
-extern TIME sum, XO;
+extern TIME sum, XO; //thoi gian tong cua 1 van va thoi gian dem nguoc

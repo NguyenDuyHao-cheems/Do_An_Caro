@@ -17,4 +17,4 @@ void SetConsoleSize(int width, int height); // dieu chinh kich thuoc console
 void SetFontSize(int width, int height); // dieu chinh kich thuoc font chu
 void setConsoleWindow(int w, int h); //set console theo pixel
 
-void PrintAt(int x, int y, const std::string& text);
+void PrintAt(int x, int y, const std::string& text); //in ra toa do x,y tren console bang 1 luong khac
